@@ -1,0 +1,1241 @@
+# PACK & RELAX
+## Aydın Development Mərhələləri və İcra Ardıcıllığı
+
+# 1. Əsas icra qaydası
+
+Layihəni aşağıdakı mərhələlər üzrə ardıcıl qur.
+
+Bütün oyunu bir dəfəyə hazırlama. Əvvəlcə bir məhsul və bir material ilə tam işlək **vertical slice** yarat, daha sonra həmin stabil sistemin üzərinə yeni materiallar və məhsullar əlavə et.
+
+Hər mərhələdə bu ardıcıllığa əməl et:
+
+1. Mövcud repository və kodu analiz et.
+2. Həmin mərhələnin fayllarını və tapşırıqlarını müəyyən et.
+3. Kod və konfiqurasiyanı birbaşa layihəyə tətbiq et.
+4. TypeScript typecheck, lint və avtomatik testləri işə sal.
+5. Web preview və uyğun olduqda mobil preview build yoxlaması apar.
+6. Aşkarlanan error-ları özün düzəlt.
+7. Acceptance kriteriyalarını yoxla.
+8. Dəyişiklikləri Git commit et.
+9. Bütün kriteriyalar keçərsə avtomatik növbəti mərhələyə keç.
+
+İstifadəçidən texniki kod yazmağı, terminal əmri işlətməyi, dependency quraşdırmağı və ya config dəyişməyi istəmə.
+
+Yalnız aşağıdakı qaçılmaz hallarda istifadəçi müdaxiləsi tələb et:
+
+- Expo, GitHub, Apple və Google hesablarına giriş;
+- iki mərhələli təsdiq;
+- developer hesablarının yaradılması və ödənişi;
+- hüquqi müqavilələrin qəbul edilməsi;
+- credential və API key daxil edilməsi;
+- hazır build-in fiziki telefonda vizual və toxunma testi.
+
+---
+
+# 2. Məcburi texnologiya
+
+Layihə aşağıdakı stack ilə hazırlanmalıdır:
+
+- Expo, implementation zamanı mövcud olan latest stable SDK;
+- React Native;
+- TypeScript;
+- Expo Router;
+- React Native Skia;
+- React Native Gesture Handler;
+- React Native Reanimated;
+- Expo Audio;
+- Expo Haptics;
+- Expo SQLite;
+- Zustand;
+- Jest;
+- React Native Testing Library;
+- ESLint;
+- Prettier;
+- EAS Build;
+- EAS Submit;
+- EAS Update;
+- Git və GitHub;
+- GitHub Actions.
+
+Oyun tam 3D engine ilə yox, yüksək keyfiyyətli **2.5D satisfying mobile game** kimi hazırlanmalıdır.
+
+Unity, Unreal Engine, Godot, Three.js, React Three Fiber, WebView, ağır real-time physics və real-time cloth simulation istifadə etmə.
+
+---
+
+# 3. Development xəritəsi
+
+Layihə beş əsas blokda qurulacaq:
+
+## Blok A — Texniki əsas
+
+- Mərhələ 0: Repository və layihə yoxlaması
+- Mərhələ 1: Expo project foundation
+- Mərhələ 2: Domain, data və save arxitekturası
+- Mərhələ 3: Naviqasiya və əsas UI axını
+
+## Blok B — İlk əsas gameplay
+
+- Mərhələ 4: 2.5D telefon qutusu
+- Mərhələ 5: Gesture sistemi
+- Mərhələ 6: Streç filmi tutmaq və dartmaq
+- Mərhələ 7: Məhsulu sarımaq və coverage sistemi
+- Mərhələ 8: Kəsim və film ucunun yapışdırılması
+- Mərhələ 9: Qüsurlar və düzəltmə
+- Mərhələ 10: Audio və haptic
+- Mərhələ 11: Scoring, coin və nəticə
+- Mərhələ 12: Tutorial və ilk vertical slice
+
+## Blok C — Yeni məhsul və materiallar
+
+- Mərhələ 13: Bubble wrap
+- Mərhələ 14: Parfüm məhsulu
+- Mərhələ 15: Premium kağız və hədiyyə qutusu
+- Mərhələ 16: Folqa və yemək qabı
+
+## Blok D — Meta sistemlər
+
+- Mərhələ 17: Zen Mode
+- Mərhələ 18: Workshop və progression
+- Mərhələ 19: Jumbo rulon bonus səhnəsi
+
+## Blok E — Tamamlama
+
+- Mərhələ 20: UI/UX polish
+- Mərhələ 21: Performans və stabilik
+- Mərhələ 22: Android və iOS preview build
+- Mərhələ 23: Production və store hazırlığı
+- Mərhələ 24: Son MVP testləri
+
+---
+
+# Mərhələ 0 — Repository və iş mühitinin yoxlanması
+
+## Məqsəd
+
+Claude Code-un layihəni sərbəst idarə edə biləcəyi iş mühitini təsdiqləmək.
+
+## Görüləcək işlər
+
+- Mövcud qovluğu və repository statusunu yoxla.
+- Node.js, npm və Git-in işlədiyini təsdiqlə.
+- Expo və EAS üçün lazım olan CLI imkanlarını yoxla.
+- Mövcud layihə varsa strukturunu analiz et.
+- Layihə yoxdursa boş repository yarat.
+- Texniki qərarları `docs/DECISIONS.md` faylında qeyd et.
+- İcra planını `docs/ROADMAP.md` faylına yaz.
+
+## Yaradılacaq əsas fayllar
+
+- `README.md`
+- `CLAUDE.md`
+- `.gitignore`
+- `.env.example`
+- `docs/ROADMAP.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md`
+- `docs/TESTING.md`
+- `docs/BUILDING.md`
+
+## Test
+
+- Git repository işləyir.
+- Fayllar yazıla bilir.
+- Terminal əmrləri uğurla işləyir.
+
+## Keçid qapısı
+
+Aşağıdakılar təmin edilmədən Mərhələ 1-ə keçmə:
+
+- [ ] Repository mövcuddur.
+- [ ] Claude Code faylları dəyişə bilir.
+- [ ] Git commit yaratmaq mümkündür.
+- [ ] Bloklayan environment error-u yoxdur.
+
+---
+
+# Mərhələ 1 — Expo project foundation
+
+## Məqsəd
+
+Android, iOS və web üçün eyni kod bazasına malik işlək Expo layihəsi yaratmaq.
+
+## Görüləcək işlər
+
+- TypeScript əsaslı Expo layihəsi yarat.
+- Expo Router quraşdır və aktiv et.
+- Portrait orientation təyin et.
+- Safe Area dəstəyi əlavə et.
+- Aşağıdakı paketləri Expo SDK ilə uyğun versiyada quraşdır:
+  - React Native Skia;
+  - Gesture Handler;
+  - Reanimated;
+  - Expo Audio;
+  - Expo Haptics;
+  - Expo SQLite;
+  - Zustand.
+- ESLint, Prettier, Jest və React Native Testing Library qur.
+- `app.config.ts` və ilkin `eas.json` yarat.
+- Web preview-ni işə sal.
+- Sadə Main Menu placeholder ekranı yarat.
+
+## Qovluq strukturu
+
+```text
+app/
+src/
+  components/
+  config/
+  data/
+  domain/
+  features/
+  graphics/
+  gestures/
+  services/
+  stores/
+  repositories/
+  database/
+  hooks/
+  utils/
+  types/
+  localization/
+assets/
+  audio/
+  images/
+  icons/
+```
+
+## Avtomatik yoxlamalar
+
+```bash
+npm run typecheck
+npm run lint
+npm test
+```
+
+## Keçid qapısı
+
+- [ ] Tətbiq web preview-də açılır.
+- [ ] Main Menu route-u görünür.
+- [ ] Portrait konfiqurasiyası mövcuddur.
+- [ ] Typecheck keçir.
+- [ ] Lint keçir.
+- [ ] Testlər keçir.
+- [ ] Runtime console error-u yoxdur.
+
+---
+
+# Mərhələ 2 — Domain, data və save arxitekturası
+
+## Məqsəd
+
+Məhsul, material, sifariş və gameplay qaydalarını UI-dan ayırmaq və data əsaslı sistem yaratmaq.
+
+## Görüləcək işlər
+
+Aşağıdakı TypeScript modellərini yarat:
+
+### `ProductDefinition`
+
+- `id`
+- `name`
+- `localizationKey`
+- `category`
+- `visualType`
+- `shape`
+- `idealMaterials`
+- `allowedMaterials`
+- `protectionRequirement`
+- `presentationRequirement`
+- `baseReward`
+- `unlockRequirement`
+- `packagingRecipes`
+
+### `MaterialDefinition`
+
+- `id`
+- `name`
+- `localizationKey`
+- `type`
+- `protectionValue`
+- `presentationValue`
+- `unitCost`
+- `interactionType`
+- `audioSet`
+- `visualConfig`
+- `scoringConfig`
+
+### `PackagingRecipe`
+
+- `id`
+- `productId`
+- `materialId`
+- `steps`
+- `zones`
+- `allowedGestures`
+- `defectRules`
+- `scoringRules`
+- `visualConfig`
+- `audioConfig`
+
+İlk data obyektləri:
+
+- Telefon qutusu;
+- Streç film;
+- Telefon qutusu + streç film recipe-si;
+- İlk telefon qutusu sifarişi.
+
+Aşağıdakı store-ları yarat:
+
+- `useProfileStore`
+- `useProgressionStore`
+- `useOrderStore`
+- `useGameplayStore`
+- `useSettingsStore`
+- `useInventoryStore`
+
+Expo SQLite əsasında repository layer və migration sistemi yarat.
+
+Saxlanılacaq ilkin məlumatlar:
+
+- coin;
+- reputasiya;
+- açılmış məhsullar;
+- açılmış materiallar;
+- workshop level;
+- tutorial status;
+- audio və haptic settings;
+- save version.
+
+## Test
+
+- Data validation testləri;
+- Gameplay state machine testləri;
+- Store testləri;
+- SQLite repository testləri;
+- Migration testləri.
+
+## Keçid qapısı
+
+- [ ] Məhsul və material data-dan yüklənir.
+- [ ] Yeni məhsul əlavə etmək üçün əsas gameplay kodunu dəyişmək lazım deyil.
+- [ ] Save yaratmaq və oxumaq mümkündür.
+- [ ] Pozulmuş və ya boş save tətbiqi çökdürmür.
+- [ ] Bütün avtomatik testlər keçir.
+
+---
+
+# Mərhələ 3 — Naviqasiya və əsas UI axını
+
+## Məqsəd
+
+Gameplay başlamazdan əvvəl istifadəçinin sifariş və material seçə bildiyi tam ekran axını yaratmaq.
+
+## Route-lar
+
+- `/`
+- `/workshop`
+- `/orders`
+- `/material-select`
+- `/gameplay`
+- `/result`
+- `/upgrades`
+- `/zen`
+- `/settings`
+
+## Görüləcək işlər
+
+- Main Menu yarat.
+- Orders ekranı yarat.
+- Telefon qutusu sifarişini göstər.
+- Material Selection ekranı yarat.
+- Streç filmi seçilə bilən et.
+- Seçilmiş sifariş və materialı store daxilində saxla.
+- Gameplay route-una yalnız session ID və ya minimal identifikator ötür.
+- Safe Area və responsive portrait layout qur.
+
+## Keçid qapısı
+
+- [ ] Main Menu-dən Orders ekranına keçmək mümkündür.
+- [ ] Telefon sifarişi seçilir.
+- [ ] Streç film seçilir.
+- [ ] Gameplay route-u düzgün session ilə açılır.
+- [ ] Geri naviqasiya state-i pozmur.
+- [ ] UI kiçik və uzun ekranlarda pozulmur.
+
+---
+
+# Mərhələ 4 — 2.5D telefon qutusu və gameplay masası
+
+## Məqsəd
+
+İlk məhsulu həcmli və toxunula bilən görünüşdə təqdim etmək.
+
+## Görüləcək işlər
+
+React Native Skia ilə:
+
+- gameplay masası;
+- telefon qutusunun ön səthi;
+- üst səthi;
+- yan səthi;
+- yumşaq kölgəsi;
+- highlight və parıltısı;
+- məhsul etiketi;
+- interaktiv touch zonaları
+
+yarat.
+
+Kamera hissini sabit 35–45 dərəcə yuxarı perspektivlə simulyasiya et.
+
+Məhsulun real 3D modelə ehtiyacı olmamalıdır.
+
+## Keçid qapısı
+
+- [ ] Məhsul sadə rectangle yox, həcmli qutu kimi görünür.
+- [ ] Skia render-i müxtəlif ekran ölçülərinə uyğunlaşır.
+- [ ] Məhsul mərkəzdə və aydın görünür.
+- [ ] Touch zonaları məhsulun görünüşü ilə uyğun gəlir.
+- [ ] Görünən frame drop yoxdur.
+
+---
+
+# Mərhələ 5 — Vahid gesture sistemi
+
+## Məqsəd
+
+Bütün qablaşdırma əməliyyatları üçün təkrar istifadə edilən və conflict yaratmayan gesture infrastrukturu qurmaq.
+
+## Gesture-lər
+
+- Tap
+- Drag/Pan
+- Swipe
+- Hold
+- Release
+
+## Görüləcək işlər
+
+- Gesture Handler və Reanimated ilə vahid interaction layer yarat.
+- Gesture-ləri gameplay state machine ilə əlaqələndir.
+- UI üzərində edilən touch-un gameplay-ə keçməsinin qarşısını al.
+- Real-time koordinatları Reanimated shared value-larda saxla.
+- Hər frame React və Zustand state update etmə.
+- Web preview-də mouse fallback yarat.
+
+## Keçid qapısı
+
+- [ ] Tap, drag, swipe və hold işləyir.
+- [ ] Gesture-lər bir-birini səhvən işə salmır.
+- [ ] UI toxunuşu gameplay gesture-i yaratmır.
+- [ ] Mouse və mobil touch davranışı eyni məntiqə malikdir.
+- [ ] Gameplay komponentləri raw touch hesablamaları ilə doldurulmayıb.
+
+---
+
+# Mərhələ 6 — Streç filmi tutmaq və dartmaq
+
+## Məqsəd
+
+Oyunçunun filmin ucunu tutaraq rulondan çəkməsini və gərginliyi hiss etməsini təmin etmək.
+
+## Oyun axını
+
+1. Oyunçu filmin ucuna toxunur.
+2. Film seçilir və light haptic verilir.
+3. Oyunçu filmi məhsula doğru çəkir.
+4. Film drag məsafəsinə uyğun uzanır.
+5. Tension göstəricisi dəyişir.
+
+## Tension vəziyyətləri
+
+### Loose
+
+- Film boş və daha qırışlı görünür.
+- Material istifadəsi artır.
+
+### Optimal
+
+- Film hamar və parlaq görünür.
+- Selection haptic verilir.
+- Scoring üçün ideal intervaldır.
+
+### Overstretched
+
+- Yumşaq qırmızı xəbərdarlıq görünür.
+- Warning haptic verilir.
+- Film ilk MVP-də cırılmır.
+
+## Texniki yanaşma
+
+- Şəffaf Skia layer;
+- gradient;
+- opacity;
+- stretch transform;
+- specular highlight;
+- procedural qırış path-ləri.
+
+## Keçid qapısı
+
+- [ ] Film rulondan vizual olaraq çıxır.
+- [ ] Drag məsafəsi film uzunluğuna təsir edir.
+- [ ] Üç tension vəziyyəti aydın fərqlənir.
+- [ ] Gesture buraxıldıqda state düzgün saxlanılır və ya geri qayıdır.
+- [ ] Audio və haptic üçün event-lər mövcuddur.
+
+---
+
+# Mərhələ 7 — Məhsulu sarımaq və coverage sistemi
+
+## Məqsəd
+
+Filmin telefon qutusunun səthlərini mərhələli şəkildə örtməsini yaratmaq.
+
+## Wrap zonaları
+
+- front;
+- back;
+- left;
+- right;
+- top;
+- bottom.
+
+## Oyun axını
+
+1. Film optimal və ya qəbul edilən tension ilə məhsula yaxınlaşdırılır.
+2. Oyunçu məhsulun bir tərəfindən digər tərəfinə drag edir.
+3. Uyğun zona coverage mask ilə örtülür.
+4. Məhsul lazım olduqda Reanimated ilə avtomatik 90 dərəcə dönür.
+5. Növbəti səth açılır.
+
+## Hesablanacaq məlumatlar
+
+- coverage faizi;
+- açıq zonalar;
+- qat sayı;
+- istifadə olunan film miqdarı;
+- optimal tension müddəti;
+- artıq sarınma.
+
+## Keçid qapısı
+
+- [ ] Məhsul ən azı iki istiqamətdə sarınır.
+- [ ] Coverage mask mərhələli artır.
+- [ ] Məhsul dönüşü axıcıdır.
+- [ ] Açıq və bağlı zonalar düzgün hesablanır.
+- [ ] Film məhsulun üzərində şəffaf və həcmli görünür.
+
+---
+
+# Mərhələ 8 — Kəsim və film ucunun yapışdırılması
+
+## Məqsəd
+
+Streç film qablaşdırmasını məntiqi şəkildə tamamlamaq.
+
+## Kəsim
+
+- Minimum coverage tamamlandıqda kəsim xətti aktivləşsin.
+- Oyunçu xətt boyunca swipe etsin.
+- Swipe istiqaməti və minimum məsafəsi yoxlanılsın.
+- Uğurlu kəsimdə animasiya, səs və medium haptic verilsin.
+
+## Sealing
+
+- Kəsilmiş film ucu sərbəst qalsın.
+- Oyunçu film ucunu drag ilə məhsulun üzərinə yerləşdirsin.
+- Düzgün sealing zonasında yapışsın.
+- Yanlış yerləşdirmə gameplay-i bloklamasın.
+- Oyunçu ucun mövqeyini düzəldə bilsin.
+
+## Keçid qapısı
+
+- [ ] Film yalnız uyğun state-də kəsilir.
+- [ ] Swipe validation işləyir.
+- [ ] Film ucu vizual olaraq ayrılır.
+- [ ] Sealing uğurlu və səhv nəticə yarada bilir.
+- [ ] Tam streç film prosesi başlanğıcdan inspection mərhələsinə qədər oynanılır.
+
+---
+
+# Mərhələ 9 — Qüsurlar və düzəltmə gameplay-i
+
+## Məqsəd
+
+Səhvləri cəza yox, əlavə satisfying interaction-a çevirmək.
+
+## İlk qüsurlar
+
+- qırış;
+- hava qabarcığı;
+- açıq künc;
+- boş film ucu;
+- artıq film.
+
+## Qüsurların yaranma səbəbləri
+
+- zəif tension → qırış;
+- qeyri-bərabər drag → açıq künc;
+- pis sealing → boş film ucu;
+- artıq wrap → artıq material;
+- qeyri-bərabər pressure → hava qabarcığı.
+
+## Düzəltmə hərəkətləri
+
+- qırış üzərində swipe;
+- hava qabarcığını kənara drag;
+- açıq küncə film çəkmək;
+- boş film ucunu sıxmaq;
+- artıq filmi kəsmək.
+
+## Keçid qapısı
+
+- [ ] Ən azı üç qüsur gameplay-dən yaranır.
+- [ ] Qüsurlar vizual olaraq aydın görünür.
+- [ ] Hər qüsurun ayrıca düzəltmə gesture-i var.
+- [ ] Düzəltmə scoring məlumatını yaxşılaşdırır.
+- [ ] Oyunçu sifarişi səhvə görə itirmir.
+
+---
+
+# Mərhələ 10 — ASMR audio və haptic sistemi
+
+## Məqsəd
+
+Hər əsas interaction-a uyğun və sinxron audio/haptic geribildirim əlavə etmək.
+
+## Audio event-lər
+
+- materialı tutmaq;
+- streç filmi açmaq;
+- filmi dartmaq;
+- film qatlarının toxunması;
+- kəsim;
+- sealing;
+- qırış hamarlamaq;
+- hava qabarcığını çıxarmaq;
+- sifarişi tamamlamaq.
+
+## Haptic mapping
+
+- materialı tutmaq: light;
+- optimal tension: selection;
+- overstretched: warning;
+- kəsim: medium;
+- sealing: light;
+- qüsur düzəltmək: selection;
+- Perfect: success.
+
+## Texniki qaydalar
+
+- Audio fayllar component-lərdən birbaşa çağırılmamalıdır.
+- Audio registry və service istifadə et.
+- Haptic ayrıca service vasitəsilə çağırılmalıdır.
+- Web-də təhlükəsiz no-op fallback olsun.
+- Placeholder audio ilə belə gameplay səssiz qalmamalıdır.
+
+## Keçid qapısı
+
+- [ ] Bütün əsas interaction-larda audio var.
+- [ ] Audio və animasiya sinxrondur.
+- [ ] Haptic aktiv və deaktiv edilə bilir.
+- [ ] Səs və musiqi ayrıca settings-dən idarə olunur.
+- [ ] Audio preload zamanı gameplay bloklanmır.
+
+---
+
+# Mərhələ 11 — Scoring, coin və nəticə ekranı
+
+## Məqsəd
+
+Oyunçunun performansını anlaşılan və ədalətli şəkildə qiymətləndirmək.
+
+## Scoring meyarları
+
+### Səliqə
+
+- qırışlar;
+- hava qabarcıqları;
+- boş film ucu;
+- açıq qalan qüsurlar;
+- düzəldilmiş qüsurlar.
+
+### Qoruma
+
+- coverage faizi;
+- açıq zonalar;
+- qat sayı;
+- material uyğunluğu;
+- həssas sahələrin qorunması.
+
+### Material istifadəsi
+
+- film miqdarı;
+- artıq qatlar;
+- tullantı;
+- optimal tension faizi.
+
+## Nəticələr
+
+- Perfect: 90–100 və açıq ciddi qüsur yoxdur;
+- Good: 70–89;
+- Acceptable: 0–69.
+
+Dəyərlər config vasitəsilə dəyişdirilə bilməlidir.
+
+## Result Screen
+
+- Səliqə balı;
+- Qoruma balı;
+- Material istifadəsi balı;
+- Ümumi nəticə;
+- Coin;
+- Reputasiya;
+- Düzəldilən qüsurlar;
+- Next Order.
+
+## Keçid qapısı
+
+- [ ] Scoring real gameplay məlumatından hesablanır.
+- [ ] Qüsur düzəltmək nəticəni artırır.
+- [ ] Artıq material nəticəni azaldır.
+- [ ] Coin və reputasiya save edilir.
+- [ ] Next Order yeni session yaradır.
+
+---
+
+# Mərhələ 12 — Tutorial və ilk vertical slice
+
+## Məqsəd
+
+Telefon qutusu və streç film ilə tam, telefonda test edilə bilən ilk oyun versiyasını tamamlamak.
+
+## Tutorial addımları
+
+1. Filmə toxun.
+2. Filmi məhsula doğru çək.
+3. Optimal tension-a çat.
+4. Məhsulun ilk səthini sarı.
+5. Məhsulun avtomatik dönməsini izlə.
+6. Digər səthi sarı.
+7. Kəsim xəttində swipe et.
+8. Film ucunu yapışdır.
+9. Qırışı hamarla.
+10. Nəticəni gör.
+
+## Tutorial qaydaları
+
+- Bir anda yalnız bir tapşırıq;
+- qısa mətn;
+- aktiv sahədə yumşaq highlight;
+- addım tamamlanmadan növbəti addım açılmır;
+- skip imkanı;
+- tutorial status save edilir;
+- Settings-dən restart mümkündür.
+
+## Vertical slice tam axını
+
+1. Main Menu
+2. Orders
+3. Telefon qutusu sifarişi
+4. Streç film seçimi
+5. Gameplay
+6. Pulling
+7. Wrapping
+8. Cutting
+9. Sealing
+10. Repairing
+11. Result
+12. Coin və save
+13. Next Order
+
+## Build
+
+- Web production preview;
+- Android EAS preview build;
+- iOS preview build üçün tam konfiqurasiya.
+
+## Keçid qapısı
+
+Yeni materiallara yalnız bunlar tamamlandıqda keç:
+
+- [ ] Tam axın əvvəldən sona işləyir.
+- [ ] Tutorial yeni oyunçu üçün aydındır.
+- [ ] Blocking bug yoxdur.
+- [ ] Save işləyir.
+- [ ] Android preview build yaranır.
+- [ ] Fiziki telefon testinə hazır install link mövcuddur.
+
+---
+
+# Mərhələ 13 — Bubble wrap
+
+## Məqsəd
+
+Streç filmdən tam fərqli qatlama və bubble pop interaction-u yaratmaq.
+
+## Gameplay
+
+1. Bubble wrap masaya sərilir.
+2. Telefon qutusu materialın ortasına yerləşdirilir.
+3. Sol tərəf qatlanır.
+4. Sağ tərəf qatlanır.
+5. Üst və alt hissələr bağlanır.
+6. Lent çəkilir.
+7. İstəyə görə bir neçə qabarcıq partladılır.
+
+## Texniki yanaşma
+
+- Skia bubble pattern;
+- fold zonaları;
+- clip mask;
+- Reanimated fold transform;
+- interaktiv bubble nöqtələri;
+- pop animation, audio və haptic.
+
+## Keçid qapısı
+
+- [ ] Telefon qutusu bubble wrap ilə tam qablaşdırılır.
+- [ ] Gesture-lər streç filmdən fərqli hiss edilir.
+- [ ] Lent interaction-u işləyir.
+- [ ] Bubble pop işləyir.
+- [ ] Bubble-specific scoring mövcuddur.
+
+---
+
+# Mərhələ 14 — Parfüm məhsulu
+
+## Məqsəd
+
+Fərqli forma və daha yüksək qoruma tələbi olan ikinci məhsulu əlavə etmək.
+
+## Görüləcək işlər
+
+- Skia ilə şüşə parfüm vizualı yarat.
+- Şəffaflıq, qapaq, highlight və kölgə əlavə et.
+- Həssas zonalar yarat:
+  - üst;
+  - alt;
+  - sol və sağ şüşə tərəfləri.
+- Bubble wrap recipe-si yarat.
+- Qoruma scoring-ni məhsulun formasına uyğunlaşdır.
+
+## Keçid qapısı
+
+- [ ] Parfüm Orders ekranında açılır.
+- [ ] Bubble wrap ilə qablaşdırılır.
+- [ ] Qorunmayan həssas zona balı azaldır.
+- [ ] Telefon qutusu ilə eyni interaction təəssüratı yaratmır.
+
+---
+
+# Mərhələ 15 — Premium kağız və hədiyyə qutusu
+
+## Məqsəd
+
+Görünüş, qatlama və simmetriya əsaslı premium qablaşdırma gameplay-i yaratmaq.
+
+## Gameplay
+
+1. Kağız seçilir.
+2. Hədiyyə qutusu kağızın ortasına yerləşdirilir.
+3. Uzun tərəflər qatlanır.
+4. Künclər içəri qatlanır.
+5. Yapışdırıcı və ya lent əlavə edilir.
+6. Dekorativ lent yerləşdirilir.
+7. Möhür vurulur.
+
+## Scoring
+
+- simmetriya;
+- künclərin səliqəsi;
+- artıq kağız;
+- lentin mövqeyi;
+- möhürün düz yerləşməsi.
+
+## Keçid qapısı
+
+- [ ] Qatlama mərhələləri aydın işləyir.
+- [ ] Künclər ayrıca qiymətləndirilir.
+- [ ] Lent və möhür interaction-u var.
+- [ ] Presentation scoring işləyir.
+
+---
+
+# Mərhələ 16 — Alüminium folqa və yemək qabı
+
+## Məqsəd
+
+Dartılmayan, əzilərək forma alan fərqli material gameplay-i yaratmaq.
+
+## Gameplay
+
+1. Folqa rulondan açılır.
+2. Yemək qabının üzərinə çəkilir.
+3. Kənarlar qabın ətrafına sıxılır.
+4. Qırışlar barmaqla hamarlanır.
+5. Artıq folqa kəsilir.
+
+## Texniki yanaşma
+
+- metalik gradient;
+- noise texture;
+- procedural wrinkle path-ləri;
+- pressure əsaslı deformasiya;
+- edge fold mask-ları.
+
+## Keçid qapısı
+
+- [ ] Folqa streç film kimi davranmır.
+- [ ] Yemək qabının bütün kənarları ayrıca yoxlanılır.
+- [ ] Qırışlar düzəldilə bilir.
+- [ ] Folqa və streç film hər ikisi yemək qabında seçilə bilir.
+
+---
+
+# Mərhələ 17 — Zen Mode
+
+## Məqsəd
+
+İqtisadiyyat və nəticə təzyiqi olmadan rahat ASMR rejimi təqdim etmək.
+
+## Xüsusiyyətlər
+
+- məhsul seçimi;
+- material seçimi;
+- qüsurların aktiv/deaktiv edilməsi;
+- tutorial göstərişləri;
+- fon musiqisi seçimi;
+- vaxt və cəzanın olmaması;
+- coin və reputasiyaya təsir etməməsi.
+
+## Keçid qapısı
+
+- [ ] Zen Mode Main Menu-dən açılır.
+- [ ] Progress dəyişmir.
+- [ ] Açılmış məhsul və materiallar seçilir.
+- [ ] Gameplay limitsiz təkrar olunur.
+
+---
+
+# Mərhələ 18 — Workshop və progression
+
+## Məqsəd
+
+Oyunçuya qazandığı coin və reputasiyanın vizual nəticəsini göstərmək.
+
+## Workshop səviyyələri
+
+### Level 1
+
+- sadə masa;
+- kiçik rəf;
+- streç film rulonu.
+
+### Level 2
+
+- daha yaxşı masa;
+- əlavə material rəfi;
+- kiçik konveyer.
+
+### Level 3
+
+- qablaşdırma maşını;
+- hazır məhsul qutuları;
+- daha yaxşı işıqlandırma.
+
+### Level 4
+
+- böyük iş sahəsi;
+- əlavə konveyer detalları;
+- fon maşın animasiyası.
+
+## Qaydalar
+
+- sərbəst gəzmək yoxdur;
+- maşın yerləşdirmə yoxdur;
+- işçi idarəetməsi yoxdur;
+- inkişaf əsasən vizualdır.
+
+## Keçid qapısı
+
+- [ ] Coin ilə workshop upgrade edilir.
+- [ ] Səviyyə save edilir.
+- [ ] Görünüş səviyyəyə görə dəyişir.
+- [ ] Gameplay performansına ciddi təsir etmir.
+
+---
+
+# Mərhələ 19 — Jumbo rulon bonus səhnəsi
+
+## Məqsəd
+
+Material ehtiyatının yenilənməsini qısa və satisfying bonus səhnə kimi göstərmək.
+
+## Axın
+
+1. Material ehtiyatı müəyyən həddə düşür.
+2. Oyunçu refill seçir.
+3. Jumbo rulon maşına gəlir.
+4. Bıçaqlar sadə şəkildə mövqelənir.
+5. Rulon kiçik rulonlara bölünür.
+6. Hazır rulonlar rəfə yerləşdirilir.
+7. Material inventory yenilənir.
+
+## Qaydalar
+
+- Səhnə 10–15 saniyə;
+- real en optimizasiyası yoxdur;
+- mürəkkəb istehsal hesablaması yoxdur;
+- material ehtiyatı enerji sistemi kimi gameplay-i bloklamır.
+
+## Keçid qapısı
+
+- [ ] Inventory sifarişlərdən sonra dəyişir.
+- [ ] Refill səhnəsi işləyir.
+- [ ] Ehtiyat yenilənir və save edilir.
+- [ ] Əsas qablaşdırma gameplay-i kölgədə qalmır.
+
+---
+
+# Mərhələ 20 — UI/UX polish
+
+## Məqsəd
+
+Bütün ekranları vahid, premium və istifadəsi rahat dizayna gətirmək.
+
+## Görüləcək işlər
+
+- vahid design token-lər;
+- typography;
+- spacing;
+- button state-ləri;
+- transition-lar;
+- loading və empty state-lər;
+- Safe Area;
+- Dynamic Island və notch uyğunluğu;
+- böyük touch sahələri;
+- bir əllə istifadə;
+- az mətn və aydın istiqamət.
+
+## Tam işlək ekranlar
+
+- Main Menu;
+- Workshop;
+- Orders;
+- Material Selection;
+- Gameplay;
+- Result;
+- Upgrades;
+- Zen Mode;
+- Settings.
+
+## Keçid qapısı
+
+- [ ] Ekranlar arasında naviqasiya aydındır.
+- [ ] Kiçik və böyük telefon ekranlarında UI pozulmur.
+- [ ] Lazımsız mətn və ikon yoxdur.
+- [ ] Accessibility label-ları əsas control-larda mövcuddur.
+
+---
+
+# Mərhələ 21 — Performans və stabilik
+
+## Məqsəd
+
+Oyunu real mobil cihazlarda axıcı və stabil etmək.
+
+## Yoxlanılacaq sahələr
+
+- React re-render sayı;
+- Skia render yükü;
+- Reanimated worklet performansı;
+- audio preload və memory;
+- SQLite əməliyyatları;
+- asset ölçüləri;
+- startup vaxtı;
+- uzun sessiyada memory istifadəsi;
+- touch latency;
+- batareya və temperatur.
+
+## Texniki tədbirlər
+
+- memoization;
+- lazımsız state update-lərin silinməsi;
+- shared value istifadəsi;
+- ağır path-lərin cache edilməsi;
+- asset compression;
+- audio pool;
+- lazy loading;
+- database query optimizasiyası.
+
+## Keçid qapısı
+
+- [ ] Görünən frame drop yoxdur.
+- [ ] Gesture gecikməsi hiss edilmir.
+- [ ] Uzun sessiyada crash və memory leak yoxdur.
+- [ ] Audio və animasiya sinxron qalır.
+- [ ] Orta səviyyəli Android cihaz üçün uyğun performans əldə edilir.
+
+---
+
+# Mərhələ 22 — Android və iOS preview build
+
+## Məqsəd
+
+İstifadəçinin oyunu fiziki telefonlarda test edə biləcəyi install edilən build-lər yaratmaq.
+
+## Android
+
+- EAS preview profile;
+- portrait orientation;
+- adaptive icon placeholder;
+- splash screen;
+- package identifier;
+- preview APK və ya uyğun install build;
+- install link.
+
+## iOS
+
+- EAS preview profile;
+- bundle identifier;
+- portrait orientation;
+- app icon placeholder;
+- splash screen;
+- internal distribution və ya TestFlight üçün konfiqurasiya.
+
+## Keçid qapısı
+
+- [ ] Android preview build uğurla yaranır.
+- [ ] Install link işləyir.
+- [ ] iOS build config validation keçir.
+- [ ] Credential tələb olunan nöqtələr dəqiq göstərilir.
+- [ ] Save, audio və haptic mobil build-də işləyir.
+
+---
+
+# Mərhələ 23 — Production və store hazırlığı
+
+## Məqsəd
+
+Oyunu Google Play və App Store-a təqdim etməyə texniki olaraq hazır vəziyyətə gətirmək.
+
+## Görüləcək işlər
+
+- final app name üçün dəyişdirilə bilən config;
+- app icon və splash asset slot-ları;
+- Android package identifier;
+- iOS bundle identifier;
+- version və build number sistemi;
+- EAS production profiles;
+- Android AAB;
+- iOS production build;
+- EAS Submit;
+- EAS Update preview və production channel-ları;
+- privacy və permission audit;
+- store metadata üçün template.
+
+## Keçid qapısı
+
+- [ ] Production config validation keçir.
+- [ ] Android AAB yaradıla bilir.
+- [ ] iOS production build credential mərhələsinə qədər hazırdır.
+- [ ] Lazımsız permission yoxdur.
+- [ ] Release sənədləri mövcuddur.
+
+---
+
+# Mərhələ 24 — Son MVP testləri və Definition of Done
+
+## Məhsullar
+
+- Telefon qutusu
+- Parfüm
+- Hədiyyə qutusu
+- Yemək qabı
+
+## Materiallar
+
+- Streç film
+- Bubble wrap
+- Premium kağız
+- Alüminium folqa
+
+## Rejimlər
+
+- Orders
+- Zen Mode
+
+## Məcburi test ssenariləri
+
+- Yeni oyunçu tutorial-ı tamamlaya bilir.
+- Telefon qutusu streç film ilə qablaşdırılır.
+- Telefon qutusu bubble wrap ilə qablaşdırılır.
+- Parfüm bubble wrap ilə qablaşdırılır.
+- Hədiyyə qutusu premium kağızla qablaşdırılır.
+- Yemək qabı streç film və folqa ilə qablaşdırılır.
+- Yanlış material seçimi oyunu çökdürmür.
+- Qüsurlar yaranır və düzəldilir.
+- Scoring düzgün dəyişir.
+- Coin və reputasiya save edilir.
+- Workshop upgrade save edilir.
+- Zen Mode progress-i dəyişmir.
+- Audio və haptic deaktiv edilə bilir.
+- Jumbo refill inventory-ni yeniləyir.
+- Tətbiq bağlanıb açıldıqdan sonra progress qalır.
+- Android preview build işləyir.
+- iOS build konfiqurasiyası hazırdır.
+- Typecheck, lint və bütün testlər keçir.
+- Kritik runtime və database error-u yoxdur.
+
+## MVP tamamlanma şərti
+
+MVP yalnız bütün məcburi testlər keçdikdə tamamlanmış hesab edilir.
+
+---
+
+# 4. Claude Code-un hər mərhələnin sonunda təqdim edəcəyi hesabat
+
+Hər mərhələdən sonra yalnız aşağıdakı məlumatları qısa şəkildə bildir:
+
+## Hazırlandı
+
+Hansı sistemlərin və ekranların tamamlandığını yaz.
+
+## Dəyişdirilən əsas fayllar
+
+Yalnız əsas faylların path-lərini göstər.
+
+## Test nəticələri
+
+- Typecheck;
+- Lint;
+- Unit tests;
+- Web preview;
+- Mobil build statusu.
+
+## Qalan məhdudiyyətlər
+
+Mövcud texniki və ya vizual məhdudiyyətləri dürüst şəkildə qeyd et.
+
+## İstifadəçidən tələb olunan əməl
+
+Yalnız login, credential, ödəniş, hüquqi təsdiq və fiziki cihaz testi kimi qaçılmaz əməli varsa qeyd et.
+
+Bütün acceptance kriteriyaları keçibsə ayrıca təsdiq istəmədən növbəti mərhələyə keç.
+
+---
+
+# 5. Əsas development prinsipləri
+
+- Əvvəlcə işlək mexanika, sonra final qrafika.
+- İlk prioritet telefon qutusu və streç filmdir.
+- İlk vertical slice stabil olmadan yeni material əlavə etmə.
+- Ağır real-time cloth simulation istifadə etmə.
+- Gesture zamanı hər frame React və Zustand state update etmə.
+- Məhsul və materialları data əsaslı saxla.
+- Android və iOS üçün eyni kod bazasından istifadə et.
+- Placeholder asset olmadığı üçün development-i dayandırma.
+- Səhvləri sərt cəza yox, düzəldilə bilən mini-game kimi qur.
+- Vaxt limiti, enerji sistemi və məcburi reklam əlavə etmə.
+- Əsas prioritet toxunma hissi, vizual reaksiya, ASMR audio və stabil mobil performansdır.

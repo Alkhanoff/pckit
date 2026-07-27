@@ -1,0 +1,838 @@
+# PACK & RELAX
+## Gameplay Qərarları və Dizayn Qaydaları
+
+Bu sənəd `Game Intro` və `Technical Specification` sənədlərini tamamlayır.  
+Burada oyunun necə hiss edilməli olduğu, oyunçunun hansı hərəkətləri edəcəyi, sifarişlərin necə işləyəcəyi, çətinliyin necə artacağı və ilkin balans qərarları konkretləşdirilir.
+
+Bu sənəddə göstərilən qərarlar MVP üçün əsas qəbul edilməlidir. Sonradan test nəticələrinə əsasən rəqəmlər və balans dəyişdirilə bilər.
+
+---
+
+# 1. Vizual üslub
+
+Oyunun vizual istiqaməti:
+
+> **Yarı-realistik, təmiz, premium və həcm hissi verən 2.5D vizual stil.**
+
+Oyun tam 3D və fotorealistik görünməməlidir. Məhsullar tanınacaq qədər real, amma mobil performansa uyğun sadə və stilizə edilmiş olmalıdır.
+
+Vizual xüsusiyyətlər:
+
+- yumşaq bej, ağ, mavi-boz və pastel tonlar;
+- təmiz qablaşdırma masası;
+- yumşaq kölgələr;
+- materiallarda şəffaflıq və parıltı;
+- diqqəti yayındırmayan arxa fon;
+- məhsulu və əl hərəkətlərini ön plana çıxaran kompozisiya;
+- ucuz 2D tətbiq yox, həcmli və toxunula bilən görüntü.
+
+İlk MVP-də məhsullar və materiallar React Native Skia və SVG ilə proqrammatik şəkildə yaradıla bilər.
+
+Final asset-lər hazır olmadığı üçün development dayandırılmamalıdır.
+
+---
+
+# 2. Kamera və ekran kompozisiyası
+
+Oyun portrait formatında hazırlanmalıdır.
+
+Əsas gameplay kamerası:
+
+- məhsula 35–45 dərəcə yuxarıdan baxmalıdır;
+- sabit qalmalıdır;
+- oyunçu tərəfindən sərbəst fırladılmamalıdır;
+- məhsulu, materialı və aktiv interaction zonasını aydın göstərməlidir.
+
+Aşağıdakı əməliyyatlarda avtomatik yaxınlaşma istifadə edilə bilər:
+
+- materialı kəsmək;
+- film ucunu yapışdırmaq;
+- etiketi yerləşdirmək;
+- möhür vurmaq;
+- qırışı hamarlamaq;
+- hava qabarcığını çıxarmaq.
+
+Yaxınlaşma qısa, yumşaq və oyunçunun nəzarətini pozmayan formada olmalıdır.
+
+---
+
+# 3. Məhsulun fırlanması
+
+İlk MVP-də oyunçu məhsulu özü fırlatmayacaq.
+
+Qərar:
+
+> Oyunçu materialı çəkir, məhsul isə qablaşdırma mərhələlərinə uyğun olaraq avtomatik 90 dərəcə fırlanır.
+
+Bu yanaşma:
+
+- bir əllə idarəetməni qoruyur;
+- gesture konfliktlərini azaldır;
+- gameplay-i daha aydın edir;
+- mobil ekranda qablaşdırma sahəsini daha rahat göstərir.
+
+Fırlanma yalnız əvvəlcədən müəyyən edilmiş wrap zonası tamamlandıqda baş verməlidir.
+
+---
+
+# 4. Streç filmin davranışı
+
+Streç film üçün real-time cloth simulation istifadə edilməməlidir.
+
+Məhsul altı əsas qablaşdırma zonasına bölünməlidir:
+
+- front;
+- back;
+- left;
+- right;
+- top;
+- bottom.
+
+Oyunçu materialı düzgün istiqamətdə çəkdikcə həmin zonaların coverage faizi artır.
+
+Film aşağıdakı vizual sistemlə göstərilməlidir:
+
+- şəffaf layer;
+- progressive coverage mask;
+- məhsul səthlərinə uyğun clip mask;
+- drag məsafəsinə bağlı stretch;
+- opacity dəyişməsi;
+- yüngül parıltı;
+- qırış path-ləri;
+- qat sayına bağlı şəffaflıq;
+- hava qabarcığı üçün lokal vizual deformasiya.
+
+## Dartılma vəziyyətləri
+
+### Loose
+
+- material boş görünür;
+- qırış yaranma ehtimalı artır;
+- daha çox material istifadə olunur;
+- Səliqə və Material istifadəsi balı azalır.
+
+### Optimal
+
+- material hamar görünür;
+- coverage daha effektiv artır;
+- yumşaq selection haptic verilir;
+- ən yaxşı scoring nəticəsini yaradır.
+
+### Overstretched
+
+- film həddindən artıq dartılmış görünür;
+- materialda və ya tension göstəricisində yumşaq qırmızı xəbərdarlıq yaranır;
+- warning haptic verilir;
+- ilk MVP-də film cırılmır;
+- çox davam edərsə Səliqə və Material istifadəsi balı azalır.
+
+---
+
+# 5. Əsas auditoriya
+
+Əsas auditoriya:
+
+> **13–35 yaş arası casual mobil oyunçular və satisfying/ASMR məzmun sevən istifadəçilər.**
+
+İkinci dərəcəli auditoriya:
+
+- sadə tycoon və progression sevənlər;
+- dekorasiya və kolleksiya sevənlər;
+- stresssiz qısa mobil oyun axtaranlar.
+
+Oyun uşaqlar üçün ayrıca dizayn edilməməlidir, amma zorakılıq və yaşa uyğun olmayan məzmun olmamalıdır.
+
+---
+
+# 6. Dil və lokalizasiya
+
+İlk MVP dili:
+
+> **English**
+
+Bütün mətnlər localization-ready olmalıdır və komponentlərdə hardcode edilməməlidir.
+
+Sonrakı dillər:
+
+- Azerbaijani;
+- Turkish;
+- Russian.
+
+Məhsul adları, tutorial mətnləri, nəticə ekranları və settings mətnləri localization key vasitəsilə idarə edilməlidir.
+
+---
+
+# 7. Oyunun adı və marka istiqaməti
+
+Müvəqqəti ad:
+
+**Pack & Relax**
+
+Bu ad development zamanı istifadə edilə bilər.
+
+Brend istiqaməti:
+
+- yumşaq bej və ağ əsas fon;
+- mavi-boz vurğular;
+- təmiz qutu və şəffaf film motivi;
+- yumşaq, modern və premium tipoqrafiya;
+- çox uşaqvari olmayan, amma dostcasına görünən ikon.
+
+Final App Store adı və loqo MVP gameplay sübut edildikdən sonra seçilə bilər.
+
+---
+
+# 8. Əsas gameplay recipe sistemi
+
+Hər məhsul-material kombinasiyası ayrıca `PackagingRecipe` ilə idarə edilməlidir.
+
+Recipe aşağıdakı məlumatları saxlamalıdır:
+
+- məhsul;
+- material;
+- addımlar;
+- icazə verilən gesture-lər;
+- wrap və fold zonaları;
+- mümkün qüsurlar;
+- scoring qaydaları;
+- audio event-lər;
+- haptic event-lər;
+- vizual feedback.
+
+## 8.1. Telefon qutusu + streç film
+
+İlk vertical slice və tutorial recipe-si:
+
+1. Məhsul masaya gəlir.
+2. Film ucu vurğulanır.
+3. Oyunçu filmə toxunur.
+4. Filmi rulondan çəkir.
+5. Optimal dartılmaya çatır.
+6. Məhsulun ilk istiqamətini sarıyır.
+7. Məhsul avtomatik 90 dərəcə fırlanır.
+8. İkinci istiqamət sarınır.
+9. Kəsim xətti aktivləşir.
+10. Oyunçu swipe ilə filmi kəsir.
+11. Film ucunu məhsula yapışdırır.
+12. Qırış və hava qabarcıqları yoxlanılır.
+13. Oyunçu qüsurları düzəldir.
+14. Nəticə hesablanır.
+
+## 8.2. Telefon qutusu + bubble wrap
+
+1. Bubble wrap masaya sərilir.
+2. Telefon qutusu ortasına yerləşdirilir.
+3. Sol tərəf qatlanır.
+4. Sağ tərəf qatlanır.
+5. Üst və alt hissələr bağlanır.
+6. Lent çəkilir.
+7. Lent düzgün zonaya yapışdırılır.
+8. İstəyə görə 2–3 qabarcıq partladılır.
+9. Açıq hissələr və qat simmetriyası yoxlanılır.
+10. Nəticə hesablanır.
+
+## 8.3. Parfüm + bubble wrap
+
+1. Bubble wrap masaya sərilir.
+2. Parfüm materialın ortasına yerləşdirilir.
+3. Şüşənin sol və sağ tərəfləri qorunur.
+4. Alt hissə əlavə qatla bağlanır.
+5. Qapaq hissəsi qorunur.
+6. Material lentlə sabitlənir.
+7. Açıq və həssas zonalar yoxlanılır.
+8. Qüsurlar düzəldilir.
+9. Nəticə hesablanır.
+
+## 8.4. Hədiyyə qutusu + premium kağız
+
+1. Kağız masaya yerləşdirilir.
+2. Qutu kağızın ortasına qoyulur.
+3. Uzun tərəflər qatlanır.
+4. Sol və sağ künclər içəri bağlanır.
+5. Kağız lent və ya yapışdırıcı ilə sabitlənir.
+6. Dekorativ lent yerləşdirilir.
+7. Möhür vurulur.
+8. Simmetriya və qırışlar yoxlanılır.
+9. Qüsurlar düzəldilir.
+10. Nəticə hesablanır.
+
+## 8.5. Yemək qabı + folqa
+
+1. Folqa rulondan açılır.
+2. Qabın üzərinə çəkilir.
+3. Sol və sağ kənarlar sıxılır.
+4. Ön və arxa kənarlar bağlanır.
+5. Qırışlar hamarlanır.
+6. Artıq folqa kəsilir.
+7. Tam bağlanma yoxlanılır.
+8. Nəticə hesablanır.
+
+## 8.6. Yemək qabı + streç film
+
+1. Streç film tutulur.
+2. Film optimal dartılmaya gətirilir.
+3. Qabın üst səthi örtülür.
+4. Kənarlar mərhələli şəkildə bağlanır.
+5. Film kəsilir.
+6. Ucu qabın altına və ya yanına yapışdırılır.
+7. Açıq kənarlar və qırışlar yoxlanılır.
+8. Nəticə hesablanır.
+
+---
+
+# 9. Məhsul və material uyğunluğu
+
+| Məhsul | İdeal material | Alternativ material | Uyğun olmayan seçim |
+|---|---|---|---|
+| Telefon qutusu | Bubble wrap | Streç film | Premium kağız |
+| Parfüm | Bubble wrap | Premium kağız | Folqa |
+| Yemək qabı | Streç film və folqa | — | Bubble wrap, premium kağız |
+| Hədiyyə qutusu | Premium kağız | Streç film | Folqa |
+
+Yanlış material seçildikdə gameplay bloklanmamalıdır.
+
+Nəticə:
+
+- Protection balı azala bilər;
+- Presentation balı azala bilər;
+- Material istifadəsi səmərəsiz sayıla bilər;
+- müştəri bonusu verilməyə bilər.
+
+İlk tutorial üçün telefon qutusu + streç film kombinasiyası istifadə edilir. Bu, ən ideal qoruyucu seçim olmasa da, streç interaction-un öyrədilməsi üçün başlanğıc recipe-sidir.
+
+---
+
+# 10. Sifariş sistemi
+
+MVP-də sifarişlər tam təsadüfi olmamalıdır.
+
+Qərar:
+
+1. İlk sifarişlər əvvəlcədən hazırlanmış ardıcıllıqla açılır.
+2. Oyunçu yeni məhsul və materialları tutorial vasitəsilə öyrənir.
+3. Məhsul və recipe açıldıqdan sonra sifarişlər açılmış pool daxilindən təsadüfi seçilə bilər.
+
+İlkin sifariş ardıcıllığı:
+
+1. Telefon qutusu + streç film
+2. Telefon qutusu + bubble wrap
+3. Parfüm + bubble wrap
+4. Hədiyyə qutusu + premium kağız
+5. Yemək qabı + folqa
+6. Yemək qabı + streç film
+
+Sifariş ekranında göstərilməlidir:
+
+- məhsul;
+- əsas tələb;
+- tövsiyə edilən material;
+- əsas mükafat;
+- müştərinin prioriteti.
+
+Müştəri prioritetləri:
+
+- Protection;
+- Presentation;
+- Low Material Use.
+
+---
+
+# 11. Çətinliyin artması
+
+Oyunda məcburi vaxt limiti olmayacaq.
+
+Çətinlik aşağıdakı yollarla artmalıdır:
+
+- məhsul forması mürəkkəbləşir;
+- daha çox qorunmalı zona yaranır;
+- material daha həssas davranır;
+- simmetriya tələbi yüksəlir;
+- qüsurlar daha asan yaranır;
+- müştəri daha yüksək keyfiyyət tələb edir;
+- material istifadəsi daha dəqiq ölçülür;
+- eyni məhsul üçün fərqli müştəri prioritetləri yaranır.
+
+Çətinlik sürətdən yox, dəqiqlik, material seçimi və hərəkətin keyfiyyətindən gəlməlidir.
+
+Oyunçu heç vaxt sifarişi tamamlaması üçün tələsdirilməməlidir.
+
+---
+
+# 12. Qüsurların yaranma qaydası
+
+Qüsurlar əsasən oyunçunun hərəkətindən yaranmalıdır.
+
+| Oyunçu hərəkəti | Yaranan qüsur |
+|---|---|
+| Zəif dartılma | Qırış |
+| Həddindən artıq dartılma | Gərgin və qeyri-bərabər film |
+| Əyri və qeyri-bərabər drag | Açıq künc |
+| Həddindən artıq material | Artıq film və aşağı efficiency |
+| Yanlış sealing | Boş material ucu |
+| Qeyri-bərabər təzyiq | Hava qabarcığı |
+| Əyri yerləşdirmə | Əyri lent, etiket və ya möhür |
+| Natamam qatlama | Açıq hissə və zəif qoruma |
+
+Təsadüfi qüsurlar yalnız çox az halda və vizual müxtəliflik üçün istifadə edilə bilər.
+
+Oyunçu qüsurun səbəbini başa düşməlidir.
+
+Qüsurlar dərhal sifariş itkisinə səbəb olmamalıdır.
+
+---
+
+# 13. Qüsur düzəltmə mexanikaları
+
+MVP-də:
+
+- qırışı swipe ilə hamarlamaq;
+- hava qabarcığını kənara drag etmək;
+- açıq küncə material çəkmək;
+- boş material ucunu yenidən yapışdırmaq;
+- artıq materialı kəsmək;
+- əyri etiketi yenidən yerləşdirmək;
+- əyri möhürü düzəltmək;
+- boş lenti sıxmaq
+
+mümkün olmalıdır.
+
+Qüsur düzəldildikdə:
+
+- qısa ASMR səsi;
+- selection haptic;
+- yumşaq vizual parıltı;
+- scoring yaxşılaşması
+
+olmalıdır.
+
+Qüsur düzəltmə cəza deyil, satisfying mini-game kimi hiss edilməlidir.
+
+---
+
+# 14. Scoring və Perfect şərtləri
+
+Əsas scoring meyarları:
+
+## Səliqə
+
+- qırışlar;
+- hava qabarcıqları;
+- boş uclar;
+- əyri lent və möhür;
+- açıq vizual qüsurlar.
+
+## Qoruma
+
+- coverage;
+- həssas zonaların qorunması;
+- material uyğunluğu;
+- kənarların bağlanması;
+- qatların yetərliliyi.
+
+## Material istifadəsi
+
+- istifadə olunan material;
+- artıq qat;
+- artıq kəsilmiş hissə;
+- optimal dartılma;
+- tullantı.
+
+İlkin nəticə limitləri:
+
+### Perfect
+
+- ümumi bal: 90–100;
+- Səliqə: minimum 90;
+- Qoruma: minimum 90;
+- Material istifadəsi: minimum 85;
+- ciddi açıq qüsur: 0.
+
+### Good
+
+- ümumi bal: 70–89.
+
+### Acceptable
+
+- ümumi bal: 0–69.
+
+Sifariş heç vaxt tam uğursuz sayılmamalıdır. Acceptable nəticə az mükafat verir, amma progression-u dayandırmır.
+
+Bütün limitlər config-dən dəyişdirilə bilməlidir.
+
+---
+
+# 15. İlkin iqtisadiyyat
+
+Aşağıdakı rəqəmlər yalnız ilkin test balansıdır.
+
+## Sifariş mükafatları
+
+| Sifariş | Əsas mükafat |
+|---|---:|
+| Telefon qutusu + streç | 100 coin |
+| Telefon qutusu + bubble wrap | 130 coin |
+| Parfüm + bubble wrap | 180 coin |
+| Hədiyyə qutusu + premium kağız | 220 coin |
+| Yemək qabı + folqa | 160 coin |
+| Yemək qabı + streç | 140 coin |
+
+Nəticə multiplikatoru:
+
+- Perfect: ×1.25
+- Good: ×1.00
+- Acceptable: ×0.70
+
+## Açılma qiymətləri
+
+| Element | İlkin qiymət |
+|---|---:|
+| Bubble wrap | 500 coin |
+| Parfüm sifarişi | 800 coin |
+| Premium kağız | 1,000 coin |
+| Hədiyyə qutusu | 1,300 coin |
+| Folqa | 1,500 coin |
+| Yemək qabı | 1,800 coin |
+| Workshop Level 2 | 1,500 coin |
+| Workshop Level 3 | 3,500 coin |
+| Workshop Level 4 | 7,000 coin |
+
+Bütün rəqəmlər data config daxilində saxlanılmalıdır.
+
+---
+
+# 16. Reputasiya sistemi
+
+Coin alışlar üçündür.
+
+Reputasiya xərclənmir və yeni sifariş kateqoriyalarını avtomatik açır.
+
+İlkin reputasiya hədləri:
+
+| Reputasiya | Açılan kontent |
+|---|---|
+| 0 | Telefon qutusu + streç film |
+| 50 | Bubble wrap |
+| 100 | Parfüm sifarişləri |
+| 250 | Premium kağız |
+| 300 | Hədiyyə qutusu |
+| 500 | Folqa |
+| 600 | Yemək qabı |
+| 1,000 | Daha yüksək keyfiyyətli müştərilər |
+
+Coin və reputasiya eyni işi görməməlidir.
+
+Reputasiya progression, coin isə seçim və upgrade üçündür.
+
+---
+
+# 17. Material ehtiyatı
+
+MVP-də material ehtiyatı əsas gameplay-i bloklamamalıdır.
+
+Qərar:
+
+- ehtiyat göstəricisi vizual progression sistemidir;
+- sifariş tamamlandıqca ehtiyat azalır;
+- ehtiyat aşağı olduqda jumbo bonus səhnəsi təklif edilir;
+- ehtiyat sıfır olsa belə oyunçu əsas sifarişləri davam etdirə bilər;
+- jumbo səhnəsi bonus və vizual mükafatdır, enerji sistemi deyil.
+
+Sonrakı versiyada ehtiyat iqtisadiyyata təsir edə bilər, amma ilk MVP-də gameplay məhdudiyyəti yaratmamalıdır.
+
+---
+
+# 18. Audio mənbəyi və fayl strukturu
+
+İlk mərhələdə professional ASMR audio hazır olmaya bilər.
+
+Development zamanı:
+
+- placeholder səslər istifadə edilə bilər;
+- açıq lisenziyalı səslər istifadə edilə bilər;
+- sadə procedural səslər yaradıla bilər;
+- bütün səslər registry vasitəsilə idarə edilməlidir.
+
+İlkin fayl adları:
+
+- `stretch_grab.wav`
+- `stretch_pull_loop.wav`
+- `stretch_optimal.wav`
+- `stretch_warning.wav`
+- `stretch_cut.wav`
+- `stretch_seal.wav`
+- `wrinkle_smooth.wav`
+- `air_bubble_release.wav`
+- `bubble_fold.wav`
+- `bubble_pop_01.wav`
+- `bubble_pop_02.wav`
+- `tape_pull.wav`
+- `tape_seal.wav`
+- `foil_pull.wav`
+- `foil_crinkle.wav`
+- `foil_smooth.wav`
+- `paper_fold.wav`
+- `label_peel.wav`
+- `label_apply.wav`
+- `seal_stamp.wav`
+- `order_complete.wav`
+- `perfect_result.wav`
+- `jumbo_machine_loop.wav`
+
+Audio sonradan dəyişdirilə bilməlidir.
+
+---
+
+# 19. Musiqi və ambient
+
+Gameplay zamanı musiqi dominant olmamalıdır.
+
+İstiqamət:
+
+- çox zəif ambient;
+- yumşaq lo-fi elementləri;
+- workshop fon səsləri;
+- material səslərini örtməyən mix;
+- musiqini tam söndürmək imkanı.
+
+Əsas diqqət material interaction səslərində qalmalıdır.
+
+Orders və Zen Mode üçün fərqli ambient səviyyələri istifadə edilə bilər.
+
+Zen Mode daha sakit və uzun ambient loop istifadə edə bilər.
+
+---
+
+# 20. Haptic qərarı
+
+MVP-də `expo-haptics` istifadə edilməlidir.
+
+Haptic çağırışları ayrıca service wrapper daxilində saxlanmalıdır ki, gameplay komponentləri birbaşa platforma API-si ilə bağlı olmasın.
+
+Mapping:
+
+- materialı tutmaq: Light;
+- optimal dartılma: Selection;
+- həddindən artıq dartılma: Warning;
+- kəsim: Medium;
+- bubble pop: Light;
+- film və lent sealing: Light;
+- möhür: Heavy;
+- qüsur düzəltmək: Selection;
+- Perfect: Success.
+
+Haptic dəstəklənməyən cihazlarda və web preview-də təhlükəsiz no-op fallback istifadə edilməlidir.
+
+---
+
+# 21. Vizual asset yanaşması
+
+MVP üçün 3D model tələb edilmir.
+
+Məhsullar React Native Skia və SVG ilə yaradılmalıdır:
+
+## Telefon qutusu
+
+- rounded rectangle;
+- ön səth;
+- üst və yan səth;
+- kölgə;
+- label.
+
+## Parfüm
+
+- şüşə silueti;
+- gradient;
+- qapaq;
+- parıltı;
+- kölgə.
+
+## Yemək qabı
+
+- tray forması;
+- çərçivə;
+- üst səth;
+- kənar zonaları.
+
+## Hədiyyə qutusu
+
+- qutu;
+- qapaq;
+- perspektiv yan hissələr;
+- lent;
+- möhür.
+
+Final vizuallar üçün sonradan dizayner asset-ləri əlavə edilə bilər, amma gameplay development buna görə dayanmalı deyil.
+
+---
+
+# 22. Reference materiallar
+
+Claude development zamanı aşağıdakı real proseslər üçün video reference-lərdən istifadə edə bilər:
+
+- streç filmin dartılması;
+- qutunun streçlə sarınması;
+- bubble wrap qatlanması;
+- lentin çəkilməsi;
+- folqanın qab üzərində sıxılması;
+- hədiyyə kağızının künclərinin qatlanması;
+- etiketin soyulması və yapışdırılması;
+- shrink film effekti;
+- jumbo rulonun kiçik rulonlara kəsilməsi.
+
+Reference-lər gameplay mexanikasını anlamaq üçündür. Onların görünüşünü və ya müəllif hüququ ilə qorunan asset-lərini birbaşa kopyalamaq olmaz.
+
+Reference olmadıqda development dayandırılmamalıdır.
+
+---
+
+# 23. Hədəf cihazlar və performans
+
+İlkin hədəf:
+
+- Android 10 və yuxarı;
+- iOS 15 və yuxarı;
+- portrait telefon gameplay;
+- planşetdə işləməlidir, amma xüsusi tablet UI tələb olunmur;
+- uyğun cihazlarda 60 FPS;
+- zəif cihazlarda stabil 30 FPS fallback.
+
+Əsas performans qaydaları:
+
+- gesture zamanı React state hər frame yenilənməməlidir;
+- Reanimated shared values istifadə edilməlidir;
+- lazımsız re-render-lər olmamalıdır;
+- Skia layer sayı nəzarətdə saxlanmalıdır;
+- çox ağır blur və shader effektləri istifadə edilməməlidir;
+- audio əvvəlcədən preload edilməlidir.
+
+---
+
+# 24. Sessiya quruluşu
+
+Bir sifariş:
+
+- təxminən 30–60 saniyə.
+
+Qısa sessiya:
+
+- 1–3 sifariş;
+- 2–5 dəqiqə.
+
+Orta sessiya:
+
+- bir neçə sifariş;
+- unlock və workshop baxışı;
+- 5–10 dəqiqə.
+
+Oyunçu istənilən sifarişdən sonra rahat şəkildə çıxa bilməlidir.
+
+Progress sifariş tamamlandıqdan dərhal sonra save edilməlidir.
+
+---
+
+# 25. Tutorial və onboarding
+
+İlk onboarding yalnız telefon qutusu + streç film recipe-si ilə olmalıdır.
+
+Tutorial addımları:
+
+1. Filmə toxun.
+2. Filmi sağa çək.
+3. Optimal tension-a çat.
+4. İlk tərəfi sarı.
+5. Məhsulun avtomatik dönməsini izlə.
+6. İkinci tərəfi sarı.
+7. Kəsim xəttində swipe et.
+8. Film ucunu yapışdır.
+9. Qırışı hamarla.
+10. Nəticəni gör.
+
+Qaydalar:
+
+- bir anda yalnız bir tapşırıq;
+- uzun mətn yoxdur;
+- aktiv zona yumşaq vurğulanır;
+- səhv hərəkət oyunu bloklamır;
+- tutorial skip edilə bilər;
+- tutorial status save edilir;
+- Settings-dən yenidən başladıla bilər.
+
+---
+
+# 26. Zen Mode qərarları
+
+Zen Mode-da:
+
+- vaxt limiti yoxdur;
+- coin verilmir;
+- reputasiya dəyişmir;
+- qüsurlar söndürülə bilər;
+- oyunçu açılmış məhsul və materialları özü seçir;
+- ambient və audio səviyyəsini seçə bilər;
+- nəticə sadəcə vizual göstərilir;
+- gameplay limitsiz təkrar edilə bilər.
+
+Zen Mode əsas progression-u əvəz etmir.
+
+Bu rejim rahatlıq və ASMR üçün nəzərdə tutulur.
+
+---
+
+# 27. Accessibility və istifadə rahatlığı
+
+MVP-də bunlar nəzərə alınmalıdır:
+
+- Sound on/off;
+- Music on/off;
+- Haptic on/off;
+- Reduce Motion seçimi üçün hazır struktur;
+- yüksək kontrast tələb edən əsas göstəricilərin yalnız rənglə verilməməsi;
+- tension vəziyyətinin rənglə yanaşı forma və animasiya ilə göstərilməsi;
+- böyük touch zonaları;
+- Safe Area;
+- bir əllə istifadə.
+
+Sol və sağ əl üçün ayrıca rejim ilk MVP-də məcburi deyil.
+
+---
+
+# 28. MVP-dən sonraya saxlanılan qərarlar
+
+Aşağıdakılar ilk MVP-də qurulmamalıdır:
+
+- monetizasiya;
+- məcburi reklam;
+- in-app purchase;
+- login;
+- cloud save;
+- multiplayer;
+- leaderboard;
+- daily challenge;
+- sosial paylaşım;
+- tam factory management;
+- real istehsal hesablamaları;
+- mürəkkəb jumbo en optimizasiyası;
+- tam real cloth physics;
+- geniş məhsul kataloqu.
+
+Bu funksiyalar yalnız əsas gameplay-in həzzverici olduğu sübut edildikdən sonra müzakirə olunmalıdır.
+
+---
+
+# 29. Gameplay üçün əsas qəbul meyarları
+
+Gameplay yalnız aşağıdakı hisslər yaranarsa uğurlu sayılır:
+
+- toxunuşdan sonra dərhal vizual cavab var;
+- material hərəkəti axıcıdır;
+- film və digər materiallar bir-birindən fərqli hiss edilir;
+- audio və haptic gesture ilə sinxrondur;
+- qüsuru düzəltmək əsəbiləşdirmir;
+- nəticə ekranı əməyin qarşılığını göstərir;
+- oyunçu növbəti materialı sınamaq istəyir;
+- bir sifariş çox uzun və yorucu deyil;
+- oyunçu heç bir texniki izah olmadan tutorial ilə gameplay-i anlayır.
+
+Əsas məqsəd:
+
+> Texniki realizm deyil, toxunula bilən və vizual olaraq qənaətbəxş qablaşdırma illüziyası yaratmaqdır.

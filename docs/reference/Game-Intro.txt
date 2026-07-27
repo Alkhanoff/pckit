@@ -1,0 +1,644 @@
+# PACK & RELAX
+## Game Concept and Product Introduction
+
+# 1. Oyunun müvəqqəti adı
+
+**Pack & Relax**
+
+Bu ad müvəqqətidir və development zamanı dəyişdirilə bilər.
+
+---
+
+# 2. Oyunun əsas ideyası
+
+**Pack & Relax** müxtəlif məhsulların toxunma əsaslı, vizual olaraq zövqverici və rahatlaşdırıcı şəkildə qablaşdırıldığı mobil oyundur.
+
+Oyunçu materialı birbaşa barmağı ilə idarə edir:
+
+- filmi tutur və dartır;
+- məhsulun ətrafına dolayır;
+- kağızı qatlayır;
+- folqanı sıxıb hamarlayır;
+- bubble wrap-ı bağlayır;
+- lenti çəkir;
+- materialı kəsir;
+- etiketi və möhürü yerləşdirir;
+- yaranan qüsurları düzəldir.
+
+Oyunun əsas məqsədi sürət və stress yaratmaq deyil. Oyunçu hər sifarişdən sonra məhsulun əvvəlkindən daha səliqəli, qorunan və estetik göründüyünü hiss etməlidir.
+
+Oyunun əsas vədi:
+
+> Məhsula toxun, materialı hiss et, onu qüsursuz qablaşdır və nəticədən zövq al.
+
+---
+
+# 3. Oyunun əsas sütunları
+
+Oyun üç əsas təcrübə üzərində qurulur:
+
+## 3.1. Satisfying qablaşdırma
+
+Əsas gameplay məhsulun əl ilə qablaşdırılmasıdır. Hər material fərqli gesture, vizual reaksiya, səs və haptic feedback verməlidir.
+
+## 3.2. ASMR və rahatlıq
+
+Material səsləri, yumşaq animasiyalar, yaxın plan görüntülər və toxunuşa uyğun haptic feedback oyunçunu rahat axın vəziyyətinə salmalıdır.
+
+## 3.3. Yüngül inkişaf sistemi
+
+Oyunçu sifarişləri tamamladıqca yeni məhsullar, materiallar, emalatxana görünüşləri və qablaşdırma alətləri açır.
+
+Workshop, jumbo rulon və iqtisadiyyat əsas gameplay-i əvəz etmir. Bunlar uzunmüddətli motivasiya və vizual inkişaf qatıdır.
+
+---
+
+# 4. Vizual istiqamət
+
+Oyun yüksək keyfiyyətli **2.5D satisfying mobile game** kimi görünməlidir.
+
+Vizual stil:
+
+- minimal və premium;
+- təmiz, yumşaq rənglər;
+- həcm hissi verən perspektiv;
+- yumşaq kölgələr;
+- materiallarda parıltı və şəffaflıq;
+- məhsulu ön plana çıxaran sadə fon;
+- sakit və diqqəti yayındırmayan UI.
+
+Gameplay masası təxminən 35–45 dərəcə yuxarıdan göstərilməlidir.
+
+Kəsmə, yapışdırma, möhür vurma və qüsur düzəltmə zamanı kamera avtomatik yaxınlaşa bilər. Oyunçu kameranı sərbəst idarə etməməlidir.
+
+Oyun tam 3D fizika simulyatoru kimi deyil, toxunuşa dərhal reaksiya verən vizual illüziya kimi hazırlanmalıdır.
+
+---
+
+# 5. Əsas oyun dövrəsi
+
+Bir sifariş aşağıdakı ardıcıllıqla işləyir:
+
+1. Müştərinin sifarişi göstərilir.
+2. Məhsul qablaşdırma masasına gəlir.
+3. Oyunçu açılmış materiallar arasından seçim edir.
+4. Məhsul və material gameplay sahəsində hazırlanır.
+5. Oyunçu toxunma hərəkətləri ilə məhsulu qablaşdırır.
+6. Məhsul yoxlanılır və yaranan qüsurlar göstərilir.
+7. Oyunçu qüsurları düzəldir.
+8. Hazır məhsul qiymətləndirilir.
+9. Oyunçu coin və reputasiya qazanır.
+10. Növbəti sifarişə keçir və ya workshop-a qayıdır.
+
+Bir sifarişin orta müddəti təxminən **30–60 saniyə** olmalıdır.
+
+Əsas Orders rejimində məcburi vaxt limiti olmamalıdır.
+
+---
+
+# 6. İlk vertical slice və tam MVP fərqi
+
+## 6.1. İlk vertical slice
+
+Development əvvəlcə yalnız aşağıdakı tam işlək axınla başlamalıdır:
+
+- telefon qutusu;
+- streç film;
+- materialı tutmaq;
+- filmi dartmaq;
+- məhsulu sarımaq;
+- məhsulun avtomatik dönməsi;
+- filmi kəsmək;
+- film ucunu yapışdırmaq;
+- qırışı düzəltmək;
+- nəticəni hesablamaq;
+- coin qazanmaq;
+- lokal save;
+- qısa tutorial;
+- növbəti sifarişə keçmək.
+
+Bu hissə oyunun əsas hissini yoxlamaq üçündür.
+
+## 6.2. Tam MVP
+
+İlk vertical slice stabil olduqdan sonra tam MVP aşağıdakı məhsul və materiallarla tamamlanmalıdır.
+
+### Məhsullar
+
+1. Düzbucaqlı telefon qutusu
+2. Şüşə parfüm qabı
+3. Meyvə və ya yemək qabı
+4. Kiçik hədiyyə qutusu
+
+### Materiallar
+
+1. Streç film
+2. Bubble wrap
+3. Alüminium folqa
+4. Premium hədiyyə kağızı
+
+Hər məhsulun forması və hər materialın interaction-u fərqli hiss edilməlidir.
+
+---
+
+# 7. Material gameplay-ləri
+
+## 7.1. Streç film
+
+Oyunçu:
+
+1. Filmin ucuna toxunur.
+2. Barmağını sürüşdürərək filmi rulondan açır.
+3. Filmi uyğun gərginlikdə dartır.
+4. Məhsulun ətrafına dolayır.
+5. Lazım olan örtülmə əldə edildikdə filmi kəsir.
+6. Film ucunu məhsula yapışdırır.
+7. Qırış və hava qabarcıqlarını düzəldir.
+
+Dartılma üç vəziyyətdə hiss edilməlidir:
+
+### Loose
+
+- film boş və qırışmış görünür;
+- material istifadəsi artır;
+- səliqə balı azalır.
+
+### Optimal
+
+- film hamar və düzgün dartılmış görünür;
+- ən yaxşı nəticəni verir;
+- yumşaq haptic feedback yaranır.
+
+### Overstretched
+
+- film həddindən artıq dartılmış görünür;
+- yumşaq qırmızı xəbərdarlıq göstərilir;
+- warning haptic verilir;
+- ilk MVP-də film dərhal cırılmır.
+
+## 7.2. Bubble wrap
+
+Oyunçu:
+
+1. Materialı masaya sərir.
+2. Məhsulu onun ortasına yerləşdirir.
+3. Sol və sağ tərəfləri qatlayır.
+4. Üst və alt hissələri bağlayır.
+5. Lenti çəkib yapışdırır.
+6. Sonda istəyə görə 2–3 qabarcıq partladır.
+
+Bubble wrap streç filmdən daha yumşaq və qatlanan material kimi hiss edilməlidir.
+
+## 7.3. Alüminium folqa
+
+Oyunçu:
+
+1. Folqanı rulondan açır.
+2. Məhsulun üzərinə çəkir.
+3. Kənarları məhsulun formasına uyğun sıxır.
+4. Qırışları barmaqla hamarlayır.
+5. Artıq hissəni kəsir.
+
+Folqa dartılan material kimi deyil, əzilən və məhsulun formasını alan material kimi davranmalıdır.
+
+## 7.4. Premium hədiyyə kağızı
+
+Oyunçu:
+
+1. Kağızı qutunun altına yerləşdirir.
+2. Uzun tərəfləri qatlayır.
+3. Küncləri içəri bağlayır.
+4. Kağızı lent və ya yapışdırıcı ilə sabitləyir.
+5. Dekorativ lent əlavə edir.
+6. Möhürü düzgün yerə yerləşdirir.
+
+Bu gameplay-də simmetriya, künclərin təmizliyi və təqdimat daha vacibdir.
+
+---
+
+# 8. İdarəetmə prinsipləri
+
+Oyun bir barmaqla idarə edilə bilməlidir.
+
+Əsas gesture-lər:
+
+- **Tap:** seçmək və təsdiqləmək
+- **Drag:** materialı çəkmək, dartmaq və yerləşdirmək
+- **Swipe:** kəsmək, qatlamaq və hamarlamaq
+- **Hold:** təzyiq və ya gərginlik tətbiq etmək
+- **Release:** materialı buraxmaq və əməliyyatı tamamlamaq
+
+Ekranda çox düymə göstərilməməlidir.
+
+Oyunçu əksər əməliyyatları UI düymələri ilə yox, birbaşa məhsul və material üzərində etməlidir.
+
+Hər gesture dərhal vizual, səsli və mümkün olduqda haptic cavab verməlidir.
+
+---
+
+# 9. Məhsul və material uyğunluğu
+
+İlkin uyğunluq sistemi:
+
+| Məhsul | İdeal material | Alternativ material |
+|---|---|---|
+| Telefon qutusu | Bubble wrap | Streç film |
+| Parfüm | Bubble wrap | Premium kağız |
+| Yemək qabı | Streç film və ya folqa | — |
+| Hədiyyə qutusu | Premium kağız | Streç film |
+
+Telefon qutusu + streç film kombinasiyası tutorial və ilk vertical slice üçün istifadə edilən sadə başlanğıc sifarişidir.
+
+Yanlış və ya ideal olmayan material seçildikdə oyun dayandırılmamalıdır.
+
+Bunun əvəzinə:
+
+- Protection balı azala bilər;
+- Presentation balı azala bilər;
+- material istifadəsi daha səmərəsiz hesab edilə bilər.
+
+Oyunçu seçimlərinin nəticəsini görməli, amma səhvə görə sifarişi tam itirməməlidir.
+
+---
+
+# 10. Qüsur və düzəltmə mexanikaları
+
+Qüsurlar mümkün qədər oyunçunun hərəkətlərindən yaranmalıdır.
+
+MVP qüsurları:
+
+- qırışmış material;
+- hava qabarcığı;
+- açıq qalan künc;
+- boş film və ya lent ucu;
+- artıq material;
+- əyri etiket;
+- əyri möhür.
+
+Nümunələr:
+
+- filmi zəif dartmaq → qırış;
+- materialı qeyri-bərabər çəkmək → açıq künc;
+- həddindən artıq material istifadə etmək → artıq qat;
+- yanlış sealing → boş material ucu;
+- qeyri-bərabər hamarlamaq → hava qabarcığı;
+- qeyri-simmetrik yerləşdirmək → əyri etiket və ya möhür.
+
+Düzəltmə hərəkətləri:
+
+- qırış üzərində swipe;
+- hava qabarcığını kənara drag;
+- açıq küncə material çəkmək;
+- boş ucu yenidən sıxmaq;
+- artıq materialı kəsmək;
+- etiketi və ya möhürü yenidən yerləşdirmək.
+
+Qüsurlar cəza deyil, əlavə satisfying mini-game kimi hiss edilməlidir.
+
+---
+
+# 11. ASMR, audio və haptic hiss
+
+Oyunun ən vacib hissələrindən biri səs və toxunma reaksiyasıdır.
+
+Əsas səslər:
+
+- streç filmin açılması;
+- filmin dartılması;
+- film qatlarının toxunması;
+- qayçı və ya bıçaqla kəsim;
+- folqanın xışıltısı;
+- bubble wrap partlaması;
+- lentin açılması;
+- lentin yapışması;
+- etiketin soyulması və yapışması;
+- kağızın qatlanması;
+- möhür vurulması;
+- qutunun bağlanması;
+- jumbo maşını;
+- sifarişin tamamlanması.
+
+Haptic nümunələri:
+
+- materialı tutmaq → Light
+- optimal dartılma → Selection
+- həddindən artıq dartılma → Warning
+- kəsim → Medium
+- bubble pop → Light
+- möhür → Heavy
+- qüsurun düzəldilməsi → Selection
+- Perfect nəticə → Success
+
+Professional audio asset-lər hazır olmadıqda placeholder səslər istifadə edilə bilər. Lakin oyun səssiz qalmamalıdır və səslər sonradan asan dəyişdirilə bilməlidir.
+
+---
+
+# 12. Qiymətləndirmə sistemi
+
+Hər məhsul üç əsas meyara görə qiymətləndirilir:
+
+## 12.1. Səliqə
+
+- qırış sayı;
+- hava qabarcıqları;
+- boş material ucu;
+- əyri lent, etiket və möhür;
+- düzəldilməmiş qüsurlar;
+- ümumi vizual təmizlik.
+
+## 12.2. Qoruma
+
+- məhsulun örtülmə faizi;
+- açıq qalan hissələr;
+- materialın məhsula uyğunluğu;
+- həssas zonaların qorunması;
+- bağlanma keyfiyyəti.
+
+## 12.3. Material istifadəsi
+
+- istifadə olunan material miqdarı;
+- artıq qatlar;
+- artıq kəsilmiş hissə;
+- optimal dartılma faizi;
+- yaranan tullantı.
+
+Nəticələr:
+
+- **Perfect**
+- **Good**
+- **Acceptable**
+
+İlkin balans:
+
+- Perfect: 90–100 və ciddi açıq qüsur yoxdur
+- Good: 70–89
+- Acceptable: 0–69
+
+Bu limitlər sonradan balans testlərinə əsasən dəyişdirilə bilər.
+
+Result Screen qısa şəkildə bunları göstərməlidir:
+
+- Səliqə;
+- Qoruma;
+- Material istifadəsi;
+- Ümumi nəticə;
+- Qazanılan coin;
+- Qazanılan reputasiya;
+- Düzəldilən qüsurlar;
+- Next Order düyməsi.
+
+---
+
+# 13. İqtisadiyyat və progression
+
+Oyunda bir əsas xərclənən valyuta olsun:
+
+**Coin**
+
+Coin ilə açıla bilənlər:
+
+- yeni materiallar;
+- yeni məhsullar;
+- yeni qablaşdırma alətləri;
+- rəng və dizayn variantları;
+- workshop səviyyələri;
+- vizual dekorasiyalar.
+
+İlk MVP-də əlavə valyutalar olmasın:
+
+- diamond;
+- energy;
+- ticket;
+- token;
+- premium currency.
+
+## Reputasiya
+
+Reputasiya xərclənməyən progression göstəricisidir.
+
+Reputasiya artdıqca:
+
+- yeni sifarişlər;
+- yeni məhsul kateqoriyaları;
+- premium müştərilər;
+- workshop mərhələləri
+
+açılır.
+
+Coin, reputasiya, açılmış məhsullar, açılmış materiallar, workshop səviyyəsi, tutorial statusu və audio/haptic seçimləri lokal olaraq saxlanmalıdır.
+
+---
+
+# 14. Workshop və yüngül tycoon sistemi
+
+Əsas menyuda oyunçunun kiçik qablaşdırma emalatxanası görünməlidir.
+
+Workshop inkişaf etdikcə:
+
+- masa yaxşılaşır;
+- əlavə material rəfi görünür;
+- konveyer açılır;
+- arxa planda qablaşdırma maşını görünür;
+- hazır məhsul qutuları yığılır;
+- işıqlandırma yaxşılaşır;
+- ümumi iş sahəsi böyüyür.
+
+Workshop əsasən vizual mükafat olmalıdır.
+
+İlk MVP-də bunlar olmamalıdır:
+
+- zavod daxilində sərbəst gəzmək;
+- maşın yerləşdirmək;
+- işçi idarə etmək;
+- detallı mühasibatlıq;
+- real logistika;
+- maşınların təsadüfi xarab olması.
+
+---
+
+# 15. Jumbo rulon bonus səhnəsi
+
+Jumbo rulon əsas gameplay deyil.
+
+Hər bir neçə sifarişdən sonra material ehtiyatının azaldığı göstərilə bilər.
+
+Material ehtiyatları:
+
+- streç film;
+- bubble wrap;
+- folqa;
+- premium kağız.
+
+Bonus səhnə:
+
+1. Jumbo rulon gətirilir.
+2. Maşına yerləşdirilir.
+3. Sadə kəsim xətti görünür.
+4. Maşın işə düşür.
+5. Böyük rulon kiçik rulonlara bölünür.
+6. Hazır rulonlar rəfə yerləşdirilir.
+
+Səhnə təxminən 10–15 saniyə davam etməlidir.
+
+İlk MVP-də bunlar olmamalıdır:
+
+- real en optimizasiyası;
+- mürəkkəb maya hesablaması;
+- detallı istehsal planlaması;
+- real logistika sistemi.
+
+Material ehtiyatı oyunu bloklayan enerji sisteminə çevrilməməlidir.
+
+---
+
+# 16. Oyun rejimləri
+
+## 16.1. Orders
+
+- sifarişlər təqdim edilir;
+- material seçilir;
+- məhsul qablaşdırılır;
+- nəticə hesablanır;
+- coin və reputasiya qazanılır;
+- yeni kontent açılır.
+
+## 16.2. Zen Mode
+
+- vaxt məhdudiyyəti yoxdur;
+- coin verilmir;
+- reputasiya dəyişmir;
+- səhv cəzası yoxdur;
+- oyunçu açılmış məhsul və materialı özü seçir;
+- qüsurlar aktiv və ya deaktiv edilə bilər;
+- məqsəd yalnız ASMR və vizual rahatlıqdır.
+
+---
+
+# 17. UI ekranları
+
+MVP-də aşağıdakı ekranlar olmalıdır:
+
+1. Main Menu
+2. Workshop
+3. Order Selection
+4. Material Selection
+5. Packaging Gameplay
+6. Result Screen
+7. Upgrade Screen
+8. Zen Mode Selection
+9. Settings
+
+UI prinsipləri:
+
+- az mətn;
+- böyük touch sahələri;
+- çox ikon olmaması;
+- premium və rahat görünüş;
+- bir əllə istifadə;
+- yumşaq keçid animasiyaları;
+- hər ekranda aydın növbəti addım;
+- notch və Dynamic Island üçün təhlükəsiz yerləşim.
+
+Settings:
+
+- Music on/off
+- Sound on/off
+- Haptic on/off
+- Tutorial restart
+- gələcək localization üçün dil strukturu
+
+---
+
+# 18. İlk tutorial
+
+Tutorial yalnız telefon qutusu və streç film ilə başlasın.
+
+Addımlar:
+
+1. Filmə toxun.
+2. Filmi sağa çək.
+3. Optimal dartılmaya çat.
+4. Filmi məhsulun ətrafına dolandır.
+5. Məhsulun avtomatik dönməsini izlə.
+6. Kəsim xəttində swipe et.
+7. Film ucunu yapışdır.
+8. Qırışı hamarla.
+9. Hazır nəticəni gör.
+
+Tutorial:
+
+- qısa olmalıdır;
+- uzun mətn göstərməməlidir;
+- bir anda yalnız bir tapşırıq göstərməlidir;
+- lazım olan obyekt yumşaq vurğulanmalıdır;
+- skip edilə bilməlidir;
+- yalnız ilk oyunda avtomatik açılmalıdır;
+- Settings-dən yenidən başladılmalıdır.
+
+---
+
+# 19. Oyunçuya verilməli hiss
+
+Hər sifarişdən sonra oyunçu bunları hiss etməlidir:
+
+- məhsul əvvəlkindən daha təmiz və səliqəli görünür;
+- material fiziki və toxunula bilən hiss yaradır;
+- səs və haptic hərəkətə uyğun gəlir;
+- qüsurları düzəltmək həzz verir;
+- nəticə vizual olaraq qənaətbəxşdir;
+- yeni material və məhsulu sınamaq istəyir;
+- workshop-un böyüməsi real inkişaf hissi verir.
+
+---
+
+# 20. MVP-də olmamalı funksiyalar
+
+İlk versiyada bunları əlavə etmə:
+
+- məcburi vaxt limiti;
+- enerji sistemi;
+- məcburi reklam;
+- çoxlu valyuta;
+- multiplayer;
+- login;
+- online server;
+- leaderboard;
+- açıq dünya;
+- mürəkkəb işçi idarəetməsi;
+- real logistika;
+- detallı mühasibatlıq;
+- maşınların təsadüfi xarab olması;
+- bir səhvə görə sifarişin tam itirilməsi;
+- bütün məhsullar üçün eyni qablaşdırma interaction-u;
+- əsas gameplay-i bloklayan material ehtiyatı;
+- ağır real-time cloth və fizika simulyasiyası.
+
+---
+
+# 21. Kontentin genişləndirilmə ardıcıllığı
+
+İlk vertical slice tamamlandıqdan sonra kontent bu ardıcıllıqla əlavə edilməlidir:
+
+1. Bubble wrap
+2. Parfüm qabı
+3. Premium hədiyyə kağızı
+4. Hədiyyə qutusu
+5. Alüminium folqa
+6. Yemək qabı
+7. Zen Mode
+8. Workshop vizual inkişafı
+9. Jumbo rulon bonus səhnəsi
+10. UI və ASMR polish
+
+---
+
+# 22. Əsas product prinsipləri
+
+- Əvvəlcə tam işləyən sadə gameplay, sonra qrafik polish.
+- İlk vertical slice tamamlanmadan yeni material əlavə etmə.
+- Qablaşdırma interaction-u oyunun əsas hissəsi olaraq qalmalıdır.
+- Workshop və jumbo sistemi əsas gameplay-i kölgədə qoymamalıdır.
+- Vaxt və sərt cəza yerinə dəqiqlik və vizual təmizlik əsas olsun.
+- Qüsurlar oyunçunu əsəbiləşdirməsin, əlavə satisfying hərəkət yaratsın.
+- Yeni məhsul və materiallar bir-birindən fərqli hiss edilməlidir.
+- Əsas prioritet toxunma, vizual reaksiya, ASMR səsi və rahatlıqdır.

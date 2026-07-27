@@ -1,0 +1,1766 @@
+# PACK & RELAX
+
+## Product and Technical Development Specification
+
+# 1. Claude üçün əsas rol
+
+Sən senior mobil oyun dizayneri, React Native developer, gameplay engineer və UI/UX mütəxəssisi kimi işləyəcəksən.
+
+Mənim üçün iOS və Android platformalarında işləyən, rahatlaşdırıcı, vizual olaraq zövq verən və toxunma əsaslı mobil qablaşdırma oyunu hazırla.
+
+Layihənin müvəqqəti adı:
+
+**Pack & Relax**
+
+İstifadəçi Unity, Android Studio, Xcode və ya başqa development aləti işlətməyəcək.
+
+Layihəni mümkün qədər tam şəkildə özün, Claude Code daxilində:
+
+* yarat;
+* konfiqurasiya et;
+* kodlaşdır;
+* test et;
+* error-ları düzəlt;
+* web preview hazırla;
+* Git repository yarat;
+* build konfiqurasiyasını hazırla;
+* Android və iOS cloud build yarat.
+
+Sadəcə kod və təlimat təqdim etmə. Faylları və konfiqurasiyaları birbaşa layihəyə tətbiq et.
+
+İstifadəçidən kod yazmağı, fayl yaratmağı, dependency quraşdırmağı və ya development aləti işlətməyi istəmə.
+
+İstifadəçidən yalnız aşağıdakı qaçılmaz hallarda müdaxilə istə:
+
+* Expo, GitHub, Apple və Google hesablarına giriş;
+* iki mərhələli təsdiq;
+* Apple Developer və Google Play Developer hesablarının yaradılması;
+* ödəniş və hüquqi müqavilələrin qəbul edilməsi;
+* API key və credential daxil edilməsi;
+* hazır build-in telefonda vizual və toxunma testi.
+
+---
+
+# 2. Oyunun əsas konsepsiyası
+
+Oyunçu müxtəlif məhsulları uyğun materiallarla əl ilə qablaşdırır.
+
+Əsas gameplay bunlardan ibarətdir:
+
+* qablaşdırma materialını seçmək;
+* materialı tutmaq;
+* dartmaq;
+* məhsulun ətrafına dolamaq;
+* qatlamaq;
+* kəsmək;
+* yapışdırmaq;
+* qırış və hava qabarcıqlarını düzəltmək;
+* hazır nəticəni izləmək.
+
+Oyun sürətli və stresli olmamalıdır.
+
+Əsas məqsəd oyunçuya aşağıdakı hissləri verməkdir:
+
+* ASMR rahatlığı;
+* toxunma hissi;
+* vizual təmizlik;
+* mərhələli yaxşılaşma;
+* “mükəmməl iş tamamladım” hissi;
+* növbəti materialı sınamaq istəyi.
+
+Oyunda əsas diqqət məhsul qablaşdırılmasına verilməlidir.
+
+Jumbo rulon, workshop və biznes idarəetməsi oyunun əsas gameplay-i deyil. Bunlar yalnız inkişaf, iqtisadiyyat və vizual mükafat qatıdır.
+
+---
+
+# 3. Oyunun vizual forması
+
+Oyun tam 3D engine ilə hazırlanmayacaq.
+
+Oyun yüksək keyfiyyətli, həcm hissi verən **2.5D satisfying mobile game** kimi hazırlanmalıdır.
+
+Məhsullar və materiallar aşağıdakılar vasitəsilə həcmli görünməlidir:
+
+* perspektiv;
+* yumşaq kölgələr;
+* gradientlər;
+* işıq əksləri;
+* şəffaflıq;
+* layer-lər;
+* maskalar;
+* deformasiya animasiyaları;
+* parıltı;
+* procedural qırışlar;
+* touch hərəkətinə uyğun vizual reaksiya.
+
+Oyun ucuz və statik 2D mobil tətbiq kimi görünməməlidir.
+
+Texniki realizmdən daha vacib olan bunlardır:
+
+* dərhal vizual cavab;
+* axıcı animasiya;
+* materialın hiss olunması;
+* məhsulun həcmli görünməsi;
+* səs, animasiya və haptic sinxronluğu.
+
+## Vizual stil
+
+* minimal;
+* premium;
+* yumşaq low-poly təsiri;
+* təmiz və rahat rənglər;
+* həddindən artıq parlaq olmayan UI;
+* məhsulu ön plana çıxaran sadə fon;
+* yaxın planda detallı material effektləri.
+
+## Kamera
+
+Gameplay sahəsi təxminən 35–45 dərəcə yuxarıdan görünməlidir.
+
+Əsas kamera sabit olmalıdır.
+
+Kəsmə, yapışdırma, möhür və qüsur düzəltmə zamanı avtomatik yaxınlaşma animasiyaları istifadə edilə bilər.
+
+Oyunçu kameranı sərbəst fırlatmamalıdır.
+
+---
+
+# 4. Məcburi texnologiya seçimi
+
+Unity, Unreal Engine və Godot istifadə etmə.
+
+Layihəni aşağıdakı texnologiyalarla hazırla:
+
+* Expo, implementation zamanı mövcud olan latest stable SDK;
+* React Native;
+* TypeScript;
+* Expo Router;
+* React Native Skia;
+* React Native Gesture Handler;
+* React Native Reanimated;
+* Expo Audio;
+* Expo Haptics;
+* Expo SQLite;
+* Zustand;
+* Jest;
+* React Native Testing Library;
+* ESLint;
+* Prettier;
+* EAS Build;
+* EAS Submit;
+* EAS Update;
+* Git;
+* GitHub;
+* GitHub Actions.
+
+Bütün Expo paketlərini mövcud Expo SDK ilə uyğun versiyada:
+
+`npx expo install`
+
+vasitəsilə quraşdır.
+
+Deprecated, eksperimental və uyğunluğu təsdiqlənməmiş paketlərdən istifadə etmə.
+
+## İlk MVP-də istifadə edilməməli texnologiyalar
+
+* Unity;
+* Unreal Engine;
+* Godot;
+* WebView;
+* HTML Canvas;
+* Three.js;
+* React Three Fiber;
+* ağır real-time physics;
+* real-time cloth simulation;
+* ağır 3D modellər;
+* kompleks skeletal animation;
+* Android və iOS üçün ayrı gameplay layihələri;
+* native platform koduna birbaşa bağlı gameplay;
+* backend;
+* multiplayer;
+* cloud database.
+
+---
+
+# 5. Hədəf platformalar
+
+Oyun eyni kod bazasından hazırlanmalıdır:
+
+* Android;
+* iOS.
+
+Tövsiyə edilən ilkin dəstək:
+
+* Android 10 və yuxarı;
+* iOS 15 və yuxarı;
+* portrait orientation;
+* telefonlar əsas hədəfdir;
+* planşetlərdə UI pozulmamalıdır, amma xüsusi tablet dizaynı tələb olunmur.
+
+Performans hədəfi:
+
+* uyğun cihazlarda 60 FPS;
+* daha zəif cihazlarda stabil 30 FPS fallback;
+* gesture reaksiyasında hiss edilən gecikmə olmamalıdır.
+
+Android və iOS üçün ayrıca gameplay kodu yazma.
+
+Platformaya aid fərqləri service və adapter qatında idarə et.
+
+---
+
+# 6. Əsas oyun dövrəsi
+
+Bir sifarişin gameplay dövrəsi belə olmalıdır:
+
+1. Müştəri sifarişi göstərilir.
+2. Məhsul qablaşdırma masasına gəlir.
+3. Oyunçu qablaşdırma materialını seçir.
+4. Məhsul və material gameplay səhnəsində göstərilir.
+5. Oyunçu materialı toxunma hərəkətləri ilə idarə edir.
+6. Məhsul qablaşdırılır.
+7. Qüsurlar aşkar edilir.
+8. Oyunçu qüsurları düzəldir.
+9. Məhsul üç meyar üzrə qiymətləndirilir.
+10. Oyunçu coin və reputasiya qazanır.
+11. Növbəti sifarişə keçir.
+
+Bir məhsulun qablaşdırılması təxminən 30–60 saniyə çəkməlidir.
+
+Əsas Orders rejimində məcburi vaxt limiti olmamalıdır.
+
+---
+
+# 7. Oyun rejimləri
+
+## 7.1 Orders
+
+* Müştəri sifarişləri təqdim edilir.
+* Oyunçu məhsul və material seçir.
+* Qablaşdırma tamamlanır.
+* Səliqə, qoruma və material istifadəsi hesablanır.
+* Coin və reputasiya qazanılır.
+* Yeni məhsullar, materiallar və workshop səviyyələri açılır.
+
+## 7.2 Zen Mode
+
+* Vaxt məhdudiyyəti yoxdur.
+* Coin verilmir.
+* Reputasiya dəyişmir.
+* Səhv cəzası yoxdur.
+* Oyunçu istədiyi açılmış məhsulu seçir.
+* Oyunçu istədiyi açılmış materialı seçir.
+* Qüsurlar aktiv və ya deaktiv edilə bilər.
+* Gameplay məhdudiyyətsiz təkrar edilə bilər.
+* Əsas məqsəd ASMR və vizual rahatlıqdır.
+
+---
+
+# 8. MVP məhsulları
+
+İlk versiyada yalnız bu məhsullar olsun:
+
+1. Düzbucaqlı telefon qutusu
+2. Şüşə parfüm qabı
+3. Meyvə və ya yemək qabı
+4. Kiçik hədiyyə qutusu
+
+Hər məhsulun forması və qablaşdırılma prosesi fərqli hiss edilməlidir.
+
+## Telefon qutusu
+
+Skia ilə aşağıdakı layer-lərdən yaradılmalıdır:
+
+* rounded rectangle əsas forma;
+* ön səth;
+* yuxarı səth;
+* yan səth;
+* məhsul etiketi;
+* yumşaq kölgə;
+* işıq əksi.
+
+## Parfüm qabı
+
+* şüşə silueti;
+* şəffaf gradient;
+* şüşə parıltısı;
+* qapaq;
+* alt kölgə;
+* həssas yan, üst və alt zonalar.
+
+## Yemək qabı
+
+* tray forması;
+* kənar çərçivə;
+* iç hissə;
+* üst səth;
+* tam bağlanmanı göstərən kənar zonalar.
+
+## Hədiyyə qutusu
+
+* əsas qutu;
+* qapaq;
+* perspektiv yan səthlər;
+* kağız layer-i;
+* dekorativ lent;
+* möhür;
+* yumşaq kölgə.
+
+Final 3D asset olmadığına görə development-i dayandırma.
+
+İlk versiyada bütün məhsullar Skia və SVG vasitəsilə proqrammatik yaradıla bilər.
+
+---
+
+# 9. MVP qablaşdırma materialları
+
+## 9.1 Streç film
+
+Oyunçu:
+
+1. Filmin ucuna toxunur.
+2. Filmi rulondan çəkir.
+3. Film drag məsafəsinə görə dartılır.
+4. Məhsulun ətrafına dolanır.
+5. Məhsul müəyyən mərhələlərdə avtomatik fırlanır.
+6. Film kəsilir.
+7. Film ucu məhsula yapışdırılır.
+8. Qırış və hava qabarcıqları düzəldilir.
+
+### Streç film texnologiyası
+
+Real cloth simulation istifadə etmə.
+
+Film aşağıdakılarla yaradılsın:
+
+* şəffaf Skia layer;
+* progressive coverage mask;
+* məhsul səthlərinə uyğun clip mask;
+* drag məsafəsinə bağlı stretch transform;
+* opacity;
+* gradient;
+* specular highlight;
+* procedural wrinkle path-ləri;
+* film qatlarına bağlı şəffaflıq;
+* hava qabarcığı üçün radial vizual effekt.
+
+Məhsul wrap zonalarına bölünsün:
+
+* front;
+* back;
+* left;
+* right;
+* top;
+* bottom.
+
+Oyunçu uyğun gesture etdikcə zonalar mərhələli şəkildə film ilə örtülsün.
+
+### Dartılma vəziyyətləri
+
+#### Loose
+
+* film boş görünür;
+* qırış ehtimalı artır;
+* material istifadəsi yüksəlir;
+* scoring azalır.
+
+#### Optimal
+
+* film hamar görünür;
+* ən yaxşı nəticə verir;
+* selection haptic işə düşür.
+
+#### Overstretched
+
+* film həddindən artıq dartılır;
+* yumşaq qırmızı xəbərdarlıq göstərilir;
+* warning haptic verilir;
+* ilk MVP-də film dərhal cırılmır.
+
+## 9.2 Bubble wrap
+
+Oyunçu:
+
+1. Bubble wrap materialını masaya sərir.
+2. Məhsulu ortasına yerləşdirir.
+3. Sol və sağ tərəfləri qatlayır.
+4. Üst və alt hissələri bağlayır.
+5. Lent çəkir.
+6. İstəyə görə 2–3 qabarcıq partladır.
+
+### Bubble wrap texnologiyası
+
+* təkrarlanan dairə pattern-i;
+* şəffaf layer;
+* qatlama zonaları;
+* clip mask;
+* fold transform;
+* interaktiv bubble nöqtələri.
+
+Bubble partladıqda:
+
+* qısa scale animasiyası;
+* circle deformation;
+* pop səsi;
+* light haptic.
+
+Tam fiziki material simulyasiyası yaratma.
+
+## 9.3 Alüminium folqa
+
+Oyunçu:
+
+1. Folqanı rulondan açır.
+2. Məhsulun üzərinə çəkir.
+3. Kənarları sıxır.
+4. Qırışları hamarlayır.
+5. Artıq hissəni kəsir.
+
+### Folqa texnologiyası
+
+* metalik gradient;
+* noise texture;
+* highlight;
+* procedural wrinkle path-ləri;
+* pressure əsaslı wrinkle dəyişməsi;
+* məhsula uyğun mask;
+* kənar qatlama animasiyaları.
+
+Oyunçu qırışı hamarladıqca:
+
+* wrinkle amplitude azalsın;
+* opacity azalsın;
+* folqa daha təmiz görünsün.
+
+## 9.4 Premium hədiyyə kağızı
+
+Oyunçu:
+
+1. Kağız ölçüsünü seçir.
+2. Qutunu kağızın ortasına yerləşdirir.
+3. Uzun tərəfləri qatlayır.
+4. Küncləri içəri qatlayır.
+5. Kağızı yapışdırır.
+6. Dekorativ lent əlavə edir.
+7. Möhür vurur.
+
+### Kağız texnologiyası
+
+* kağız pattern-i;
+* qatlama zonaları;
+* mərhələli transform;
+* künc fold-ları;
+* lent layer-i;
+* möhür layer-i;
+* simmetriya scoring-i.
+
+---
+
+# 10. Material uyğunluğu
+
+Hər məhsul üçün ideal və alternativ materiallar müəyyən edilməlidir.
+
+İlkin uyğunluq:
+
+* Telefon qutusu: Bubble wrap ideal, streç film alternativ
+* Parfüm: Bubble wrap ideal, premium kağız alternativ
+* Yemək qabı: Streç film və folqa ideal
+* Hədiyyə qutusu: Premium kağız ideal, streç film alternativ
+
+Yanlış material seçildikdə oyunu bloklama.
+
+Yanlış seçim yalnız nəticəyə təsir etsin:
+
+* Protection balı azala bilər;
+* Presentation balı azala bilər;
+* material istifadəsi səmərəsiz sayıla bilər.
+
+---
+
+# 11. Gesture sistemi
+
+İstifadə et:
+
+* React Native Gesture Handler;
+* React Native Reanimated.
+
+Dəstəklənən gesture-lər:
+
+* Tap
+* Pan
+* Drag
+* Swipe
+* Hold
+* Release
+
+Gesture-lər gameplay komponentlərinin daxilində qarışıq şəkildə yazılmamalıdır.
+
+Ayrıca gesture və interaction sistemi qur.
+
+Gesture hesablamalarını mümkün qədər UI thread-də Reanimated worklet-lərlə apar.
+
+Gesture zamanı hər frame React state update etmə.
+
+Real-time məlumatlar üçün istifadə et:
+
+* shared values;
+* derived values;
+* animated props;
+* animated styles.
+
+React və Zustand state yalnız bunlar üçün istifadə edilsin:
+
+* gameplay mərhələsi;
+* sifariş;
+* məhsul;
+* material;
+* scoring;
+* nəticə;
+* daimi progress.
+
+Real-time gesture koordinatlarını Zustand daxilində saxlama.
+
+---
+
+# 12. Gameplay state machine
+
+Gameplay state machine ayrıca domain modulunda saxlanmalıdır.
+
+Əsas state-lər:
+
+* preparing
+* selectingMaterial
+* grabbingMaterial
+* pulling
+* wrapping
+* cutting
+* sealing
+* inspecting
+* repairing
+* completed
+* result
+
+Hər state yalnız icazə verilən gesture-ləri qəbul etməlidir.
+
+Məsələn:
+
+* pulling mərhələsində kəsim mümkün olmamalıdır;
+* cutting mərhələsindən əvvəl film kəsilməməlidir;
+* repairing mərhələsinə keçmədən qüsur düzəltmək aktiv olmamalıdır.
+
+UI komponentləri gameplay qaydalarını idarə etməməlidir.
+
+---
+
+# 13. Qüsur və düzəltmə sistemi
+
+MVP-də aşağıdakı qüsurlar olsun:
+
+* qırış;
+* hava qabarcığı;
+* açıq qalan künc;
+* boş material ucu;
+* artıq material;
+* əyri lent;
+* əyri möhür və ya etiket.
+
+Qüsurlar mümkün qədər oyunçunun hərəkətindən yaranmalıdır.
+
+Nümunələr:
+
+* zəif dartılma → qırış;
+* qeyri-bərabər drag → açıq künc;
+* artıq material → aşağı efficiency;
+* yanlış sealing → boş film ucu;
+* qeyri-bərabər hamarlama → hava qabarcığı;
+* qeyri-simmetrik yerləşdirmə → əyri möhür.
+
+Təsadüfi qüsurları minimum istifadə et.
+
+Oyunçu qüsurun niyə yarandığını başa düşməlidir.
+
+## Düzəltmə hərəkətləri
+
+* qırış üzərində swipe;
+* hava qabarcığını kənara drag;
+* açıq küncə material çəkmək;
+* boş material ucunu sıxmaq;
+* artıq materialı kəsmək;
+* əyri etiketi götürüb yenidən yerləşdirmək;
+* möhürü düz mövqeyə çəkmək.
+
+Qüsurlar cəza yox, əlavə satisfying mini-game kimi hiss edilməlidir.
+
+Oyunçu səhvə görə sifarişi tam itirməməlidir.
+
+---
+
+# 14. Scoring sistemi
+
+Hər məhsul üç əsas meyara görə qiymətləndirilsin:
+
+## 14.1 Səliqə
+
+Bunlara əsaslansın:
+
+* qırış sayı;
+* hava qabarcığı;
+* boş material ucu;
+* əyri lent və möhür;
+* düzəldilmiş və açıq qalan qüsurlar;
+* ümumi vizual təmizlik.
+
+## 14.2 Qoruma
+
+Bunlara əsaslansın:
+
+* məhsulun örtülmə faizi;
+* açıq qalan hissələr;
+* materialın məhsula uyğunluğu;
+* qat sayı;
+* həssas zonaların qorunması;
+* bağlanma keyfiyyəti.
+
+## 14.3 Material istifadəsi
+
+Bunlara əsaslansın:
+
+* istifadə olunan material miqdarı;
+* artıq qatlar;
+* artıq kəsilmiş material;
+* optimal dartılma müddəti;
+* tullantı;
+* doğru material seçimi.
+
+## İlkin nəticə səviyyələri
+
+* Perfect: ümumi nəticə 90–100 və açıq ciddi qüsur yoxdur
+* Good: ümumi nəticə 70–89
+* Acceptable: ümumi nəticə 0–69
+
+Bu dəyərlər data config daxilində saxlanılmalı və sonradan kod dəyişmədən balanslaşdırıla bilməlidir.
+
+## Result Screen
+
+Göstər:
+
+* Səliqə balı;
+* Qoruma balı;
+* Material istifadəsi balı;
+* Ümumi nəticə;
+* Qazanılan coin;
+* Qazanılan reputasiya;
+* Düzəldilən qüsurlar;
+* Next Order düyməsi.
+
+Nəticə ekranı qısa və vizual olmalıdır.
+
+---
+
+# 15. Sadə iqtisadiyyat
+
+Oyunda bir əsas xərclənən valyuta olsun:
+
+**Coin**
+
+İlk MVP-də bunları yaratma:
+
+* diamond;
+* energy;
+* ticket;
+* token;
+* premium currency.
+
+Coin bunların açılması üçün istifadə edilir:
+
+* yeni materiallar;
+* yeni məhsullar;
+* qablaşdırma rəngləri;
+* yeni kəsim alətləri;
+* workshop səviyyələri;
+* vizual dekorasiyalar.
+
+## Reputasiya
+
+Reputasiya ayrıca xərclənməyən progression göstəricisi olsun.
+
+Reputasiya bunları açsın:
+
+* yeni sifarişlər;
+* yeni məhsul kateqoriyaları;
+* daha premium müştərilər;
+* yeni workshop mərhələləri.
+
+İlkin progression:
+
+* başlanğıc: telefon qutusu və streç film;
+* sonrakı açılma: bubble wrap;
+* sonra parfüm;
+* sonra premium kağız;
+* sonra hədiyyə qutusu;
+* sonra folqa;
+* sonra yemək qabı.
+
+Bütün qiymətlər və unlock şərtləri data config-dən idarə edilməlidir.
+
+---
+
+# 16. Yüngül workshop sistemi
+
+Əsas menyuda oyunçunun kiçik emalatxanası görünməlidir.
+
+Workshop inkişaf etdikcə:
+
+* masa yaxşılaşır;
+* əlavə material rəfi görünür;
+* kiçik konveyer açılır;
+* arxa planda qablaşdırma maşını görünür;
+* hazır məhsul qutuları yığılır;
+* işıqlandırma yaxşılaşır;
+* iş sahəsi böyüyür.
+
+Workshop əsasən vizual mükafatdır.
+
+İlk MVP-də bunları yaratma:
+
+* zavod daxilində sərbəst gəzmək;
+* maşın yerləşdirmə;
+* işçi idarəetməsi;
+* real logistika;
+* detallı mühasibatlıq;
+* maşınların təsadüfi xarab olması.
+
+---
+
+# 17. Jumbo rulon bonus sistemi
+
+Jumbo rulon əsas gameplay deyil.
+
+Hər bir neçə sifarişdən sonra material ehtiyatı vizual olaraq azalır.
+
+Material növləri:
+
+* streç film;
+* bubble wrap;
+* folqa;
+* premium kağız.
+
+Oyunçu ehtiyatı artırmaq üçün qısa jumbo bonus səhnəsi oynayır.
+
+Bonus səhnə:
+
+1. Jumbo rulon gətirilir.
+2. Maşına yerləşdirilir.
+3. Sadə bıçaq mövqeləri görünür.
+4. Maşın işə düşür.
+5. Böyük rulon kiçik rulonlara bölünür.
+6. Rulonlar rəfə yerləşdirilir.
+
+Səhnə təxminən 10–15 saniyə davam etməlidir.
+
+İlk MVP-də bunları yaratma:
+
+* real en optimizasiyası;
+* mürəkkəb maya hesablaması;
+* detallı istehsal planlaması;
+* logistika sistemi.
+
+Material ehtiyatı əsas gameplay-i bloklayan enerji sistemi kimi işləməməlidir.
+
+---
+
+# 18. ASMR audio sistemi
+
+ASMR audio üçün Expo Audio istifadə et.
+
+Deprecated Expo AV audio API-dən istifadə etmə.
+
+Audio sistemi ayrıca service kimi qurulsun.
+
+Funksiyalar:
+
+* preload;
+* play;
+* loop;
+* stop;
+* volume;
+* playback rate;
+* category-based mute.
+
+Audio kateqoriyaları:
+
+* stretch;
+* cut;
+* fold;
+* foil;
+* bubble;
+* tape;
+* label;
+* stamp;
+* machine;
+* success;
+* ambient;
+* UI.
+
+Əsas səslər:
+
+* streç filmin açılması;
+* filmin dartılması;
+* film qatlarının toxunması;
+* kəsim;
+* lentin açılması;
+* lentin yapışması;
+* bubble pop;
+* folqanın xışıltısı;
+* kağızın qatlanması;
+* etiketin soyulması;
+* etiketin yapışması;
+* möhür;
+* qutunun bağlanması;
+* jumbo maşını;
+* Perfect nəticə.
+
+Audio asset olmadıqda development-i dayandırma.
+
+Placeholder audio istifadə et, amma bütün audio faylları registry vasitəsilə idarə et ki, sonradan rahat dəyişdirilə bilsin.
+
+Drag sürətinə görə pitch və volume çox zəif dəyişə bilər.
+
+---
+
+# 19. Haptic sistemi
+
+Expo Haptics istifadə et.
+
+Haptic növləri:
+
+* selection;
+* light;
+* medium;
+* heavy;
+* success;
+* warning;
+* error.
+
+İlkin mapping:
+
+* materialı tutmaq: light;
+* optimal dartılma: selection;
+* həddindən artıq dartılma: warning;
+* kəsim: medium;
+* film və lent yapışdırmaq: light;
+* bubble partlatmaq: light;
+* möhür vurmaq: heavy;
+* qüsur düzəltmək: selection;
+* Perfect nəticə: success.
+
+Haptic deaktiv olduqda gameplay pozulmamalıdır.
+
+Web preview-də təhlükəsiz no-op fallback istifadə et.
+
+---
+
+# 20. Naviqasiya və UI ekranları
+
+Expo Router istifadə et.
+
+Route strukturu:
+
+* `/`
+* `/workshop`
+* `/orders`
+* `/material-select`
+* `/gameplay`
+* `/result`
+* `/upgrades`
+* `/zen`
+* `/settings`
+
+## UI ekranları
+
+1. Main Menu
+2. Workshop
+3. Order Selection
+4. Material Selection
+5. Packaging Gameplay
+6. Result Screen
+7. Upgrade Screen
+8. Zen Mode Selection
+9. Settings
+
+## UI prinsipləri
+
+* portrait responsive layout;
+* Safe Area;
+* böyük touch sahələri;
+* az mətn;
+* çox ikon olmaması;
+* premium və təmiz görünüş;
+* yumşaq transition-lar;
+* bir əllə idarəetmə;
+* hər ekranda aydın növbəti addım.
+
+Gameplay state-i route parametrlərində saxlanılmamalıdır.
+
+Aktiv sifariş və gameplay session store daxilində idarə edilməlidir.
+
+---
+
+# 21. State management
+
+Zustand istifadə et.
+
+Store-ları ayır:
+
+* `useProfileStore`
+* `useProgressionStore`
+* `useOrderStore`
+* `useGameplayStore`
+* `useSettingsStore`
+* `useInventoryStore`
+
+Zustand yalnız bunlar üçün istifadə edilsin:
+
+* daimi progress;
+* ekranlararası məlumat;
+* sifariş seçimi;
+* məhsul və material seçimi;
+* coin;
+* reputasiya;
+* açılmalar;
+* settings.
+
+Real-time gesture koordinatlarını Zustand daxilində saxlama.
+
+---
+
+# 22. Lokal save
+
+Expo SQLite istifadə et.
+
+UI komponentləri birbaşa SQL query işlətməməlidir.
+
+Repository layer yarat.
+
+Saxlanılacaq məlumatlar:
+
+* coin;
+* reputasiya;
+* açılmış məhsullar;
+* açılmış materiallar;
+* workshop level;
+* tamamlanmış sifarişlər;
+* tutorial status;
+* sound setting;
+* music setting;
+* haptic setting;
+* inventory;
+* save version.
+
+Database migration sistemi yarat.
+
+Save faylı və ya database məlumatı pozulduqda tətbiq çökməməlidir.
+
+Default profile təhlükəsiz şəkildə yaradılmalıdır.
+
+---
+
+# 23. Data əsaslı arxitektura
+
+Məhsullar, materiallar, sifarişlər və gameplay recipe-ləri TypeScript obyektləri və ya lokal JSON data vasitəsilə idarə edilməlidir.
+
+## ProductDefinition
+
+* id
+* name
+* localizationKey
+* category
+* visualType
+* shape
+* idealMaterials
+* allowedMaterials
+* protectionRequirement
+* presentationRequirement
+* baseReward
+* unlockRequirement
+* packagingRecipes
+
+## MaterialDefinition
+
+* id
+* name
+* localizationKey
+* type
+* protectionValue
+* presentationValue
+* unitCost
+* interactionType
+* audioSet
+* visualConfig
+* scoringConfig
+
+## PackagingRecipe
+
+* id
+* productId
+* materialId
+* steps
+* zones
+* allowedGestures
+* defectRules
+* scoringRules
+* visualConfig
+* audioConfig
+
+Yeni məhsul və material əlavə etmək üçün əsas gameplay kodunu dəyişmək tələb olunmamalıdır.
+
+---
+
+# 24. Lokalizasiya
+
+İlk MVP ingilis dilində hazırlana bilər.
+
+Lakin bütün mətnlər localization-ready olmalıdır.
+
+Mətnləri komponentlərdə hardcode etmə.
+
+Gələcək dillər:
+
+* English
+* Azerbaijani
+* Turkish
+* Russian
+
+Localization sistemi data key-lər vasitəsilə idarə edilməlidir.
+
+---
+
+# 25. İlk tutorial
+
+İlk tutorial yalnız telefon qutusu və streç film ilə olsun.
+
+Addımlar:
+
+1. Filmə toxun.
+2. Filmi sağa çək.
+3. Optimal dartılmaya çat.
+4. Filmi məhsulun ətrafına dolandır.
+5. Məhsulun avtomatik dönməsini izlə.
+6. Kəsim xəttində swipe et.
+7. Film ucunu yapışdır.
+8. Qırışı hamarla.
+9. Hazır nəticəni gör.
+
+Tutorial qaydaları:
+
+* uzun mətn göstərmə;
+* bir anda yalnız bir tapşırıq göstər;
+* aktiv obyekt yumşaq vurğulansın;
+* tapşırıq tamamlanmadan növbəti addıma keçmə;
+* tutorial skip edilə bilsin;
+* ilk oyundan sonra tutorial status save edilsin;
+* Settings-dən yenidən başlatmaq mümkün olsun.
+
+---
+
+# 26. Layihə strukturu
+
+Tövsiyə edilən struktur:
+
+```text
+app/
+  index.tsx
+  workshop.tsx
+  orders.tsx
+  material-select.tsx
+  gameplay.tsx
+  result.tsx
+  upgrades.tsx
+  zen.tsx
+  settings.tsx
+
+src/
+  components/
+  config/
+  data/
+    products/
+    materials/
+    orders/
+    recipes/
+  domain/
+    gameplay/
+    scoring/
+    orders/
+    progression/
+  features/
+    stretch-film/
+    bubble-wrap/
+    foil/
+    gift-paper/
+    defects/
+    tutorial/
+    workshop/
+    jumbo/
+  graphics/
+    products/
+    materials/
+    effects/
+  gestures/
+  services/
+    audio/
+    haptics/
+    storage/
+    analytics/
+  stores/
+  repositories/
+  database/
+  hooks/
+  utils/
+  types/
+  localization/
+
+assets/
+  audio/
+  images/
+  icons/
+  fonts/
+
+docs/
+  ROADMAP.md
+  ARCHITECTURE.md
+  DECISIONS.md
+  TESTING.md
+  BUILDING.md
+```
+
+Root səviyyəsində yarat:
+
+* `README.md`
+* `CLAUDE.md`
+* `.gitignore`
+* `.env.example`
+* `app.config.ts`
+* `eas.json`
+
+---
+
+# 27. Test sistemi
+
+İstifadə et:
+
+* Jest;
+* React Native Testing Library;
+* TypeScript typecheck;
+* ESLint;
+* Expo config validation.
+
+Test edilməli sahələr:
+
+* gameplay state machine;
+* scoring;
+* material uyğunluğu;
+* order generation;
+* progression;
+* save repository;
+* database migrations;
+* store-lar;
+* recipe validation;
+* tutorial state;
+* smoke tests.
+
+Hər development mərhələsindən sonra işə sal:
+
+```bash
+npm run typecheck
+npm run lint
+npm test
+```
+
+Testlər uğursuz olarsa mərhələni tamamlanmış sayma.
+
+Error-ları özün analiz et və düzəlt.
+
+---
+
+# 28. Web preview
+
+Layihə development zamanı web-də də işləməlidir.
+
+Web versiyası final məhsul deyil.
+
+Web preview aşağıdakılar üçün istifadə edilir:
+
+* Claude-nin UI-ni yoxlaması;
+* gameplay axınının test edilməsi;
+* responsive portrait görünüş;
+* Skia vizuallarının yoxlanması;
+* console error-ların aşkarlanması;
+* əsas gesture-lərin mouse ilə test edilməsi.
+
+Mobil haptic web-də no-op fallback istifadə etməlidir.
+
+Hər böyük dəyişiklikdən sonra:
+
+* development server-i işə sal;
+* web preview-ni yoxla;
+* production web export yarat;
+* console error-ları yoxla;
+* əsas gameplay axınını test et.
+
+---
+
+# 29. Git və GitHub
+
+Layihəni Git repository kimi hazırla.
+
+GitHub repository yarat və layihəni ora push et.
+
+Hər development mərhələsindən sonra:
+
+1. typecheck;
+2. lint;
+3. test;
+4. preview yoxlaması;
+5. commit.
+
+Commit nümunələri:
+
+```text
+chore: initialize Expo game project
+feat: add phone box visual
+feat: implement stretch film pulling
+feat: add packaging coverage system
+feat: add defect repair interactions
+feat: implement scoring and rewards
+fix: prevent gesture state conflict
+```
+
+Böyük və əlaqəsiz dəyişiklikləri bir commit daxilində qarışdırma.
+
+---
+
+# 30. CI sistemi
+
+GitHub Actions yarat.
+
+Hər push və pull request zamanı:
+
+* dependency install;
+* typecheck;
+* lint;
+* unit tests;
+* Expo config validation
+
+işləsin.
+
+Production build hər commit-də yaradılmamalıdır.
+
+Preview və production build:
+
+* manual workflow;
+* xüsusi branch;
+* release tag
+
+vasitəsilə başladılmalıdır.
+
+---
+
+# 31. Cloud build və deployment
+
+Android və iOS build üçün EAS istifadə et.
+
+Konfiqurasiya et:
+
+* development profile;
+* preview profile;
+* production profile;
+* preview update channel;
+* production update channel.
+
+Lokal Android Studio və Xcode tələb etmə.
+
+## Android
+
+Hazırla:
+
+* portrait orientation;
+* adaptive icon;
+* splash screen;
+* package identifier;
+* version;
+* Android preview build;
+* production AAB build.
+
+Preview build hazır olduqda istifadəçiyə install link ver.
+
+## iOS
+
+Hazırla:
+
+* portrait orientation;
+* app icon;
+* splash screen;
+* bundle identifier;
+* version və build number;
+* iOS preview build;
+* production build;
+* TestFlight və App Store Submit konfiqurasiyası.
+
+Apple Developer hesabı və signing mərhələsində istifadəçidən yalnız login və təsdiq istə.
+
+## EAS Update
+
+Native dependency dəyişməyən aşağıdakı yeniliklər üçün EAS Update istifadə et:
+
+* UI dəyişiklikləri;
+* balans;
+* scoring;
+* mətnlər;
+* asset dəyişiklikləri;
+* kiçik gameplay düzəlişləri.
+
+Preview və production channel-ları ayrı saxla.
+
+---
+
+# 32. Oyunda olmamalı şeylər
+
+MVP-də bunları əlavə etmə:
+
+* vaxt limiti;
+* enerji sistemi;
+* məcburi reklam;
+* çoxlu valyuta;
+* multiplayer;
+* login;
+* online server;
+* leaderboard;
+* açıq dünya;
+* mürəkkəb işçi idarəetməsi;
+* real logistika;
+* detallı mühasibatlıq;
+* real-time cloth physics;
+* ağır 3D engine;
+* maşınların təsadüfi xarab olması;
+* bir səhvə görə sifarişin tam itirilməsi;
+* bütün məhsullar üçün eyni interaction;
+* hər gesture-də həddindən artıq “Perfect” mesajı;
+* əsas gameplay-i bloklayan material ehtiyatı;
+* development-i asset olmadığına görə dayandırmaq.
+
+---
+
+# 33. Development mərhələləri
+
+Layihəni aşağıdakı ardıcıllıqla hazırla.
+
+Cari mərhələ test edilmədən növbəti mərhələyə keçmə.
+
+## Mərhələ 1 — Project foundation
+
+* Expo TypeScript layihəsi yarat.
+* Expo Router qur.
+* Portrait orientation konfiqurasiya et.
+* Safe Area əlavə et.
+* Skia, Gesture Handler və Reanimated quraşdır.
+* Zustand, SQLite, Audio və Haptics quraşdır.
+* ESLint, Prettier və test sistemi qur.
+* Qovluq strukturunu yarat.
+* Git və GitHub repository yarat.
+* GitHub Actions qur.
+* Web preview-ni işə sal.
+* EAS konfiqurasiyası yarat.
+
+Acceptance:
+
+* layihə xətasız açılır;
+* Android, iOS və web config mövcuddur;
+* typecheck, lint və test keçir;
+* Main Menu route-u açılır.
+
+## Mərhələ 2 — Data və arxitektura
+
+* ProductDefinition yarat.
+* MaterialDefinition yarat.
+* PackagingRecipe yarat.
+* Gameplay state machine yarat.
+* Store-ları yarat.
+* SQLite repository və migration sistemi qur.
+* Telefon qutusu və streç film datasını əlavə et.
+
+Acceptance:
+
+* məhsul və material kodu dəyişmədən data-dan yüklənir;
+* state machine testləri keçir;
+* save repository testləri keçir.
+
+## Mərhələ 3 — Main Menu və Orders
+
+* Main Menu yarat.
+* Workshop preview yarat.
+* Orders ekranını yarat.
+* Telefon qutusu sifarişini göstər.
+* Material Selection ekranını yarat.
+* Seçimi gameplay store-a ötür.
+
+Acceptance:
+
+* istifadəçi Orders seçə bilir;
+* telefon sifarişini başlada bilir;
+* streç filmi seçə bilir;
+* gameplay route-u düzgün məlumat alır.
+
+## Mərhələ 4 — Telefon qutusu vizualı
+
+* 2.5D telefon qutusu yarat.
+* Perspektiv səthlər əlavə et.
+* Kölgə və highlight əlavə et.
+* Touch zonalarını yarat.
+* Portrait gameplay kompozisiyasını qur.
+
+Acceptance:
+
+* telefon qutusu həcmli görünür;
+* müxtəlif ekran ölçülərində pozulmur;
+* touch zonaları düzgün işləyir.
+
+## Mərhələ 5 — Gesture sistemi
+
+* Tap;
+* Drag;
+* Swipe;
+* Hold;
+* Release
+
+gesture-lərini hazırla.
+
+Mouse və touch fallback əlavə et.
+
+Acceptance:
+
+* gesture-lər bir-biri ilə conflict yaratmır;
+* real-time dəyərlər React state-ə hər frame yazılmır;
+* UI üzərində gameplay gesture-i işləmir.
+
+## Mərhələ 6 — Streç filmi çəkmək
+
+* Film ucunu tutmaq;
+* rulondan açmaq;
+* dartmaq;
+* Loose, Optimal və Overstretched halları;
+* tension feedback;
+* audio;
+* haptic.
+
+Acceptance:
+
+* film barmaq hərəkətinə axıcı cavab verir;
+* tension halları düzgün dəyişir;
+* web və mobil preview-də işləyir.
+
+## Mərhələ 7 — Məhsulu sarımaq
+
+* wrap zonalarını yarat;
+* progressive coverage mask əlavə et;
+* məhsulun avtomatik 90 dərəcə dönüşünü yarat;
+* qat və material istifadəsini hesabla.
+
+Acceptance:
+
+* məhsul mərhələli şəkildə örtülür;
+* açıq zonalar hesablanır;
+* film məhsul üzərində şəffaf görünür.
+
+## Mərhələ 8 — Kəsim və sealing
+
+* kəsim xətti;
+* swipe ilə kəsim;
+* kəsim audio və haptic;
+* sərbəst film ucu;
+* drag ilə sealing.
+
+Acceptance:
+
+* film yalnız düzgün state-də kəsilir;
+* film ucu düzgün və yanlış yerə yerləşdirilə bilir;
+* yanlış yerləşdirmə oyunu bloklamır.
+
+## Mərhələ 9 — Qüsur və düzəltmə
+
+Əvvəlcə:
+
+* qırış;
+* hava qabarcığı;
+* açıq künc;
+* boş film ucu;
+* artıq material
+
+yarat.
+
+Acceptance:
+
+* ən azı üç qüsur real gameplay-dən yaranır;
+* qüsurlar gesture ilə düzəldilir;
+* düzəliş scoring-i artırır.
+
+## Mərhələ 10 — Audio, haptic və ASMR polish
+
+* bütün əsas audio event-lər;
+* gesture sürətinə bağlı audio variation;
+* haptic mapping;
+* audio settings;
+* haptic settings;
+* ambient background.
+
+Acceptance:
+
+* əsas hərəkətlər səssiz qalmır;
+* audio və animasiya sinxrondur;
+* haptic deaktiv edilə bilir.
+
+## Mərhələ 11 — Scoring və nəticə
+
+* Səliqə;
+* Qoruma;
+* Material istifadəsi;
+* Perfect, Good, Acceptable;
+* coin;
+* reputasiya;
+* Result Screen.
+
+Acceptance:
+
+* ballar real gameplay məlumatından hesablanır;
+* nəticələr save edilir;
+* Next Order işləyir.
+
+## Mərhələ 12 — Tutorial və ilk vertical slice
+
+* interaktiv tutorial;
+* tutorial save;
+* tam sifariş axını;
+* Android preview build;
+* iOS preview build config.
+
+Vertical slice bunları əhatə etməlidir:
+
+* Main Menu;
+* Orders;
+* telefon qutusu;
+* streç film;
+* film çəkmək;
+* dartmaq;
+* sarımaq;
+* məhsulun dönməsi;
+* kəsmək;
+* sealing;
+* qırış düzəltmək;
+* audio;
+* haptic;
+* scoring;
+* coin;
+* save;
+* tutorial;
+* result.
+
+Bu vertical slice stabil olmadan yeni material əlavə etmə.
+
+## Mərhələ 13 — Bubble wrap
+
+* bubble pattern;
+* qatlama zonaları;
+* lent;
+* interaktiv qabarcıqlar;
+* bubble scoring.
+
+## Mərhələ 14 — Parfüm
+
+* parfüm vizualı;
+* həssas zonalar;
+* bubble wrap recipe;
+* fərqli protection scoring.
+
+## Mərhələ 15 — Premium kağız və hədiyyə qutusu
+
+* kağız qatlama;
+* künclər;
+* lent;
+* möhür;
+* presentation scoring.
+
+## Mərhələ 16 — Folqa və yemək qabı
+
+* folqa açmaq;
+* metalik görünüş;
+* qırışlar;
+* hamarlama;
+* kənarların bağlanması;
+* yemək qabı recipe-si.
+
+## Mərhələ 17 — Zen Mode
+
+* məhsul seçimi;
+* material seçimi;
+* qüsur seçimi;
+* limitsiz gameplay;
+* progress-ə təsir etməməsi.
+
+## Mərhələ 18 — Workshop
+
+* vizual workshop səviyyələri;
+* coin ilə upgrade;
+* yeni masa və fon elementləri;
+* save.
+
+## Mərhələ 19 — Jumbo bonus səhnəsi
+
+* material inventory;
+* qısa jumbo animasiyası;
+* ehtiyatın yenilənməsi;
+* gameplay-i bloklamayan sistem.
+
+## Mərhələ 20 — UI və performans polish
+
+* responsive UI;
+* Safe Area;
+* audio optimizasiyası;
+* Skia render optimizasiyası;
+* unnecessary re-render-lərin silinməsi;
+* memory və FPS testləri;
+* Android və iOS preview testləri.
+
+## Mərhələ 21 — Production hazırlığı
+
+* app icon;
+* splash;
+* app identifiers;
+* privacy settings;
+* EAS production profiles;
+* Android AAB;
+* iOS production build;
+* TestFlight;
+* store submit konfiqurasiyası.
+
+---
+
+# 34. Claude Code üçün məcburi iş qaydası
+
+Hər mərhələdə özün:
+
+1. Mövcud repository-ni analiz et.
+2. Dəyişiklik planı qur.
+3. Faylları yarat və dəyiş.
+4. Dependency-ləri quraşdır.
+5. Typecheck işlə.
+6. Lint işlə.
+7. Testləri işlə.
+8. Web preview və build yoxlaması apar.
+9. Error-ları özün düzəlt.
+10. Git commit yarat.
+11. Mərhələnin nəticəsini qısa təqdim et.
+
+Mənə hər faylın tam kodunu chat daxilində göstərməyə ehtiyac yoxdur.
+
+Dəyişiklikləri birbaşa repository-yə tətbiq et.
+
+Hər mərhələnin sonunda yalnız bunları bildir:
+
+* nə hazırlandı;
+* hansı testlər keçdi;
+* hansı preview və ya build yaradıldı;
+* hansı məhdudiyyət qaldı;
+* istifadəçidən hansı qaçılmaz əməl tələb olunur.
+
+Cari mərhələdə error varsa növbəti mərhələyə keçmə.
+
+İstifadəçiyə terminal komandası işlətməyi tapşırma.
+
+İstifadəçidən kodu copy-paste etməyi istəmə.
+
+---
+
+# 35. İlk versiyanın Definition of Done şərtləri
+
+MVP yalnız aşağıdakılar hazır olduqda tamamlanmış sayılır:
+
+## Məhsullar
+
+* Telefon qutusu
+* Parfüm
+* Hədiyyə qutusu
+* Yemək qabı
+
+## Materiallar
+
+* Streç film
+* Bubble wrap
+* Premium kağız
+* Alüminium folqa
+
+## Rejimlər
+
+* Orders
+* Zen Mode
+
+## Əsas sistemlər
+
+* Touch gesture-lər
+* Gameplay state machine
+* Məhsul və material seçimi
+* Qablaşdırma interaction-ları
+* Qüsur düzəltmə
+* Scoring
+* Coin
+* Reputasiya
+* Progression
+* Lokal save
+* Tutorial
+* Audio
+* Haptic
+* Workshop
+* Jumbo bonus səhnəsi
+* Settings
+* Android preview build
+* iOS preview build
+* Production build konfiqurasiyası
+
+## Son test ssenariləri
+
+* Yeni oyunçu tutorial-ı tamamlayır.
+* Telefon qutusu streç və bubble wrap ilə qablaşdırılır.
+* Parfüm bubble wrap ilə qablaşdırılır.
+* Hədiyyə qutusu premium kağızla qablaşdırılır.
+* Yemək qabı streç və folqa ilə qablaşdırılır.
+* Yanlış material seçimi oyunu çökdürmür.
+* Qüsurlar düzəldilə bilir.
+* Coin və reputasiya düzgün hesablanır.
+* Progress oyun bağlandıqdan sonra qalır.
+* Zen Mode progress-i dəyişmir.
+* Audio və haptic deaktiv edilə bilir.
+* Web preview xətasız açılır.
+* Android build telefonda işləyir.
+* iOS build TestFlight-a hazırdır.
+* Kritik TypeScript, runtime və database error-u yoxdur.
+
+---
+
+# 36. Son prioritetlər
+
+Prioritet sırası:
+
+1. Toxunma hissi
+2. Vizual reaksiya
+3. ASMR audio
+4. Axıcı animasiya
+5. Stabil gameplay
+6. Mobil performans
+7. Scoring və progression
+8. Workshop və jumbo sistemi
+9. Final qrafik polish
+
+Əvvəlcə gözəl görünən natamam demo yox, sadə görünən, amma tam işləyən vertical slice yarat.
+
+Əsas məqsəd:
+
+> İstifadəçinin toxunuşuna dərhal cavab verən, materialı hiss etdirən, rahatlaşdırıcı və vizual olaraq qənaətbəxş qablaşdırma oyunu hazırlamaqdır.
