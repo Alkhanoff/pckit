@@ -1,7 +1,7 @@
-import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { MIN_TOUCH_SIZE, colors, spacing, typography } from '@/config/theme';
+import { useGoBack } from '@/hooks/useGoBack';
 import { t } from '@/localization/i18n';
 
 type ScreenHeaderProps = {
@@ -12,6 +12,8 @@ type ScreenHeaderProps = {
 };
 
 export function ScreenHeader({ title, subtitle, showBack = true }: ScreenHeaderProps) {
+  const goBack = useGoBack();
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.row}>
@@ -19,7 +21,7 @@ export function ScreenHeader({ title, subtitle, showBack = true }: ScreenHeaderP
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('common.back')}
-            onPress={() => router.back()}
+            onPress={goBack}
             style={({ pressed }) => [styles.back, pressed && styles.pressed]}
             hitSlop={8}
           >

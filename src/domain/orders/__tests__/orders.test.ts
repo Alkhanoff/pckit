@@ -128,3 +128,31 @@ describe('mükafat hesablaması (docs/BALANCE.md §7)', () => {
     expect(calculateRewards(score(), 0, 'balanced').coin).toBe(0);
   });
 });
+
+describe('board təkrarsızlığı — hər vəziyyətdə', () => {
+  const ALL_RECIPE_IDS = ORDER_TEMPLATES.map((o) => o.recipeId);
+
+  it('istənilən completedCount və unlock kombinasiyasında id-lər unikaldır', () => {
+    for (let completed = 0; completed <= 12; completed += 1) {
+      for (const unlocked of [[], UNLOCKED, ALL_RECIPE_IDS]) {
+        for (const r of [0, 0.33, 0.5, 0.99]) {
+          const board = generateOrderBoard({ completedCount: completed }, unlocked, () => r);
+          const ids = board.map((o) => o.id);
+          expect(new Set(ids).size).toBe(ids.length);
+        }
+      }
+    }
+  });
+
+  it('lastRecipeId nə olursa olsun təkrar yaranmır', () => {
+    for (const last of [undefined, ...ALL_RECIPE_IDS]) {
+      const board = generateOrderBoard(
+        { completedCount: 2, lastRecipeId: last },
+        UNLOCKED,
+        () => 0,
+      );
+      const ids = board.map((o) => o.id);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+});
