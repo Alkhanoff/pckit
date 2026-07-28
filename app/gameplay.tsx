@@ -9,7 +9,7 @@ import { TensionIndicator } from '@/components/TensionIndicator';
 import { colors, spacing, typography } from '@/config/theme';
 import { getProduct } from '@/data/products';
 import { useGameplayGestures, useRegisterIntentDispatcher } from '@/gestures/useGameplayGestures';
-import { GameplayScene } from '@/graphics/GameplayScene';
+import { SceneHost } from '@/graphics/SceneHost';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useSceneGeometry } from '@/hooks/useSceneGeometry';
 import { t } from '@/localization/i18n';
@@ -102,7 +102,7 @@ export default function GameplayScreen() {
 
       <View style={styles.body}>
         {isSkiaReady() ? (
-          <GameplayScene
+          <SceneHost
             geometry={geometry}
             width={sceneWidth}
             height={sceneHeight}

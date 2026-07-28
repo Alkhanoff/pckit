@@ -58,7 +58,30 @@ Web-də Skia özü işə düşmür. İki şey lazımdır:
 
 **2. `canvaskit.wasm` serve edilməlidir.** Metro `node_modules` daxilindəki `.wasm` faylını vermir. `scripts/copy-canvaskit.mjs` onu `public/` qovluğuna köçürür (`postinstall`-da avtomatik), `LoadSkiaWeb({ locateFile })` isə ünvanı göstərir. Fayl 8 MB-dır və git-ə əlavə edilmir.
 
-**Niyə bu vacibdir:** hər iki addım olmadan Skia canvas-ı **səssizcə boş qalır** — `<canvas>` elementi və WebGL context yaranır, konsolda görünən xəta olmaya bilər, sadəcə heç nə çəkilmir. Mərhələ 1–6 boyu vəziyyət məhz belə idi və yalnız telefonun brauzeri xətanı üzə çıxardı.
+**3. Skia modulu CanvasKit-dən SONRA import edilməlidir.**
+
+Skia-nın web giriş faylı:
+
+```js
+// Skia.web.js
+export const Skia = JsiSkApi(global.CanvasKit);
+```
+
+Bu sətir modul **qiymətləndirilən anda** işləyir və `global.CanvasKit`-i həmin an tutur. `LoadSkiaWeb()` sonradan çağırılsa belə, tutulmuş `undefined` dəyişmir və hər frame bu xəta verilir:
+
+```
+Cannot read properties of undefined (reading 'PictureRecorder')
+```
+
+Yəni `LoadSkiaWeb()`-i `useEffect`-də çağırmaq **KİFAYƏT DEYİL** — modul artıq yüklənib.
+
+Həll: `WithSkiaWeb` (`src/graphics/SceneHost.web.tsx`). O, `React.lazy` ilə əvvəlcə `LoadSkiaWeb()`-i gözləyir, yalnız sonra səhnə modulunu import edir. Buna görə `SceneHost.web.tsx` `GameplayScene`-i **statik import etmir** — statik import bütün mexanizmi pozar.
+
+Native tərəf `SceneHost.tsx` faylındadır və birbaşa render edir.
+
+⚠️ **Bu xəta hot reload-da GİZLƏNİR.** Fayl dəyişdikdən sonra modul yenidən qiymətləndirilir və bu dəfə CanvasKit artıq yüklü olur — yəni development zamanı hər şey işləyir, təzə yükləmədə isə sınır. Yoxlama HƏMİŞƏ təzə tab-da aparılmalıdır.
+
+**Niyə bu vacibdir:** yuxarıdakı addımlar olmadan Skia canvas-ı **səssizcə boş qalır** — `<canvas>` elementi və WebGL context yaranır, konsolda görünən xəta olmaya bilər, sadəcə heç nə çəkilmir. Mərhələ 1–6 boyu vəziyyət məhz belə idi və yalnız telefonun brauzeri xətanı üzə çıxardı.
 
 **Yoxlama qaydası:** "canvas mövcuddur" KİFAYƏT DEYİL. Yoxlanmalı:
 

@@ -12,16 +12,13 @@ import {
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
-import type { SharedValue } from 'react-native-reanimated';
 
 import { CAMERA } from '@/config/gameplay';
 import { SHADOW, TABLE } from '@/config/visuals';
 import type { ShadowLayer } from '@/config/visuals';
-import type { AnyGesture } from '@/gestures/types';
 import { StretchFilmLayer } from '@/graphics/materials/StretchFilmLayer';
 import { PhoneBox } from '@/graphics/products/PhoneBox';
-import type { SceneGeometry } from '@/hooks/useSceneGeometry';
-import type { ZoneId } from '@/types/game';
+import type { GameplaySceneProps } from '@/graphics/sceneProps';
 
 /**
  * Qablaşdırma səhnəsi — saf renderer.
@@ -29,22 +26,10 @@ import type { ZoneId } from '@/types/game';
  * Həndəsəni `useSceneGeometry`, gesture-i isə `useGameplayGestures` verir.
  * Bu komponent heç nə hesablamır, yalnız çəkir (docs/ARCHITECTURE.md §9).
  * Tək `<Canvas>` istifadə edilir.
+ *
+ * Web-də bu modul YALNIZ CanvasKit yükləndikdən sonra import olunur —
+ * bax `SceneHost.web.tsx`.
  */
-
-type GameplaySceneProps = {
-  geometry: SceneGeometry;
-  width: number;
-  height: number;
-  gesture: AnyGesture;
-  highlightedZone?: ZoneId;
-  /** Gesture qatından gələn real-time dəyərlər */
-  film: {
-    dragX: SharedValue<number>;
-    dragY: SharedValue<number>;
-    tension: SharedValue<number>;
-    active: SharedValue<boolean>;
-  };
-};
 
 export function GameplayScene({
   geometry,
@@ -156,3 +141,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
+
+// `WithSkiaWeb` lazy import üçün default export tələb edir.
+export default GameplayScene;
