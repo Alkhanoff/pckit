@@ -1,11 +1,22 @@
-import { Canvas, Group, LinearGradient, Oval, Path, Rect, vec } from '@shopify/react-native-skia';
+import {
+  BlurMask,
+  Canvas,
+  Group,
+  LinearGradient,
+  Oval,
+  Path,
+  RadialGradient,
+  Rect,
+  vec,
+} from '@shopify/react-native-skia';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 
 import { CAMERA } from '@/config/gameplay';
-import { colors } from '@/config/theme';
+import { SHADOW, TABLE } from '@/config/visuals';
+import type { ShadowLayer } from '@/config/visuals';
 import type { AnyGesture } from '@/gestures/types';
 import { StretchFilmLayer } from '@/graphics/materials/StretchFilmLayer';
 import { PhoneBox } from '@/graphics/products/PhoneBox';
@@ -48,13 +59,27 @@ export function GameplayScene({
    * `Skia.Path.Make()` web-də CanvasKit yüklənməmiş çökür (docs/BUILDING.md §2).
    */
   const grain = useMemo(() => {
-    const step = height / 7;
+    const step = height / TABLE.grainLines;
     const lines: string[] = [];
     for (let y = step; y < height; y += step) {
       lines.push(`M0,${y.toFixed(2)} L${width.toFixed(2)},${y.toFixed(2)}`);
     }
     return lines.join(' ');
   }, [width, height]);
+
+  /** İki qatlı təmas kölgəsi — tək böyük oval "boz ləkə" təsiri yaradır. */
+  const shadows = useMemo(() => {
+    const b = geometry.shadow;
+    const make = (cfg: ShadowLayer) => ({
+      x: b.x + (b.width * (1 - cfg.widthScale)) / 2,
+      y: b.y + b.height * cfg.offsetYRatio - (b.height * cfg.heightScale) / 2,
+      width: b.width * cfg.widthScale,
+      height: b.height * cfg.heightScale,
+      opacity: cfg.opacity,
+      blur: cfg.blur,
+    });
+    return [make(SHADOW.ambient), make(SHADOW.contact)];
+  }, [geometry.shadow]);
 
   return (
     <GestureDetector gesture={gesture}>
@@ -70,21 +95,34 @@ export function GameplayScene({
             <LinearGradient
               start={vec(0, 0)}
               end={vec(0, height)}
-              colors={[colors.surface, colors.table]}
+              colors={[TABLE.gradientFrom, TABLE.gradientTo]}
             />
           </Rect>
-          <Path path={grain} style="stroke" strokeWidth={1} color="#00000008" />
+          <Path
+            path={grain}
+            style="stroke"
+            strokeWidth={1}
+            color={TABLE.grainColor}
+            opacity={TABLE.grainOpacity}
+          />
 
-          {/* Təmas kölgəsi */}
-          <Group opacity={0.18}>
-            <Oval
-              x={geometry.shadow.x}
-              y={geometry.shadow.y}
-              width={geometry.shadow.width}
-              height={geometry.shadow.height}
-              color={colors.shadow}
+          {/* Vinyet — diqqəti mərkəzə yığır */}
+          <Rect x={0} y={0} width={width} height={height} opacity={TABLE.vignetteOpacity}>
+            <RadialGradient
+              c={vec(width / 2, height / 2)}
+              r={Math.max(width, height) * 0.62}
+              colors={['#00000000', TABLE.vignetteColor]}
             />
-          </Group>
+          </Rect>
+
+          {/* Təmas kölgəsi — geniş ambient + dar tünd təmas */}
+          {shadows.map((s, i) => (
+            <Group key={i} opacity={s.opacity}>
+              <Oval x={s.x} y={s.y} width={s.width} height={s.height} color={SHADOW.color}>
+                <BlurMask blur={s.blur} style="normal" />
+              </Oval>
+            </Group>
+          ))}
 
           <PhoneBox
             size={geometry.size}

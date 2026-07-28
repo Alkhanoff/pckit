@@ -119,8 +119,8 @@ export function useSceneGeometry(
    * oradan məhsula doğru çəkilir.
    */
   const roll = useMemo<FilmRoll>(() => {
-    const rollWidth = Math.max(width * 0.07, 18);
-    const rollHeight = Math.max(height * 0.3, 70);
+    const rollWidth = Math.max(width * 0.115, 30);
+    const rollHeight = Math.max(height * 0.36, 96);
     return {
       anchor: { x: rollWidth + 6, y: height * 0.58 },
       anchorHalfWidth: rollHeight * 0.42,

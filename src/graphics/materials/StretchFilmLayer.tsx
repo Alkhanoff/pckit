@@ -1,25 +1,22 @@
-import { Group, LinearGradient, Path, RoundedRect, vec } from '@shopify/react-native-skia';
+import { Group, LinearGradient, Path, vec } from '@shopify/react-native-skia';
 import { useDerivedValue } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
 
-import { colors } from '@/config/theme';
+import { FILM, ROLL } from '@/config/visuals';
 import { computeFilmSheet, filmOpacity, filmTipHalfWidth, wrinklePaths } from '@/utils/film';
 import { polygonToSvgPath } from '@/utils/projection';
 import type { Point } from '@/utils/projection';
 
 /**
- * Streç film qatı.
+ * Streç film və rulon.
  *
- * Bütün həndəsə `useDerivedValue` daxilində UI thread-də hesablanır —
- * barmaq hərəkət edərkən React HEÇ VAXT yenidən render olunmur
- * (docs/ARCHITECTURE.md §4).
+ * Film həndəsəsi `useDerivedValue` daxilində UI thread-də hesablanır —
+ * barmaq hərəkət edərkən React yenidən render OLUNMUR.
  */
 
 type StretchFilmLayerProps = {
-  /** Rulonun film çıxan kənarı */
   anchor: Point;
   anchorHalfWidth: number;
-  /** Rulonun vizual ölçüsü */
   rollWidth: number;
   rollHeight: number;
 
@@ -42,10 +39,8 @@ export function StretchFilmLayer({
   tension,
   active,
 }: StretchFilmLayerProps) {
-  /** Filmin dördbucaqlısı — barmaq mövqeyindən. */
   const sheetPath = useDerivedValue(() => {
     if (!active.value) return '';
-
     const tip = { x: anchor.x + dragX.value, y: anchor.y + dragY.value };
     const sheet = computeFilmSheet(
       anchor,
@@ -53,14 +48,20 @@ export function StretchFilmLayer({
       anchorHalfWidth,
       filmTipHalfWidth(anchorHalfWidth, tension.value),
     );
-
     return polygonToSvgPath(sheet.quad);
   });
 
-  /** Qırış xətləri — boş filmdə çox, optimal dartılmada yox olur. */
+  /** Film boyunca parlaq zolaq — plastik hissini verən əsas detal. */
+  const sheenPath = useDerivedValue(() => {
+    if (!active.value) return '';
+    const tip = { x: anchor.x + dragX.value, y: anchor.y + dragY.value };
+    const half = filmTipHalfWidth(anchorHalfWidth, tension.value);
+    const sheet = computeFilmSheet(anchor, tip, anchorHalfWidth * 0.34, half * 0.34);
+    return polygonToSvgPath(sheet.quad);
+  });
+
   const wrinklePath = useDerivedValue(() => {
     if (!active.value) return '';
-
     const tip = { x: anchor.x + dragX.value, y: anchor.y + dragY.value };
     const sheet = computeFilmSheet(
       anchor,
@@ -68,42 +69,53 @@ export function StretchFilmLayer({
       anchorHalfWidth,
       filmTipHalfWidth(anchorHalfWidth, tension.value),
     );
-
     return wrinklePaths(sheet, tension.value, MAX_WRINKLES, WRINKLE_AMPLITUDE);
   });
 
   const opacity = useDerivedValue(() => (active.value ? filmOpacity(tension.value) : 0));
 
-  /** Overstretch xəbərdarlığı — yumşaq qırmızı halo. */
   const warningOpacity = useDerivedValue(() =>
-    active.value ? Math.max(0, (tension.value - 0.75) / 0.25) * 0.55 : 0,
+    active.value ? Math.max(0, (tension.value - 0.75) / 0.25) * 0.6 : 0,
   );
+
+  // Rulon silindr kimi qurulur: gövdə + ön başlıq + rim işığı.
+  const bodyX = anchor.x - rollWidth;
+  const capRx = rollWidth * 0.42;
+
+  const top = anchor.y - rollHeight / 2;
+  const bot = anchor.y + rollHeight / 2;
+  const coreRy = (rollHeight / 2) * ROLL.coreRatio;
+
+  const bodyPath = `M${bodyX},${top} L${anchor.x},${top} L${anchor.x},${bot} L${bodyX},${bot} Z`;
+  const capPath = `M${anchor.x},${top} A${capRx},${rollHeight / 2} 0 1 1 ${anchor.x},${bot} A${capRx},${rollHeight / 2} 0 1 1 ${anchor.x},${top} Z`;
+  const corePath = `M${anchor.x},${anchor.y - coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y + coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y - coreRy} Z`;
 
   return (
     <Group>
-      {/* Rulon */}
-      <RoundedRect
-        x={anchor.x - rollWidth}
-        y={anchor.y - rollHeight / 2}
-        width={rollWidth}
-        height={rollHeight}
-        r={rollWidth / 2}
-      >
+      {/* Rulon gövdəsi — üfüqi silindr kölgələnməsi */}
+      <Path path={bodyPath}>
         <LinearGradient
-          start={vec(anchor.x - rollWidth, anchor.y - rollHeight / 2)}
-          end={vec(anchor.x, anchor.y + rollHeight / 2)}
-          colors={['#F3F7F9', '#C9D6DD']}
+          start={vec(bodyX, anchor.y)}
+          end={vec(anchor.x, anchor.y)}
+          colors={[...ROLL.body]}
         />
-      </RoundedRect>
-      <RoundedRect
-        x={anchor.x - rollWidth}
-        y={anchor.y - rollHeight / 2}
-        width={rollWidth}
-        height={rollHeight}
-        r={rollWidth / 2}
+      </Path>
+
+      {/* Silindr başlığı və karton nüvə */}
+      <Path path={capPath}>
+        <LinearGradient
+          start={vec(anchor.x, top)}
+          end={vec(anchor.x, bot)}
+          colors={[...ROLL.cap]}
+        />
+      </Path>
+      <Path path={corePath} color={ROLL.coreColor} opacity={ROLL.coreOpacity} />
+      <Path
+        path={capPath}
         style="stroke"
         strokeWidth={1}
-        color="#00000018"
+        color={ROLL.stroke}
+        opacity={ROLL.strokeOpacity}
       />
 
       {/* Film vərəqi */}
@@ -112,20 +124,34 @@ export function StretchFilmLayer({
           <LinearGradient
             start={vec(anchor.x, anchor.y - anchorHalfWidth)}
             end={vec(anchor.x, anchor.y + anchorHalfWidth)}
-            colors={['#FFFFFF', '#D3E3EC', '#FFFFFF']}
+            colors={[...FILM.gradient]}
           />
         </Path>
-        <Path path={sheetPath} style="stroke" strokeWidth={1} color="#7C97A833" />
+        <Path
+          path={sheetPath}
+          style="stroke"
+          strokeWidth={FILM.edgeStrokeWidth}
+          color={FILM.edgeStroke}
+          opacity={FILM.edgeStrokeOpacity}
+        />
+        <Path path={sheenPath} color={FILM.sheenColor} opacity={FILM.sheenOpacity} />
+        <Path
+          path={wrinklePath}
+          style="stroke"
+          strokeWidth={FILM.wrinkleWidth}
+          color={FILM.wrinkleColor}
+          opacity={FILM.wrinkleOpacity}
+        />
       </Group>
 
-      {/* Qırışlar */}
-      <Group opacity={opacity}>
-        <Path path={wrinklePath} style="stroke" strokeWidth={1.5} color="#7C97A855" />
-      </Group>
-
-      {/* Həddindən artıq dartılma xəbərdarlığı */}
+      {/* Həddindən artıq dartılma */}
       <Group opacity={warningOpacity}>
-        <Path path={sheetPath} style="stroke" strokeWidth={3} color={colors.tensionOverstretched} />
+        <Path
+          path={sheetPath}
+          style="stroke"
+          strokeWidth={FILM.warningWidth}
+          color={FILM.warningColor}
+        />
       </Group>
     </Group>
   );

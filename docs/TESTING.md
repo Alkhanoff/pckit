@@ -189,6 +189,19 @@ CI (GitHub Actions) hər push və PR-da: install → typecheck → lint → test
 - [ ] **dev server konsolunda da error yoxdur** — Skia render xətaları yalnız orada görünür
 - [ ] `typeof globalThis.CanvasKit === 'object'` (əks halda qrafika səssizcə boş qalır)
 - [ ] qrafika GÖZLƏ yoxlanılıb — canvas elementinin mövcudluğu sübut deyil
+
+### Vizual render aləti
+
+```bash
+npm run render
+```
+
+`renders/*.png` — gameplay səhnəsini Node-da CanvasKit ilə çəkir: boş, boş dartılmış, optimal və həddindən artıq dartılmış vəziyyətlər.
+
+Skript `src/config/visuals.ts`-dəki **eyni sabitləri** və eyni həndəsə funksiyalarını istifadə edir, ona görə tətbiqin görünüşündən ayrılmır. Hər vizual dəyişiklikdən sonra işlədilməli və şəkillərə BAXILMALIDIR.
+
+> ⚠️ CanvasKit-də `setColor()` alfanı da təyin edir və əvvəlki `setAlphaf()` çağırışını sıfırlayır. Şəffaflıq həmişə rəngdən SONRA verilməlidir — əks halda hər şey tam qeyri-şəffaf çəkilir.
+
 - [ ] portrait layout pozulmur
 - [ ] mouse ilə əsas gesture-lər işləyir
 

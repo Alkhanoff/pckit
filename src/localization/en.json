@@ -80,7 +80,9 @@
       "completed": "Done",
       "result": "Result"
     },
-    "tapHint": "Tap a surface of the box"
+    "tapHint": "Tap a surface of the box",
+    "graphicsUnavailable": "Graphics engine could not load on this browser.",
+    "graphicsHint": "The game renders correctly in the Android build. Web preview needs WebAssembly support."
   },
   "scoring": {
     "presentation": "Presentation",

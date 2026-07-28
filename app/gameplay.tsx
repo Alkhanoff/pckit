@@ -15,6 +15,7 @@ import { useSceneGeometry } from '@/hooks/useSceneGeometry';
 import { t } from '@/localization/i18n';
 import { setHapticsEnabled, trigger } from '@/services/haptics/HapticsService';
 import { hapticForIntent } from '@/services/haptics/intentHaptics';
+import { isSkiaReady } from '@/services/skia/loadSkia';
 import { useGameplayStore } from '@/stores/useGameplayStore';
 import { useSettingsStore } from '@/stores/useSettingsStore';
 import type { ZoneId } from '@/types/game';
@@ -100,19 +101,28 @@ export default function GameplayScreen() {
       <ScreenHeader title={t('gameplay.title')} />
 
       <View style={styles.body}>
-        <GameplayScene
-          geometry={geometry}
-          width={sceneWidth}
-          height={sceneHeight}
-          gesture={gestures.gesture}
-          highlightedZone={touchedZone}
-          film={{
-            dragX: gestures.dragX,
-            dragY: gestures.dragY,
-            tension: gestures.tension,
-            active: gestures.active,
-          }}
-        />
+        {isSkiaReady() ? (
+          <GameplayScene
+            geometry={geometry}
+            width={sceneWidth}
+            height={sceneHeight}
+            gesture={gestures.gesture}
+            highlightedZone={touchedZone}
+            film={{
+              dragX: gestures.dragX,
+              dragY: gestures.dragY,
+              tension: gestures.tension,
+              active: gestures.active,
+            }}
+          />
+        ) : (
+          /* Skia yüklənməyibsə boş sahə əvəzinə səbəbi göstərilir —
+             səssiz uğursuzluq istifadəçini çaşdırır (docs/BUILDING.md §2). */
+          <View style={[styles.fallback, { width: sceneWidth, height: sceneHeight }]}>
+            <Text style={styles.fallbackTitle}>{t('gameplay.graphicsUnavailable')}</Text>
+            <Text style={styles.fallbackHint}>{t('gameplay.graphicsHint')}</Text>
+          </View>
+        )}
 
         <TensionIndicator
           tension={gestures.tension}
@@ -150,5 +160,23 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textMuted,
     marginTop: spacing.xs,
+  },
+  fallback: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    paddingHorizontal: spacing.lg,
+  },
+  fallbackTitle: {
+    ...typography.heading,
+    color: colors.textPrimary,
+    textAlign: 'center',
+  },
+  fallbackHint: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: spacing.sm,
   },
 });
