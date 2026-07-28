@@ -50,6 +50,7 @@ Hesabat formatı: nə hazırlandı · əsas fayllar · test nəticələri · qal
 ## Dəmir qaydalar
 
 ### Arxitektura
+
 - `src/domain/**` təmiz TypeScript — React, Skia, Reanimated, Expo importu **yoxdur**
 - `runOnJS` **yalnız** `src/gestures/intentBridge.ts` faylında
 - Gesture koordinatları Zustand-a və React state-ə **heç vaxt** yazılmır
@@ -59,11 +60,13 @@ Hesabat formatı: nə hazırlandı · əsas fayllar · test nəticələri · qal
 - Yeni məhsul/material `src/data/` dəyişikliyi ilə əlavə edilir, gameplay kodu dəyişmir
 
 ### Texnologiya
+
 - Expo SDK 57, New Architecture aktiv
 - Expo paketləri `npx expo install` ilə
 - **İstifadə etmə:** Unity, Unreal, Godot, Three.js, R3F, WebView, HTML Canvas, real-time cloth simulation, ağır physics, backend, multiplayer
 
 ### Gameplay
+
 - Vaxt limiti yoxdur, enerji sistemi yoxdur, çoxvalyutalılıq yoxdur
 - Sifariş **heç vaxt** uğursuz sayılmır — "fail" state-i mövcud deyil
 - Yanlış material gameplay-i bloklamır, yalnız bala təsir edir

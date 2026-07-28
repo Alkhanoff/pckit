@@ -29,15 +29,15 @@ Kod və `BALANCE.md` ayrılarsa, `BALANCE.md` yenilənir və commit-də qeyd edi
 
 Normativ runtime dəyərləri yalnız bu fayllarda saxlanılır:
 
-| Fayl | Məzmun |
-|---|---|
-| `src/config/balance.ts` | scoring çəkiləri, formul limitləri, tension bandları, defect cəzaları |
-| `src/config/progression.ts` | reputasiya hədləri, coin qiymətləri, unlock qaydaları |
-| `src/config/gameplay.ts` | state machine limitləri, timing, kamera |
-| `src/data/products.ts` | `ProductDefinition[]` |
-| `src/data/materials.ts` | `MaterialDefinition[]` |
-| `src/data/recipes.ts` | `PackagingRecipe[]` |
-| `src/data/orders.ts` | sifariş şablonları və ardıcıllıq |
+| Fayl                        | Məzmun                                                                |
+| --------------------------- | --------------------------------------------------------------------- |
+| `src/config/balance.ts`     | scoring çəkiləri, formul limitləri, tension bandları, defect cəzaları |
+| `src/config/progression.ts` | reputasiya hədləri, coin qiymətləri, unlock qaydaları                 |
+| `src/config/gameplay.ts`    | state machine limitləri, timing, kamera                               |
+| `src/data/products.ts`      | `ProductDefinition[]`                                                 |
+| `src/data/materials.ts`     | `MaterialDefinition[]`                                                |
+| `src/data/recipes.ts`       | `PackagingRecipe[]`                                                   |
+| `src/data/orders.ts`        | sifariş şablonları və ardıcıllıq                                      |
 
 Heç bir balans rəqəmi komponent və ya feature faylında hardcode edilmir.
 Bütün testlər həmin config-lərdən import edir — testlərdə rəqəm təkrarlanmır.
@@ -48,11 +48,11 @@ Bütün testlər həmin config-lərdən import edir — testlərdə rəqəm tək
 
 Üç scoring oxu vardır. Dördüncü ox yoxdur.
 
-| Internal field | UI (en, MVP) | UI (az, sonra) | Nəyi ölçür |
-|---|---|---|---|
-| `presentationScore` | Presentation | Səliqə | qırış, hava qabarcığı, simmetriya, etiket/möhür düzgünlüyü, vizual təmizlik |
-| `protectionScore` | Protection | Qoruma | zona coverage, seal, həssas zonalar, material uyğunluğu |
-| `efficiencyScore` | Efficiency | Səmərəlilik | istifadə olunan material, artıq qat, tullantı |
+| Internal field      | UI (en, MVP) | UI (az, sonra) | Nəyi ölçür                                                                  |
+| ------------------- | ------------ | -------------- | --------------------------------------------------------------------------- |
+| `presentationScore` | Presentation | Səliqə         | qırış, hava qabarcığı, simmetriya, etiket/möhür düzgünlüyü, vizual təmizlik |
+| `protectionScore`   | Protection   | Qoruma         | zona coverage, seal, həssas zonalar, material uyğunluğu                     |
+| `efficiencyScore`   | Efficiency   | Səmərəlilik    | istifadə olunan material, artıq qat, tullantı                               |
 
 Müştəri prioritetləri **eyni üç termini** istifadə edir: `presentation` \| `protection` \| `efficiency`.
 
@@ -67,15 +67,15 @@ Zona sxemi **recipe-ə məxsusdur**, məhsula deyil. Hər `PackagingRecipe` öz�
 
 ### Telefon qutusu + streç film (tutorial / vertical slice)
 
-| Zona | Çəki | Pass |
-|---|---:|---|
-| front | 20 | 1 + 2 (reinforcement) |
-| back | 20 | 1 + 2 (reinforcement) |
-| left | 15 | 1 |
-| right | 15 | 1 |
-| top | 15 | 2 |
-| bottom | 15 | 2 |
-| **Cəmi** | **100** | |
+| Zona     |    Çəki | Pass                  |
+| -------- | ------: | --------------------- |
+| front    |      20 | 1 + 2 (reinforcement) |
+| back     |      20 | 1 + 2 (reinforcement) |
+| left     |      15 | 1                     |
+| right    |      15 | 1                     |
+| top      |      15 | 2                     |
+| bottom   |      15 | 2                     |
+| **Cəmi** | **100** |                       |
 
 - **Pass 1 — horizontal wrap:** front, back, left, right (çəki cəmi 70)
 - **Pass 2 — vertical wrap:** top, bottom + front/back əlavə qat (çəki cəmi 30)
@@ -92,6 +92,7 @@ Oyunçu **görmədiyi zonaya görə xəbərsiz cəzalandırılmır** (bax §4).
 `sealing` → **`inspecting`** → `repairing` → `completed` → `result`
 
 `inspecting` state-i:
+
 - 2.5 saniyə avtomatik dönüş; ön → sağ → arxa → sol → üst → alt;
 - qüsurlu zonalar yumşaq halo ilə vurğulanır;
 - skip edilə bilər (tap);
@@ -107,14 +108,14 @@ Uyğunluq `product × material` cütündən deyil, **recipe + sifarişin məqsə
 
 `PackagingRecipe.suitability` üç dəyər alır:
 
-| Dəyər | Protection multiplikatoru | Mənası |
-|---|---:|---|
-| `ideal` | 1.00 | sifarişin məqsədinə tam uyğun |
-| `alternative` | 0.90 | işləyir, amma optimal deyil |
-| `poor` | 0.75 | uyğunsuz seçim |
+| Dəyər         | Protection multiplikatoru | Mənası                        |
+| ------------- | ------------------------: | ----------------------------- |
+| `ideal`       |                      1.00 | sifarişin məqsədinə tam uyğun |
+| `alternative` |                      0.90 | işləyir, amma optimal deyil   |
+| `poor`        |                      0.75 | uyğunsuz seçim                |
 
 **Tutorial sifarişi (telefon qutusu + streç film) = `ideal`.**
-Sifarişin məqsədi: *tozdan və səthi cızıqdan qoruma + səliqəli rəf görünüşü*.
+Sifarişin məqsədi: _tozdan və səthi cızıqdan qoruma + səliqəli rəf görünüşü_.
 Bu sifarişdə material cəzası yoxdur və yeni oyunçu Perfect ala bilər.
 
 Telefon qutusu üçün bubble wrap ayrıca **kuryer/daşınma** sifarişində `ideal` sayılır.
@@ -126,6 +127,7 @@ Yanlış material heç vaxt gameplay-i bloklamır — yalnız `protectionScore`-
 ## 6. Nəticə səviyyələri
 
 ### Perfect — bütün şərtlər ödənməlidir
+
 - `overall` 90–100
 - `presentationScore` ≥ 90
 - `protectionScore` ≥ 90
@@ -133,10 +135,12 @@ Yanlış material heç vaxt gameplay-i bloklamır — yalnız `protectionScore`-
 - açıq **critical defect** sayı = 0
 
 ### Good
+
 - `overall` 70–89
 - critical defect ola bilər
 
 ### Acceptable
+
 - `overall` 0–69
 - sifariş bloklanmır, progression dayanmır, yalnız mükafat azalır
 
@@ -147,6 +151,7 @@ Sifariş **heç vaxt** uğursuz sayılmır. "Fail" state-i mövcud deyil.
 ## 7. Critical vs minor defect
 
 **Critical** (Perfect-i bloklayır):
+
 - tələb olunan ümumi coverage < 80%
 - əsas seal / film ucu bağlanmayıb
 - vacib qoruma zonası tam açıqdır (coverage < 25%)
@@ -154,6 +159,7 @@ Sifariş **heç vaxt** uğursuz sayılmır. "Fail" state-i mövcud deyil.
 - paket açıqdır, məhsul çıxa bilər
 
 **Minor** (bal azaldır, Perfect-i avtomatik bloklamır):
+
 - kiçik qırış
 - kiçik hava qabarcığı
 - yüngül asimmetriya
@@ -171,11 +177,11 @@ Telefon qutusu + streç film: `target = 100 units`, optimal aralıq **90–110**
 
 **Tension birbaşa material sərfini dəyişir** (ayrıca cəza yoxdur — səbəb-nəticə zənciri təbii qalır):
 
-| Tension | Unit sərfi | Yan təsir |
-|---|---:|---|
-| Loose | ×1.35 | qırış ehtimalı ↑ |
-| Optimal | ×1.00 | — |
-| Overstretched | ×0.85 | nazilmiş film → presentation ↓, protection ↓ |
+| Tension       | Unit sərfi | Yan təsir                                    |
+| ------------- | ---------: | -------------------------------------------- |
+| Loose         |      ×1.35 | qırış ehtimalı ↑                             |
+| Optimal       |      ×1.00 | —                                            |
+| Overstretched |      ×0.85 | nazilmiş film → presentation ↓, protection ↓ |
 
 Bu, real trade-off yaradır: overstretch efficiency-ni yaxşılaşdırır, amma digər iki oxu pisləşdirir.
 
@@ -187,11 +193,11 @@ Dəqiq əyrilər: [`BALANCE.md §5`](BALANCE.md).
 
 Baza: **10 reputasiya / tamamlanmış sifariş**, nəticə multiplikatoru ilə:
 
-| Nəticə | Multiplikator | Reputasiya |
-|---|---:|---:|
-| Perfect | ×1.5 | 15 |
-| Good | ×1.0 | 10 |
-| Acceptable | ×0.7 | 7 |
+| Nəticə     | Multiplikator | Reputasiya |
+| ---------- | ------------: | ---------: |
+| Perfect    |          ×1.5 |         15 |
+| Good       |          ×1.0 |         10 |
+| Acceptable |          ×0.7 |          7 |
 
 Tam ədədə yuvarlaqlaşdırılır. Reputasiya **xərclənmir**. Zen Mode reputasiya vermir.
 
@@ -199,12 +205,13 @@ Tam ədədə yuvarlaqlaşdırılır. Reputasiya **xərclənmir**. Zen Mode reput
 
 ## 10. Coin və reputasiya fərqli funksiya daşıyır
 
-| Sistem | Funksiya |
-|---|---|
-| **Reputasiya** | kontentin *görünməsi* — sifariş kateqoriyaları və mağaza rəflərinin açılması |
-| **Coin** | görünən materialın və workshop upgrade-lərinin *satın alınması* |
+| Sistem         | Funksiya                                                                     |
+| -------------- | ---------------------------------------------------------------------------- |
+| **Reputasiya** | kontentin _görünməsi_ — sifariş kateqoriyaları və mağaza rəflərinin açılması |
+| **Coin**       | görünən materialın və workshop upgrade-lərinin _satın alınması_              |
 
 Eyni kontent iki dəfə kilidlənmir:
+
 - **Məhsul sifarişləri** yalnız reputasiya ilə açılır, coin tələb etmir.
 - **Materiallar** reputasiya həddindən sonra mağazada görünür və coin ilə alınır.
 - **Workshop** yalnız coin ilə alınır, reputasiya tələb etmir.
@@ -236,13 +243,13 @@ Jumbo səhnəsi və material ehtiyatı sistemi **MVP Definition of Done-dan çı
 
 Vaxt limiti **yoxdur**. Bunlar yalnız dizayn hədəfləridir.
 
-| Recipe | Hədəf |
-|---|---|
-| Telefon qutusu + streç | 30–60 s |
-| Telefon qutusu + bubble wrap | 40–70 s |
-| Yemək qabı + streç | 30–60 s |
-| Yemək qabı + folqa | 40–70 s |
-| Parfüm + bubble wrap | 50–80 s |
+| Recipe                         | Hədəf   |
+| ------------------------------ | ------- |
+| Telefon qutusu + streç         | 30–60 s |
+| Telefon qutusu + bubble wrap   | 40–70 s |
+| Yemək qabı + streç             | 30–60 s |
+| Yemək qabı + folqa             | 40–70 s |
+| Parfüm + bubble wrap           | 50–80 s |
 | Hədiyyə qutusu + premium kağız | 60–90 s |
 
 ---
@@ -262,6 +269,7 @@ defectRepaired       recipeCompleted
 ```
 
 Qaydalar:
+
 - `runOnJS` hər frame çağırılmır;
 - `tensionStateChanged` yalnız band dəyişdikdə (loose↔optimal↔overstretched) atılır, ≥120 ms debounce ilə;
 - hadisələr `GameplayIntent` union tipi kimi `src/domain/gameplay/intents.ts` faylında saxlanılır;
@@ -320,6 +328,7 @@ Hər haptic event-i eyni zamanda ən azı bir vizual və bir audio siqnalla mü�
 Real-time pitch shifting MVP-də istifadə edilmir (platformalar arası davranış qeyri-stabil).
 
 Əvəzinə:
+
 - hər təkrarlanan action üçün **2–3 audio variant**, növbə ilə/təsadüfi seçim;
 - ±10% volume modulyasiyası;
 - lazım olduqda ±5% playback rate.
@@ -346,12 +355,12 @@ Bütün görünən mətn localization key ilə idarə edilir; komponentdə hardc
 
 ## 21. Texnologiya versiyaları (Mərhələ 0-da təsbit edilib)
 
-| | |
-|---|---|
-| Expo SDK | **57** (`expo@57.0.8`) |
-| React Native | 0.86.x |
-| Arxitektura | New Architecture (Fabric) — Reanimated 4 tələbi |
-| Node | ≥ 22 |
+|              |                                                 |
+| ------------ | ----------------------------------------------- |
+| Expo SDK     | **57** (`expo@57.0.8`)                          |
+| React Native | 0.86.x                                          |
+| Arxitektura  | New Architecture (Fabric) — Reanimated 4 tələbi |
+| Node         | ≥ 22                                            |
 
 Paketlər `npx expo install` ilə quraşdırılır. Manual `npm install` yalnız Expo-dan kənar paketlər üçün (zustand, i18n-js).
 
@@ -400,15 +409,15 @@ Oyunun məqsədi real qablaşdırma fizikasını simulyasiya etmək deyil.
 
 `Pack_and_Relax_DECISIONS.md`-də açıq qalan və burada qərara bağlanan məsələlər:
 
-| # | Məsələ | Qərar |
-|---|---|---|
-| A1 | Üç oxun `overall`-a çəkisi | müştəri prioritetinə görə dəyişən çəki dəsti — `BALANCE.md §1` |
-| A2 | Düzəldilmiş qüsurun qalıq cəzası | cəzanın **80%-i geri qaytarılır**, 20% qalır — `BALANCE.md §3` |
-| A3 | Tension bandlarının ədədi sərhədləri | 0.35 / 0.75 — `BALANCE.md §2` |
-| A4 | Qüsur yaranma şərtləri | deterministik trigger cədvəli — `BALANCE.md §6` |
-| A5 | Təsadüfi qüsur | MVP-də **0%** (`randomDefectChance: 0`) |
-| A6 | Coin formulu və priority bonusu | `BALANCE.md §7` |
-| A7 | Zen Mode-un save-ə təsiri | yalnız settings save edilir, progress toxunulmur |
-| A8 | Save yazma nöqtələri | §15 |
-| A9 | Expo SDK versiyası | 57 |
-| A10 | UI dili vs scoring adları | UI English, "Səliqə" yalnız az localization |
+| #   | Məsələ                               | Qərar                                                          |
+| --- | ------------------------------------ | -------------------------------------------------------------- |
+| A1  | Üç oxun `overall`-a çəkisi           | müştəri prioritetinə görə dəyişən çəki dəsti — `BALANCE.md §1` |
+| A2  | Düzəldilmiş qüsurun qalıq cəzası     | cəzanın **80%-i geri qaytarılır**, 20% qalır — `BALANCE.md §3` |
+| A3  | Tension bandlarının ədədi sərhədləri | 0.35 / 0.75 — `BALANCE.md §2`                                  |
+| A4  | Qüsur yaranma şərtləri               | deterministik trigger cədvəli — `BALANCE.md §6`                |
+| A5  | Təsadüfi qüsur                       | MVP-də **0%** (`randomDefectChance: 0`)                        |
+| A6  | Coin formulu və priority bonusu      | `BALANCE.md §7`                                                |
+| A7  | Zen Mode-un save-ə təsiri            | yalnız settings save edilir, progress toxunulmur               |
+| A8  | Save yazma nöqtələri                 | §15                                                            |
+| A9  | Expo SDK versiyası                   | 57                                                             |
+| A10 | UI dili vs scoring adları            | UI English, "Səliqə" yalnız az localization                    |

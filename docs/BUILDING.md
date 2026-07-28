@@ -6,15 +6,31 @@
 
 ## 1. Texnologiya versiyaları
 
-| | |
-|---|---|
-| Expo SDK | **57** (`expo@57.0.8`) |
-| React Native | 0.86.x |
-| Arxitektura | New Architecture (Fabric) — `react-native-reanimated@4` tələbi |
-| Node | ≥ 22 (test: v22.13.0) |
-| npm | ≥ 10 (test: 10.9.2) |
+Mərhələ 1-də təsbit edilmiş faktiki versiyalar:
+
+| Paket                           | Versiya          | Qeyd                                                     |
+| ------------------------------- | ---------------- | -------------------------------------------------------- |
+| `expo`                          | ~57.0.8          |                                                          |
+| `react-native`                  | 0.86.0           |                                                          |
+| `react`                         | 19.2.3           |                                                          |
+| `expo-router`                   | ~57.0.8          | typed routes aktiv                                       |
+| `@shopify/react-native-skia`    | 2.6.2            | Expo-nun pinlədiyi versiya (latest 2.10 deyil)           |
+| `react-native-reanimated`       | 4.5.0            | New Architecture tələb edir                              |
+| `react-native-worklets`         | 0.10.0           | Reanimated 4 üçün ayrıca paket                           |
+| `react-native-gesture-handler`  | ~2.32.0          | Expo-nun pinlədiyi versiya (latest 3.1 deyil)            |
+| `zustand`                       | ^5.0.14          |                                                          |
+| `jest-expo`                     | ~57.0.2          |                                                          |
+| `@testing-library/react-native` | ^14.0.1          | `render` **async**-dir — bax TESTING.md §2               |
+| `test-renderer`                 | ^1.2.0           | RNTL 14 peer (React 19 üçün `react-test-renderer` əvəzi) |
+| `typescript`                    | ~6.0.3           |                                                          |
+| Node / npm                      | 22.13.0 / 10.9.2 |                                                          |
 
 **Qayda:** bütün Expo paketləri `npx expo install` ilə quraşdırılır — `npm install` yalnız Expo-dan kənar paketlər üçün (`zustand`, `i18n-js`).
+`expo install` bilərəkdən latest-dən aşağı versiya seçirsə, o seçim əsasdır — manual yüksəltmə edilmir.
+
+### New Architecture
+
+SDK 57-də New Architecture **defaultdur**; `app.config.ts`-də `newArchEnabled` bayrağı artıq `ExpoConfig` tipində yoxdur və yazılmır.
 
 ---
 
@@ -23,9 +39,11 @@
 ```bash
 npm run web
 ```
+
 ```bash
 npm run android
 ```
+
 ```bash
 npm run ios
 ```
@@ -33,9 +51,11 @@ npm run ios
 Web preview yalnız vizual və məntiq yoxlaması üçündür — native performansı və haptic keyfiyyətini əvəz etmir (`DECISIONS.md §15`).
 
 ### Skia web qeydi
-React Native Skia web-də CanvasKit (WASM) ilə işləyir. Mərhələ 1-də web bundler konfiqurasiyası yoxlanılmalı və CanvasKit asset-inin yükləndiyi təsdiqlənməlidir. Web-də render fərqi olarsa, **native davranış əsas götürülür**.
+
+✅ **Mərhələ 1-də yoxlanıldı və işləyir.** `/gameplay` route-unda Skia canvas web-də WebGL context ilə render olunur, əlavə bundler konfiqurasiyası tələb olunmadı. Web-də render fərqi olarsa, **native davranış əsas götürülür**.
 
 ### SQLite web qeydi
+
 `expo-sqlite` web-də əlavə konfiqurasiya tələb edir. Bu səbəbdən web-də `WebStorageAdapter` (localStorage) istifadə olunur — `expo-sqlite` web-ə heç vaxt yüklənmir.
 
 ---
@@ -44,11 +64,11 @@ React Native Skia web-də CanvasKit (WASM) ilə işləyir. Mərhələ 1-də web 
 
 `eas.json`:
 
-| Profil | Platform | Məqsəd | Distribution |
-|---|---|---|---|
-| `development` | android, ios | dev client | internal |
-| `preview` | android, ios | cihaz testi | internal (APK / ad-hoc) |
-| `production` | android, ios | store | store (AAB / IPA) |
+| Profil        | Platform     | Məqsəd      | Distribution            |
+| ------------- | ------------ | ----------- | ----------------------- |
+| `development` | android, ios | dev client  | internal                |
+| `preview`     | android, ios | cihaz testi | internal (APK / ad-hoc) |
+| `production`  | android, ios | store       | store (AAB / IPA)       |
 
 EAS Update kanalları: `preview` və `production` — ayrı saxlanılır.
 
@@ -62,12 +82,15 @@ EAS Update kanalları: `preview` və `production` — ayrı saxlanılır.
 ```bash
 npx eas build --profile preview --platform android
 ```
+
 ```bash
 npx eas build --profile preview --platform ios
 ```
+
 ```bash
 npx eas build --profile production --platform android
 ```
+
 ```bash
 npx eas update --channel preview --message "balance tuning"
 ```
@@ -78,16 +101,16 @@ npx eas update --channel preview --message "balance tuning"
 
 `app.config.ts` daxilində:
 
-| Sahə | Dəyər |
-|---|---|
-| `name` | Pack & Relax *(müvəqqəti)* |
-| `slug` | `pack-and-relax` |
-| `orientation` | `portrait` |
-| `scheme` | `packandrelax` |
-| `android.package` | `com.alkha.packandrelax` |
-| `ios.bundleIdentifier` | `com.alkha.packandrelax` |
-| `newArchEnabled` | `true` |
-| `userInterfaceStyle` | `light` |
+| Sahə                   | Dəyər                      |
+| ---------------------- | -------------------------- |
+| `name`                 | Pack & Relax _(müvəqqəti)_ |
+| `slug`                 | `pack-and-relax`           |
+| `orientation`          | `portrait`                 |
+| `scheme`               | `packandrelax`             |
+| `android.package`      | `com.alkha.packandrelax`   |
+| `ios.bundleIdentifier` | `com.alkha.packandrelax`   |
+| `userInterfaceStyle`   | `light`                    |
+| `experiments`          | typedRoutes, reactCompiler |
 
 Version və build number `app.config.ts`-də mərkəzləşdirilir; EAS `autoIncrement` istifadə edir.
 
@@ -113,15 +136,15 @@ Production build **hər commit-də yaradılmır**. Build yalnız manual workflow
 
 Aşağıdakılar Claude tərəfindən edilə bilməz və istifadəçi müdaxiləsi tələb edir:
 
-| Addım | Nə vaxt lazımdır |
-|---|---|
-| Expo (EAS) hesabına giriş | ilk `eas build`-dən əvvəl |
-| GitHub hesabına giriş / repo yaradılması | Mərhələ 1 |
-| Apple Developer hesabı ($99/il) və giriş | iOS preview / TestFlight (Mərhələ 22) |
-| Google Play Developer hesabı ($25 birdəfəlik) | Android store submit (Mərhələ 23) |
-| İki mərhələli təsdiq kodları | hesab girişlərində |
-| Hüquqi müqavilələrin qəbulu | developer hesabı yaradılışında |
-| Fiziki telefonda vizual və toxunma testi | Mərhələ 12, 22, 24 |
+| Addım                                         | Nə vaxt lazımdır                      |
+| --------------------------------------------- | ------------------------------------- |
+| Expo (EAS) hesabına giriş                     | ilk `eas build`-dən əvvəl             |
+| GitHub hesabına giriş / repo yaradılması      | Mərhələ 1                             |
+| Apple Developer hesabı ($99/il) və giriş      | iOS preview / TestFlight (Mərhələ 22) |
+| Google Play Developer hesabı ($25 birdəfəlik) | Android store submit (Mərhələ 23)     |
+| İki mərhələli təsdiq kodları                  | hesab girişlərində                    |
+| Hüquqi müqavilələrin qəbulu                   | developer hesabı yaradılışında        |
+| Fiziki telefonda vizual və toxunma testi      | Mərhələ 12, 22, 24                    |
 
 Android preview build **Apple hesabı olmadan** yaradıla bilər — iOS yalnız Mərhələ 22-də tələb olunur.
 
@@ -141,10 +164,11 @@ Android preview build **Apple hesabı olmadan** yaradıla bilər — iOS yalnız
 
 ## 9. Məlum risklər
 
-| Risk | Təsir | Azaldılma |
-|---|---|---|
-| Skia web CanvasKit konfiqurasiyası | web preview axını dayanar | Mərhələ 1-də erkən yoxlanılır; native əsasdır |
-| Reanimated 4 New Arch tələbi | köhnə arch ilə build sınar | `newArchEnabled: true` təsbit edilib |
-| SDK 57 yenidir (sdk-56 daha çox patch alıb) | ekosistem uyğunsuzluğu | bütün expo-* paketlər 57.x-də mövcuddur; problem olarsa SDK 56-ya geri dönmə planı var |
-| Layihə path-ində boşluq (`Pack it`) | bəzi Windows tooling-ində problem | EAS cloud build path-dən asılı deyil; problem çıxarsa layihə boşluqsuz path-ə köçürülür |
-| Android haptic keyfiyyəti | əsas vəd zəifləyər | vizual + audio kompensasiya (`DECISIONS.md §17`) |
+| Risk                                        | Təsir                              | Azaldılma                                                                               |
+| ------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------- |
+| ~~Skia web CanvasKit~~                      | —                                  | ✅ **Bağlandı** — Mərhələ 1-də WebGL context ilə render təsdiqləndi                     |
+| ~~Reanimated 4 New Arch tələbi~~            | —                                  | ✅ **Bağlandı** — SDK 57-də New Arch defaultdur; web export uğurlu                      |
+| SDK 57 yenidir (sdk-56 daha çox patch alıb) | ekosistem uyğunsuzluğu             | bütün expo-\* paketlər 57.x-də mövcuddur; problem olarsa SDK 56-ya geri dönmə planı var |
+| Layihə path-ində boşluq (`Pack it`)         | bəzi Windows tooling-ində problem  | Mərhələ 1-də problem yaratmadı (install, bundle, export, test hamısı keçdi); nəzarətdə  |
+| Android haptic keyfiyyəti                   | əsas vəd zəifləyər                 | vizual + audio kompensasiya (`DECISIONS.md §17`)                                        |
+| React Compiler aktivdir (SDK 57 default)    | Reanimated worklet-lərlə kənar hal | Mərhələ 5-6-da gesture ilə birlikdə yoxlanılacaq; problem olarsa config-dən söndürülür  |

@@ -125,20 +125,20 @@ reduce(state: PackagingSession, intent: GameplayIntent): PackagingSession
 
 ### Keçid cədvəli
 
-| Cari | Qəbul edilən intent | Növbəti |
-|---|---|---|
-| `preparing` | — (avtomatik) | `selectingMaterial` |
-| `selectingMaterial` | `materialGrabbed` | `grabbingMaterial` |
-| `grabbingMaterial` | `tensionStateChanged` | `pulling` |
-| `pulling` | `wrapZoneCompleted` | `wrapping` |
-| `wrapping` | `wrapPassCompleted` (son pass) | `cutting` |
-| `wrapping` | `wrapPassCompleted` (aralıq) | `wrapping` *(90° dönüş)* |
-| `cutting` | `cutCompleted` | `sealing` |
-| `sealing` | `sealPlaced` | `inspecting` |
-| `inspecting` | `inspectionCompleted` | `repairing` |
-| `repairing` | `defectRepaired` | `repairing` |
-| `repairing` | `recipeCompleted` | `completed` |
-| `completed` | — (avtomatik) | `result` |
+| Cari                | Qəbul edilən intent            | Növbəti                  |
+| ------------------- | ------------------------------ | ------------------------ |
+| `preparing`         | — (avtomatik)                  | `selectingMaterial`      |
+| `selectingMaterial` | `materialGrabbed`              | `grabbingMaterial`       |
+| `grabbingMaterial`  | `tensionStateChanged`          | `pulling`                |
+| `pulling`           | `wrapZoneCompleted`            | `wrapping`               |
+| `wrapping`          | `wrapPassCompleted` (son pass) | `cutting`                |
+| `wrapping`          | `wrapPassCompleted` (aralıq)   | `wrapping` _(90° dönüş)_ |
+| `cutting`           | `cutCompleted`                 | `sealing`                |
+| `sealing`           | `sealPlaced`                   | `inspecting`             |
+| `inspecting`        | `inspectionCompleted`          | `repairing`              |
+| `repairing`         | `defectRepaired`               | `repairing`              |
+| `repairing`         | `recipeCompleted`              | `completed`              |
+| `completed`         | — (avtomatik)                  | `result`                 |
 
 **Qayda:** hər state yalnız öz siyahısındakı intent-i qəbul edir. Naməlum intent **səssizcə atılır** (throw yox) — gameplay heç vaxt istisna ilə dayanmır. Atılan intent `__DEV__`-də warn edilir.
 
@@ -166,14 +166,14 @@ reduce(state: PackagingSession, intent: GameplayIntent): PackagingSession
 
 ## 5. Store məsuliyyətləri
 
-| Store | Saxlayır | Persist |
-|---|---|---|
-| `useProfileStore` | coin, reputasiya, ümumi statistika | ✓ |
-| `useProgressionStore` | açılmış məhsul/material, workshop level, tutorial status | ✓ |
-| `useOrderStore` | mövcud sifarişlər, aktiv sifariş | qismən |
-| `useGameplayStore` | aktiv `PackagingSession`, cari state, defect siyahısı | ✗ (session) |
-| `useSettingsStore` | music, sound, haptic, reduceMotion, dil | ✓ |
-| `useInventoryStore` | material ehtiyatı *(MVP-də vizual, təsirsiz)* | ✓ |
+| Store                 | Saxlayır                                                 | Persist     |
+| --------------------- | -------------------------------------------------------- | ----------- |
+| `useProfileStore`     | coin, reputasiya, ümumi statistika                       | ✓           |
+| `useProgressionStore` | açılmış məhsul/material, workshop level, tutorial status | ✓           |
+| `useOrderStore`       | mövcud sifarişlər, aktiv sifariş                         | qismən      |
+| `useGameplayStore`    | aktiv `PackagingSession`, cari state, defect siyahısı    | ✗ (session) |
+| `useSettingsStore`    | music, sound, haptic, reduceMotion, dil                  | ✓           |
+| `useInventoryStore`   | material ehtiyatı _(MVP-də vizual, təsirsiz)_            | ✓           |
 
 Route parametrlərində gameplay state saxlanılmır — yalnız `sessionId`.
 
@@ -183,21 +183,21 @@ Route parametrlərində gameplay state saxlanılmır — yalnız `sessionId`.
 
 ```ts
 interface StorageAdapter {
-  init(): Promise<void>
-  get<T>(key: string): Promise<T | null>
-  set<T>(key: string, value: T): Promise<void>
-  delete(key: string): Promise<void>
-  getSchemaVersion(): Promise<number>
-  setSchemaVersion(v: number): Promise<void>
-  transaction(fn: () => Promise<void>): Promise<void>
+  init(): Promise<void>;
+  get<T>(key: string): Promise<T | null>;
+  set<T>(key: string, value: T): Promise<void>;
+  delete(key: string): Promise<void>;
+  getSchemaVersion(): Promise<number>;
+  setSchemaVersion(v: number): Promise<void>;
+  transaction(fn: () => Promise<void>): Promise<void>;
 }
 ```
 
-| Platform | Implementasiya |
-|---|---|
-| Android / iOS | `SqliteStorageAdapter` (expo-sqlite) |
-| Web preview | `WebStorageAdapter` (localStorage, JSON snapshot) |
-| Jest | `MemoryStorageAdapter` |
+| Platform      | Implementasiya                                    |
+| ------------- | ------------------------------------------------- |
+| Android / iOS | `SqliteStorageAdapter` (expo-sqlite)              |
+| Web preview   | `WebStorageAdapter` (localStorage, JSON snapshot) |
+| Jest          | `MemoryStorageAdapter`                            |
 
 Seçim `src/services/storage/index.ts`-də `Platform.OS` ilə bir dəfə edilir.
 
@@ -233,17 +233,17 @@ HapticsService.trigger('light' | 'medium' | 'heavy' | 'selection' | 'success' | 
 - Web / dəstəkləməyən cihaz → no-op (heç bir xəta atılmır).
 - Komponentlər `expo-haptics`-i birbaşa import etmir.
 
-| Event | Haptic |
-|---|---|
-| materialı tutmaq | `light` |
-| optimal tension-a giriş | `selection` |
-| overstretch | `warning` (max 1/2s) |
-| kəsim | `medium` |
-| sealing | `light` |
-| bubble pop | `light` |
-| möhür | `heavy` |
-| qüsur düzəltmək | `selection` |
-| Perfect nəticə | `success` |
+| Event                   | Haptic               |
+| ----------------------- | -------------------- |
+| materialı tutmaq        | `light`              |
+| optimal tension-a giriş | `selection`          |
+| overstretch             | `warning` (max 1/2s) |
+| kəsim                   | `medium`             |
+| sealing                 | `light`              |
+| bubble pop              | `light`              |
+| möhür                   | `heavy`              |
+| qüsur düzəltmək         | `selection`          |
+| Perfect nəticə          | `success`            |
 
 ---
 
@@ -260,11 +260,11 @@ HapticsService.trigger('light' | 'medium' | 'heavy' | 'selection' | 'success' | 
 
 ## 10. Performans büdcəsi
 
-| Metrik | Hədəf |
-|---|---|
-| FPS (orta cihaz) | 60, minimum stabil 30 |
-| Gesture → vizual gecikmə | < 50 ms |
-| Gameplay ekranında React re-render | gesture zamanı **0** |
-| `runOnJS` çağırışı | < 10 / saniyə |
-| Startup (soyuq) | < 3 s |
-| Skia layer sayı | ≤ 25 |
+| Metrik                             | Hədəf                 |
+| ---------------------------------- | --------------------- |
+| FPS (orta cihaz)                   | 60, minimum stabil 30 |
+| Gesture → vizual gecikmə           | < 50 ms               |
+| Gameplay ekranında React re-render | gesture zamanı **0**  |
+| `runOnJS` çağırışı                 | < 10 / saniyə         |
+| Startup (soyuq)                    | < 3 s                 |
+| Skia layer sayı                    | ≤ 25                  |

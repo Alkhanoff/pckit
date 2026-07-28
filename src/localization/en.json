@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "Pack & Relax",
+    "tagline": "Wrap it. Feel it. Perfect it."
+  },
+  "menu": {
+    "orders": "Orders",
+    "zen": "Zen Mode",
+    "workshop": "Workshop",
+    "upgrades": "Upgrades",
+    "settings": "Settings"
+  },
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "coins": "Coins",
+    "reputation": "Reputation",
+    "comingSoon": "Coming soon"
+  },
+  "scoring": {
+    "presentation": "Presentation",
+    "protection": "Protection",
+    "efficiency": "Efficiency",
+    "overall": "Overall",
+    "perfect": "Perfect",
+    "good": "Good",
+    "acceptable": "Acceptable"
+  },
+  "settings": {
+    "music": "Music",
+    "sound": "Sound",
+    "haptics": "Haptics",
+    "reduceMotion": "Reduce Motion",
+    "restartTutorial": "Restart Tutorial",
+    "language": "Language"
+  }
+}

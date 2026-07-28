@@ -24,14 +24,15 @@ Keçid qapısı ödənmədən növbəti mərhələyə keçilmir.
 
 ## Blok A — Texniki əsas
 
-### ✅ Mərhələ 0 — Repository və iş mühiti *(tamamlandı 2026-07-28)*
+### ✅ Mərhələ 0 — Repository və iş mühiti _(tamamlandı 2026-07-28)_
+
 Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 
 **Nəticə:** Node v22.13.0 · npm 10.9.2 · git 2.49.0 · Expo SDK 57 seçildi.
 
 ---
 
-### Mərhələ 1 — Expo project foundation
+### ✅ Mərhələ 1 — Expo project foundation _(tamamlandı 2026-07-28)_
 
 - `npx create-expo-app` (SDK 57, TypeScript, Expo Router template)
 - Portrait orientation, Safe Area
@@ -44,11 +45,14 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 - Main Menu placeholder
 
 **Keçid qapısı**
-- [ ] Web preview açılır, console error yoxdur
-- [ ] Main Menu route-u görünür
-- [ ] Portrait konfiqurasiyası mövcuddur
-- [ ] typecheck / lint / test keçir
-- [ ] CI workflow yaşıl
+
+- [x] Web preview açılır, console error yoxdur
+- [x] Main Menu route-u görünür
+- [x] Portrait konfiqurasiyası mövcuddur
+- [x] typecheck / lint / test keçir (8/8 test)
+- [x] Skia web-də render olunur (əlavə: risk erkən bağlandı)
+- [x] Production web export uğurlu (11 route)
+- [ ] CI workflow yaşıl — ilk push-dan sonra GitHub-da yoxlanılır
 
 ---
 
@@ -63,6 +67,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 - İlk data: telefon qutusu, streç film, recipe, tutorial sifarişi
 
 **Keçid qapısı**
+
 - [ ] `BALANCE.md §13` fixture-ləri (F1/F2/F3) testdə eyni nəticəni verir
 - [ ] state machine testləri keçir
 - [ ] save yaradılır, oxunur, pozulmuş save crash etmir
@@ -79,6 +84,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 - Safe Area + responsive portrait
 
 **Keçid qapısı**
+
 - [ ] Main Menu → Orders → Material Select → Gameplay axını işləyir
 - [ ] Geri naviqasiya state-i pozmur
 - [ ] Kiçik (SE) və uzun (Pro Max) ekranlarda UI pozulmur
@@ -88,6 +94,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 ## Blok B — İlk vertical slice
 
 ### Mərhələ 4 — 2.5D telefon qutusu və masa
+
 Skia: masa, ön/üst/yan səthlər, kölgə, highlight, etiket, touch zonaları. Sabit 40° perspektiv.
 
 - [ ] Məhsul həcmli görünür, düz rectangle deyil
@@ -95,6 +102,7 @@ Skia: masa, ön/üst/yan səthlər, kölgə, highlight, etiket, touch zonaları.
 - [ ] Görünən frame drop yoxdur
 
 ### Mərhələ 5 — Gesture sistemi
+
 Tap · Drag/Pan · Swipe · Hold · Release + `intentBridge` + mouse fallback.
 
 - [ ] Gesture-lər conflict yaratmır
@@ -103,6 +111,7 @@ Tap · Drag/Pan · Swipe · Hold · Release + `intentBridge` + mouse fallback.
 - [ ] UI toxunuşu gameplay gesture-i yaratmır
 
 ### Mərhələ 6 — Streç filmi tutmaq və dartmaq
+
 Film ucu, rulondan açılma, stretch transform, üç tension bandı (`BALANCE.md §2`), audio + haptic.
 
 - [ ] Üç tension bandı aydın fərqlənir (rəng **və** forma)
@@ -110,6 +119,7 @@ Film ucu, rulondan açılma, stretch transform, üç tension bandı (`BALANCE.md
 - [ ] Overstretch xəbərdarlığı spam etmir (max 1/2s)
 
 ### Mərhələ 7 — Sarımaq və coverage
+
 6 zona, çəkili coverage, **iki wrap pass**, avtomatik 90° dönüş, material unit hesablaması.
 
 - [ ] Pass 1 → 70 çəki, Pass 1+2 → 100 çəki
@@ -118,6 +128,7 @@ Film ucu, rulondan açılma, stretch transform, üç tension bandı (`BALANCE.md
 - [ ] Dönüş axıcıdır (600 ms)
 
 ### Mərhələ 8 — Kəsim və sealing
+
 Kəsim xətti, swipe validation, sərbəst film ucu, seal zonası.
 
 - [ ] Film yalnız `cutting` state-də kəsilir
@@ -125,6 +136,7 @@ Kəsim xətti, swipe validation, sərbəst film ucu, seal zonası.
 - [ ] Yanlış seal bloklamır, yalnız bal azaldır
 
 ### Mərhələ 9 — Inspection, qüsurlar və düzəltmə
+
 `inspecting` rotation (2.5 s) → qüsur aşkarlanması → `repairing`.
 Minimum: `wrinkle`, `airBubble`, `openCorner`, `looseEnd`, `excessMaterial`.
 
@@ -135,6 +147,7 @@ Minimum: `wrinkle`, `airBubble`, `openCorner`, `looseEnd`, `excessMaterial`.
 - [ ] Düzəliş cəzanın 80%-ini geri qaytarır
 
 ### Mərhələ 10 — Audio və haptic
+
 Registry, service, kateqoriya mute, 2–3 variant, preload, Android vizual kompensasiya.
 
 - [ ] Əsas interaction-lar səssiz qalmır
@@ -143,6 +156,7 @@ Registry, service, kateqoriya mute, 2–3 variant, preload, Android vizual kompe
 - [ ] Preload gameplay-i bloklamır
 
 ### Mərhələ 11 — Scoring, coin və Result
+
 Üç ox, prioritet çəkiləri, Perfect/Good/Acceptable, coin, reputasiya, Result Screen.
 
 - [ ] F1/F2/F3 fixture-ləri real gameplay-də təkrarlana bilir
@@ -151,6 +165,7 @@ Registry, service, kateqoriya mute, 2–3 variant, preload, Android vizual kompe
 - [ ] Next Order yeni session yaradır
 
 ### Mərhələ 12 — Tutorial və vertical slice
+
 10 addımlıq tutorial, skip, save, restart. Tam axın + Android preview build.
 
 **Keçid qapısı = `DECISIONS.md §23` siyahısı.**
@@ -160,34 +175,34 @@ Bu tamamlanmadan yeni material əlavə edilmir.
 
 ## Blok C — Yeni məhsul və materiallar
 
-| Mərhələ | Məzmun | Əsas keçid şərti |
-|---|---|---|
-| 13 | Bubble wrap | qatlama streç filmdən fərqli hiss edilir; lent işləyir; **pop scoring-ə təsir etmir** |
-| 14 | Parfüm | həssas zonalar (üst/alt/yan) protection-a təsir edir |
-| 15 | Premium kağız + hədiyyə qutusu | künc fold-ları, lent, möhür, `asymmetry` scoring-i |
-| 16 | Folqa + yemək qabı | folqa dartılmır, əzilir; pressure əsaslı wrinkle |
+| Mərhələ | Məzmun                         | Əsas keçid şərti                                                                      |
+| ------- | ------------------------------ | ------------------------------------------------------------------------------------- |
+| 13      | Bubble wrap                    | qatlama streç filmdən fərqli hiss edilir; lent işləyir; **pop scoring-ə təsir etmir** |
+| 14      | Parfüm                         | həssas zonalar (üst/alt/yan) protection-a təsir edir                                  |
+| 15      | Premium kağız + hədiyyə qutusu | künc fold-ları, lent, möhür, `asymmetry` scoring-i                                    |
+| 16      | Folqa + yemək qabı             | folqa dartılmır, əzilir; pressure əsaslı wrinkle                                      |
 
 ---
 
 ## Blok D — Meta sistemlər
 
-| Mərhələ | Məzmun | Əsas keçid şərti |
-|---|---|---|
-| 17 | Zen Mode | progress, coin, reputasiya **dəyişmir** |
-| 18 | Workshop | 4 vizual səviyyə, coin ilə upgrade, save |
-| ~~19~~ | ~~Jumbo rulon~~ | **Post-MVP** (DECISIONS §12) |
+| Mərhələ | Məzmun          | Əsas keçid şərti                         |
+| ------- | --------------- | ---------------------------------------- |
+| 17      | Zen Mode        | progress, coin, reputasiya **dəyişmir**  |
+| 18      | Workshop        | 4 vizual səviyyə, coin ilə upgrade, save |
+| ~~19~~  | ~~Jumbo rulon~~ | **Post-MVP** (DECISIONS §12)             |
 
 ---
 
 ## Blok E — Tamamlama
 
-| Mərhələ | Məzmun |
-|---|---|
-| 20 | UI/UX polish — design token-lər, transition-lar, Safe Area, Dynamic Island, accessibility label-ları |
-| 21 | Performans — re-render audit, Skia optimizasiyası, audio pool, memory, `ARCHITECTURE.md §10` büdcəsi |
-| 22 | Android + iOS preview build, install link |
-| 23 | Production hazırlığı — icon, splash, identifier, EAS profilləri, AAB, TestFlight, privacy audit |
-| 24 | Son MVP testləri — `DECISIONS.md §22` Definition of Done |
+| Mərhələ | Məzmun                                                                                               |
+| ------- | ---------------------------------------------------------------------------------------------------- |
+| 20      | UI/UX polish — design token-lər, transition-lar, Safe Area, Dynamic Island, accessibility label-ları |
+| 21      | Performans — re-render audit, Skia optimizasiyası, audio pool, memory, `ARCHITECTURE.md §10` büdcəsi |
+| 22      | Android + iOS preview build, install link                                                            |
+| 23      | Production hazırlığı — icon, splash, identifier, EAS profilləri, AAB, TestFlight, privacy audit      |
+| 24      | Son MVP testləri — `DECISIONS.md §22` Definition of Done                                             |
 
 ---
 
