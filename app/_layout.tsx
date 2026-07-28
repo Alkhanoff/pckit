@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { colors } from '@/config/theme';
 import '@/localization/i18n';
 import { loadSave } from '@/services/save/saveService';
+import { loadSkia } from '@/services/skia/loadSkia';
 
 export default function RootLayout() {
   const [loaded, setLoaded] = useState(false);
@@ -17,14 +18,16 @@ export default function RootLayout() {
   useEffect(() => {
     let cancelled = false;
 
-    loadSave()
-      .catch((error) => {
+    // Skia web-də CanvasKit-i açıq yükləməli, əks halda canvas boş qalır.
+    Promise.all([
+      loadSave().catch((error) => {
         // Save oxunmasa belə oyun açılmalıdır (docs/DECISIONS.md §15).
         console.warn('[bootstrap] save yüklənmədi, default profil ilə davam edilir:', error);
-      })
-      .finally(() => {
-        if (!cancelled) setLoaded(true);
-      });
+      }),
+      loadSkia(),
+    ]).finally(() => {
+      if (!cancelled) setLoaded(true);
+    });
 
     return () => {
       cancelled = true;

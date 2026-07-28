@@ -186,6 +186,9 @@ CI (GitHub Actions) hər push və PR-da: install → typecheck → lint → test
 
 - [ ] səhifə açılır
 - [ ] console error = 0 (warning qəbul edilir)
+- [ ] **dev server konsolunda da error yoxdur** — Skia render xətaları yalnız orada görünür
+- [ ] `typeof globalThis.CanvasKit === 'object'` (əks halda qrafika səssizcə boş qalır)
+- [ ] qrafika GÖZLƏ yoxlanılıb — canvas elementinin mövcudluğu sübut deyil
 - [ ] portrait layout pozulmur
 - [ ] mouse ilə əsas gesture-lər işləyir
 

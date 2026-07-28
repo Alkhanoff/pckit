@@ -50,9 +50,23 @@ npm run ios
 
 Web preview yalnız vizual və məntiq yoxlaması üçündür — native performansı və haptic keyfiyyətini əvəz etmir (`DECISIONS.md §15`).
 
-### Skia web qeydi
+### ⚠️ Skia web — iki addım MƏCBURİDİR
 
-✅ **Mərhələ 1-də yoxlanıldı və işləyir.** `/gameplay` route-unda Skia canvas web-də WebGL context ilə render olunur, əlavə bundler konfiqurasiyası tələb olunmadı. Web-də render fərqi olarsa, **native davranış əsas götürülür**.
+Web-də Skia özü işə düşmür. İki şey lazımdır:
+
+**1. `LoadSkiaWeb()` açıq çağırılmalıdır** (`src/services/skia/loadSkia.web.ts`, root layout-dan). Çağırılmasa `global.CanvasKit` təyin olunmur.
+
+**2. `canvaskit.wasm` serve edilməlidir.** Metro `node_modules` daxilindəki `.wasm` faylını vermir. `scripts/copy-canvaskit.mjs` onu `public/` qovluğuna köçürür (`postinstall`-da avtomatik), `LoadSkiaWeb({ locateFile })` isə ünvanı göstərir. Fayl 8 MB-dır və git-ə əlavə edilmir.
+
+**Niyə bu vacibdir:** hər iki addım olmadan Skia canvas-ı **səssizcə boş qalır** — `<canvas>` elementi və WebGL context yaranır, konsolda görünən xəta olmaya bilər, sadəcə heç nə çəkilmir. Mərhələ 1–6 boyu vəziyyət məhz belə idi və yalnız telefonun brauzeri xətanı üzə çıxardı.
+
+**Yoxlama qaydası:** "canvas mövcuddur" KİFAYƏT DEYİL. Yoxlanmalı:
+
+- `typeof globalThis.CanvasKit === 'object'`
+- dev server konsolunda `PictureRecorder` / `CanvasKit` xətası yoxdur
+- və nəhayət — ekrana baxmaq
+
+WebGL canvas-ından `drawImage` ilə piksel oxumaq **etibarsızdır** (`preserveDrawingBuffer` olmadan həmişə boş qaytarır) — bu üsulla yoxlamaq olmaz.
 
 ### SQLite web qeydi
 

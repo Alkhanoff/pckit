@@ -23,6 +23,9 @@ expo-env.d.ts
 .metro-health-check*
 .metro-cache/
 
+# CanvasKit WASM — postinstall ilə node_modules-dan köçürülür
+public/canvaskit.wasm
+
 # Build output
 *.apk
 *.aab
