@@ -52,7 +52,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 - [x] typecheck / lint / test keçir (8/8 test)
 - [x] Skia web-də render olunur (əlavə: risk erkən bağlandı)
 - [x] Production web export uğurlu (11 route)
-- [ ] CI workflow yaşıl — ilk push-dan sonra GitHub-da yoxlanılır
+- [x] CI workflow yaşıl (GitHub Actions run #30340290469)
 
 ---
 
