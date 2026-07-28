@@ -56,7 +56,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 
 ---
 
-### Mərhələ 2 — Domain, data və save arxitekturası
+### ✅ Mərhələ 2 — Domain, data və save arxitekturası _(tamamlandı 2026-07-28)_
 
 - `ProductDefinition`, `MaterialDefinition`, `PackagingRecipe` tipləri
 - `src/config/balance.ts`, `progression.ts`, `gameplay.ts` — **`BALANCE.md`-dən birbaşa**
@@ -68,11 +68,12 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 
 **Keçid qapısı**
 
-- [ ] `BALANCE.md §13` fixture-ləri (F1/F2/F3) testdə eyni nəticəni verir
-- [ ] state machine testləri keçir
-- [ ] save yaradılır, oxunur, pozulmuş save crash etmir
-- [ ] web və native adapter eyni interfeysi ödəyir
-- [ ] yeni məhsul əlavə etmək gameplay kodunu dəyişmir
+- [x] `BALANCE.md §13` fixture-ləri (F1/F2/F3) testdə eyni nəticəni verir
+- [x] state machine testləri keçir
+- [x] save yaradılır, oxunur, pozulmuş save crash etmir
+- [x] web və native adapter eyni interfeysi ödəyir (paylaşılan test dəsti)
+- [x] yeni məhsul əlavə etmək gameplay kodunu dəyişmir (data-driven, invariant testi ilə qorunur)
+- [x] 183 test keçir · typecheck, lint, format təmiz
 
 ---
 

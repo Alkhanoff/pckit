@@ -40,6 +40,12 @@ Hər dəst 1.00-ə bərabərdir (test: `sum(weights) === 1`).
 | **Good**       | `overall ≥ 70` (Perfect şərtləri ödənmirsə)                                                                                    |
 | **Acceptable** | `overall < 70`                                                                                                                 |
 
+### Yuvarlaqlaşdırma
+
+Hər üç ox balı və `overall` **tam ədəd** kimi saxlanılır (`Math.round`, 0–100 aralığında kəsilir).
+
+Səbəb: Result ekranında göstərilən bal ilə Perfect qapısında yoxlanılan bal **eyni olmalıdır** — "90 göstərib Perfect verməmək" qəbuledilməzdir. Əlavə olaraq float qalığı (`46.000000000000014`) həm testləri, həm də UI-ni pozur.
+
 ---
 
 ## 2. Tension modeli
@@ -89,6 +95,14 @@ Yəni düzəliş cəzanın **80%-ini geri qaytarır**, 20% qalır.
 
 > 5 qırış yaradıb hamısını düzəltmək → `5 × 4 × 0.20 = −4` → presentation **96** → Perfect mümkündür ✓
 > 5 qırışı düzəltməmək → `−20` → presentation **80** → Perfect bloklanır ✓
+
+### Limitin tətbiq sırası
+
+Bir qrupun limiti (`maksimum sayılan`) daxilində qüsurlar **effektiv cəzaya görə azalan sırada** sayılır. Yəni limit "ən pis N qüsur" deməkdir.
+
+**Səbəb:** əks halda düzəldilmiş qüsurlar limiti "doldurub" düzəldilməmişləri cəzadan qoruyardı və oyunçu qəsdən çox qüsur yaratmaqda maraqlı olardı.
+
+> 5 düzəldilməmiş + 5 düzəldilmiş qırış → yalnız 5 düzəldilməmiş sayılır → `−20` → presentation **80**
 
 ---
 

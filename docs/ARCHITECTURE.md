@@ -127,12 +127,15 @@ reduce(state: PackagingSession, intent: GameplayIntent): PackagingSession
 
 | Cari                | Qəbul edilən intent            | Növbəti                  |
 | ------------------- | ------------------------------ | ------------------------ |
-| `preparing`         | — (avtomatik)                  | `selectingMaterial`      |
+| `preparing`         | — (`beginSession`)             | `selectingMaterial`      |
 | `selectingMaterial` | `materialGrabbed`              | `grabbingMaterial`       |
 | `grabbingMaterial`  | `tensionStateChanged`          | `pulling`                |
+| `grabbingMaterial`  | `materialReleased`             | `selectingMaterial`      |
+| `pulling`           | `tensionStateChanged`          | `pulling`                |
 | `pulling`           | `wrapZoneCompleted`            | `wrapping`               |
-| `wrapping`          | `wrapPassCompleted` (son pass) | `cutting`                |
+| `wrapping`          | `wrapZoneCompleted`            | `wrapping`               |
 | `wrapping`          | `wrapPassCompleted` (aralıq)   | `wrapping` _(90° dönüş)_ |
+| `wrapping`          | `wrapPassCompleted` (son pass) | `cutting`                |
 | `cutting`           | `cutCompleted`                 | `sealing`                |
 | `sealing`           | `sealPlaced`                   | `inspecting`             |
 | `inspecting`        | `inspectionCompleted`          | `repairing`              |
@@ -140,7 +143,11 @@ reduce(state: PackagingSession, intent: GameplayIntent): PackagingSession
 | `repairing`         | `recipeCompleted`              | `completed`              |
 | `completed`         | — (avtomatik)                  | `result`                 |
 
-**Qayda:** hər state yalnız öz siyahısındakı intent-i qəbul edir. Naməlum intent **səssizcə atılır** (throw yox) — gameplay heç vaxt istisna ilə dayanmır. Atılan intent `__DEV__`-də warn edilir.
+`defectDetected` yuxarıdakı cədvəldə göstərilmir, çünki state dəyişmir — o, qablaşdırma boyu istənilən anda qəbul edilir: `pulling · wrapping · cutting · sealing · inspecting · repairing`.
+
+**Qayda:** hər state yalnız öz siyahısındakı intent-i qəbul edir. İcazəsiz intent **səssizcə atılır** (throw yox) — gameplay heç vaxt istisna ilə dayanmır. Atılan intent `__DEV__`-də warn edilir və `session.rejectedIntents` sayğacı artır.
+
+`preparing` → `selectingMaterial` keçidi oyunçu hərəkəti tələb etmir, amma səhnə hazır olmadan baş verməməlidir — buna görə `beginSession()` funksiyası ilə açıq şəkildə çağırılır. `completed` → `result` isə `reduce` daxilində avtomatikdir.
 
 `repairing` state-indən `recipeCompleted` istənilən vaxt atıla bilər — oyunçu qüsurları düzəltməyə məcbur deyil.
 
