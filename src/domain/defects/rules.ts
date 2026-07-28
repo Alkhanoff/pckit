@@ -43,10 +43,14 @@ export type ZoneCompletionSignal = {
   lateralDeviation: number;
 };
 
-/** Bir zona tamamlandıqda hansı qüsurların yarandığını hesablayır. */
+/**
+ * Zona sarımı bitdikdə yaranan qüsurlar: qırış və hava qabarcığı.
+ *
+ * Açıq künc BURADA yoxlanılmır — zona hələ sonra tamamlana bilər.
+ * Onun üçün `detectOpenCorners` pass irəlilədikdə çağırılır.
+ */
 export function detectZoneDefects(signal: ZoneCompletionSignal): DefectInstance[] {
   const defects: DefectInstance[] = [];
-  const t = DEFECT_TRIGGERS;
 
   // Zəif dartılma → qırış
   if (signal.meanTension === 'loose') {
@@ -54,18 +58,33 @@ export function detectZoneDefects(signal: ZoneCompletionSignal): DefectInstance[
   }
 
   // Qeyri-bərabər drag → hava qabarcığı
-  if (signal.lateralDeviation > t.airBubbleLateralDeviation) {
+  if (signal.lateralDeviation > DEFECT_TRIGGERS.airBubbleLateralDeviation) {
     defects.push(createDefect('airBubble', 'minor', { zone: signal.zone }));
   }
 
-  // Yarımçıq zona → açıq künc
-  if (signal.coverage < t.openCornerMaxCoverage) {
-    const severity: DefectSeverity =
-      signal.coverage < t.openCornerCriticalBelow ? 'critical' : 'minor';
-    defects.push(createDefect('openCorner', severity, { zone: signal.zone }));
-  }
-
   return defects;
+}
+
+/**
+ * Pass irəlilədikdə yarımçıq qalan zonalar üçün açıq künc qüsuru.
+ *
+ * Bu, zona sarımından AYRI çağırılır: zona 40%-də ikən qüsur yaratmaq
+ * səhv olardı, çünki oyunçu həmin zonanı sonra tamamlaya bilər.
+ * Qüsur yalnız pass bağlandıqda — yəni zona artıq bərpa edilə bilməyəndə — yaranır.
+ */
+export function detectOpenCorners(
+  zoneCoverage: Partial<Record<ZoneId, number>>,
+  passZones: ZoneId[],
+): DefectInstance[] {
+  const t = DEFECT_TRIGGERS;
+
+  return passZones.flatMap((zone) => {
+    const coverage = zoneCoverage[zone] ?? 0;
+    if (coverage >= t.openCornerBelow) return [];
+
+    const severity: DefectSeverity = coverage < t.openCornerCriticalBelow ? 'critical' : 'minor';
+    return [createDefect('openCorner', severity, { zone })];
+  });
 }
 
 /** Overstretch fasiləsiz bu qədər davam edibsə `thinFilm` yaranır. */

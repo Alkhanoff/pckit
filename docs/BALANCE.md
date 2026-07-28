@@ -201,13 +201,27 @@ Bütün triggerlər **deterministikdir**. `randomDefectChance = 0` (MVP).
 | `wrinkle`          | zona tamamlanır, həmin zonadakı orta tension `loose` bandındadır | minor                              |
 | `thinFilm`         | tension fasiləsiz > 1.2 s `overstretched` bandındadır            | minor                              |
 | `airBubble`        | zona tamamlanır, drag path-ın yan sapması > zona eninin 18%-i    | minor                              |
-| `openCorner`       | pass irəliləyir, tələb olunan zona 25–90% örtülüdür              | minor (≥60%) / **critical** (<25%) |
+| `openCorner`       | **pass bağlanır**, zonanın örtülməsi < 90%                       | minor (≥25%) / **critical** (<25%) |
 | `looseEnd`         | `cutCompleted` sonra `sealPlaced` yoxdur                         | **critical**                       |
 | `looseEnd`         | seal zonadan kənarda yerləşdirilib                               | minor                              |
 | `excessMaterial`   | `u > 1.25`                                                       | minor                              |
 | `crookedSeal`      | seal bucaq sapması > 12°                                         | minor                              |
 | `asymmetry`        | qatlama recipe-lərində sol/sağ fold fərqi > 8%                   | minor (davamlı 0–10)               |
 | `coverageCritical` | ümumi çəkili coverage < 80%                                      | **critical**                       |
+
+### Trigger anları
+
+Qüsurlar iki fərqli anda yoxlanılır və bu fərq vacibdir:
+
+| An                     | Yoxlanan                             |
+| ---------------------- | ------------------------------------ |
+| **Zona sarımı bitir**  | `wrinkle`, `airBubble`               |
+| **Pass bağlanır**      | `openCorner`                         |
+| Overstretch davam edir | `thinFilm`                           |
+| Seal qoyulur           | `looseEnd`, `crookedSeal`            |
+| Sessiya bitir          | `excessMaterial`, `coverageCritical` |
+
+`openCorner` zona sarımı bitəndə YOX, **pass bağlananda** yoxlanılır. Səbəb: zona 40%-də ikən qüsur yaratmaq səhv olardı — oyunçu həmin zonaya qayıdıb tamamlaya bilər. Qüsur yalnız zona artıq bərpa edilə bilməyəndə yaranır.
 
 ### Düzəltmə gesture-ləri
 

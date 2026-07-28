@@ -166,10 +166,9 @@ export const DEFECT_TRIGGERS = {
   thinFilmHoldSeconds: 1.2,
   /** Drag path-ın zona eninə nisbətən yan sapması */
   airBubbleLateralDeviation: 0.18,
-  /** Zona bu aralıqda yarımçıq qalarsa `openCorner` */
-  openCornerMinCoverage: 0.25,
-  openCornerMaxCoverage: 0.9,
-  /** Bundan aşağı coverage — critical severity */
+  /** Pass irəlilədikdə zona bundan aşağıdırsa `openCorner` yaranır */
+  openCornerBelow: 0.9,
+  /** Zona bundan da aşağıdırsa qüsur critical sayılır (praktiki olaraq açıqdır) */
   openCornerCriticalBelow: 0.25,
   /** Ümumi çəkili coverage bundan aşağıdırsa `coverageCritical` */
   criticalCoverageBelow: 0.8,
@@ -177,7 +176,7 @@ export const DEFECT_TRIGGERS = {
   excessMaterialRatio: 1.25,
   /** Seal bucaq sapması (dərəcə) */
   crookedSealAngleDeg: 12,
-  /** Qatlama recipe-lərində sol/sağ fərqi */
+  /** Qatlama recipe-lərində sol/sağ fərqi — Mərhələ 15 (premium kağız) üçün */
   asymmetryFoldDelta: 0.08,
   /** MVP-də təsadüfi qüsur yoxdur — docs/DECISIONS.md Əlavə A5 */
   randomDefectChance: 0,

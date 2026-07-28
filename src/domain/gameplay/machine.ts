@@ -11,15 +11,8 @@ import type { PackagingSession } from './session';
  * İcazəsiz intent SƏSSİZCƏ atılır (throw yox) — gameplay heç vaxt istisna ilə dayanmır.
  */
 
-/** Qablaşdırma zamanı istənilən anda qüsur aşkarlana bilər. */
-const DEFECT_AWARE_STATES: GameplayState[] = [
-  'pulling',
-  'wrapping',
-  'cutting',
-  'sealing',
-  'inspecting',
-  'repairing',
-];
+// Qüsur qablaşdırma boyu istənilən anda aşkarlana bilər — `defectDetected`
+// aşağıdakı state-lərin hamısında icazəlidir.
 
 const ALLOWED_INTENTS: Record<GameplayState, GameplayIntentType[]> = {
   // Səhnə hazırlanır — oyunçu hərəkəti gözlənilmir (bax `beginSession`).
@@ -160,6 +153,3 @@ export function reduce(session: PackagingSession, intent: GameplayIntent): Packa
 export function reduceAll(session: PackagingSession, intents: GameplayIntent[]): PackagingSession {
   return intents.reduce(reduce, session);
 }
-
-/** `DEFECT_AWARE_STATES` konfiqurasiyasının ALLOWED_INTENTS ilə uyğunluğu testlə yoxlanılır. */
-export const DEFECT_STATES = DEFECT_AWARE_STATES;

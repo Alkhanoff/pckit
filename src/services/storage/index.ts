@@ -1,5 +1,4 @@
 import { createPlatformAdapter } from './adapter';
-import { MemoryStorageAdapter } from './memory';
 import type { StorageAdapter } from './StorageAdapter';
 
 export type { StorageAdapter } from './StorageAdapter';
@@ -28,15 +27,4 @@ export function getStorageAdapter(): StorageAdapter {
 /** Testlər üçün adapteri əvəz edir. */
 export function setStorageAdapter(adapter: StorageAdapter): void {
   instance = adapter;
-}
-
-export function resetStorageAdapter(): void {
-  instance = undefined;
-}
-
-/** Test mühitində rahat qurulum. */
-export function useMemoryStorage(): MemoryStorageAdapter {
-  const adapter = new MemoryStorageAdapter();
-  setStorageAdapter(adapter);
-  return adapter;
 }
