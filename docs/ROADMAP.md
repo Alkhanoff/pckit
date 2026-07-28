@@ -77,7 +77,7 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 
 ---
 
-### Mərhələ 3 — Naviqasiya və UI axını
+### ✅ Mərhələ 3 — Naviqasiya və UI axını _(tamamlandı 2026-07-28)_
 
 - 9 route
 - Main Menu, Orders, Material Selection ekranları
@@ -86,9 +86,13 @@ Git repo, git identity, sənəd bazası, texnologiya versiyalarının təsbiti.
 
 **Keçid qapısı**
 
-- [ ] Main Menu → Orders → Material Select → Gameplay axını işləyir
-- [ ] Geri naviqasiya state-i pozmur
-- [ ] Kiçik (SE) və uzun (Pro Max) ekranlarda UI pozulmur
+- [x] Main Menu → Orders → Material Select → Gameplay axını işləyir (web-də əl ilə keçildi)
+- [x] Geri naviqasiya state-i pozmur
+- [x] Kiçik (SE 375×667) və uzun (Pro Max 430×932) ekranlarda UI pozulmur
+- [x] Planşetdə (744×1133) kontent mərkəzdə, 520 px ilə məhdud
+- [x] Gameplay route-una yalnız `sessionId` ötürülür
+- [x] Save açılışda yüklənir, settings dəyişikliyi diskə yazılır və reload-dan sonra qalır
+- [x] 213 test keçir · console error = 0 · web export uğurlu
 
 ---
 

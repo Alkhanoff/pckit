@@ -4,7 +4,7 @@
 
 Oyunçu məhsulları toxunma hərəkətləri ilə qablaşdırır: materialı tutur, dartır, məhsulun ətrafına sarıyır, kəsir, yapışdırır və yaranan qüsurları düzəldir. Vaxt limiti yoxdur; əsas diqqət ASMR hissi, vizual təmizlik və toxunuşa dərhal reaksiyadır.
 
-> **Status:** Mərhələ 2 tamamlanıb — domain qatı, scoring, state machine, data modelləri və save sistemi hazırdır (183 test). Vizual gameplay Mərhələ 3-dən başlayır.
+> **Status:** Mərhələ 3 tamamlanıb — Orders → Material Select → Gameplay axını işləyir, save yüklənir və yazılır. Vizual gameplay Mərhələ 4-dən başlayır.
 
 ---
 

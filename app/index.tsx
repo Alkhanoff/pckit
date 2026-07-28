@@ -3,16 +3,23 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { MenuButton } from '@/components/MenuButton';
 import { Screen } from '@/components/Screen';
+import { StatBar } from '@/components/StatBar';
 import { colors, spacing, typography } from '@/config/theme';
 import { t } from '@/localization/i18n';
+import { useProfileStore } from '@/stores/useProfileStore';
 
 export default function MainMenuScreen() {
+  const coin = useProfileStore((s) => s.coin);
+  const reputation = useProfileStore((s) => s.reputation);
+
   return (
     <Screen centered>
       <View style={styles.header}>
         <Text style={styles.title}>{t('app.title')}</Text>
         <Text style={styles.tagline}>{t('app.tagline')}</Text>
       </View>
+
+      <StatBar coin={coin} reputation={reputation} />
 
       <View style={styles.menu}>
         <MenuButton
@@ -31,7 +38,7 @@ export default function MainMenuScreen() {
 const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
-    marginBottom: spacing.xxl,
+    marginBottom: spacing.xl,
   },
   title: {
     ...typography.display,

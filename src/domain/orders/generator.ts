@@ -23,19 +23,28 @@ function isUnlocked(template: OrderTemplate, unlockedRecipeIds: string[]): boole
   return unlockedRecipeIds.includes(template.recipeId);
 }
 
-/** Növbəti tək sifarişi seçir. */
+/**
+ * Növbəti tək sifarişi seçir.
+ *
+ * `excludeIds` — board qurularkən eyni sifarişin təkrarlanmasının qarşısını alır.
+ */
 export function nextOrder(
   state: GeneratorState,
   unlockedRecipeIds: string[],
   random: () => number = Math.random,
+  excludeIds: string[] = [],
 ): OrderTemplate | undefined {
   // Sabit ardıcıllıq mərhələsi
   if (state.completedCount < ORDERS.fixedSequenceLength) {
     const fixed = FIXED_SEQUENCE[state.completedCount];
-    if (fixed && isUnlocked(fixed, unlockedRecipeIds)) return fixed;
+    if (fixed && isUnlocked(fixed, unlockedRecipeIds) && !excludeIds.includes(fixed.id)) {
+      return fixed;
+    }
   }
 
-  const available = ORDER_POOL.filter((o) => isUnlocked(o, unlockedRecipeIds));
+  const available = ORDER_POOL.filter(
+    (o) => isUnlocked(o, unlockedRecipeIds) && !excludeIds.includes(o.id),
+  );
   if (available.length === 0) return undefined;
 
   const candidates =
@@ -47,7 +56,12 @@ export function nextOrder(
   return pool[Math.floor(random() * pool.length) % pool.length];
 }
 
-/** Orders ekranı üçün eyni anda göstərilən sifariş dəsti. */
+/**
+ * Orders ekranı üçün eyni anda göstərilən sifariş dəsti.
+ *
+ * Board-da eyni sifariş TƏKRARLANMIR. Az sayda recipe açıq olduqda board
+ * qısa qalır — bu, süni təkrardan daha dürüstdür.
+ */
 export function generateOrderBoard(
   state: GeneratorState,
   unlockedRecipeIds: string[],
@@ -57,8 +71,14 @@ export function generateOrderBoard(
   let cursor: GeneratorState = { ...state };
 
   for (let i = 0; i < ORDERS.visibleCount; i += 1) {
-    const order = nextOrder(cursor, unlockedRecipeIds, random);
+    const order = nextOrder(
+      cursor,
+      unlockedRecipeIds,
+      random,
+      board.map((o) => o.id),
+    );
     if (!order) break;
+
     board.push(order);
     cursor = {
       completedCount: cursor.completedCount + 1,

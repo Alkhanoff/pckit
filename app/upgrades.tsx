@@ -1,6 +1,13 @@
-import { PlaceholderScreen } from '@/components/PlaceholderScreen';
+import { PlaceholderBody } from '@/components/PlaceholderBody';
+import { Screen } from '@/components/Screen';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { t } from '@/localization/i18n';
 
 export default function UpgradesScreen() {
-  return <PlaceholderScreen title={t('menu.upgrades')} stage="Mərhələ 18" />;
+  return (
+    <Screen>
+      <ScreenHeader title={t('upgrades.title')} />
+      <PlaceholderBody stage="Mərhələ 18" />
+    </Screen>
+  );
 }

@@ -16,9 +16,70 @@
     "skip": "Skip",
     "continue": "Continue",
     "cancel": "Cancel",
+    "start": "Start Packing",
     "coins": "Coins",
     "reputation": "Reputation",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "locked": "Locked",
+    "owned": "Owned",
+    "recommended": "Recommended",
+    "tutorial": "Tutorial"
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Pick an order to pack",
+    "empty": "No orders available yet.",
+    "reward": "Reward",
+    "priority": "Customer cares about",
+    "recommendedMaterial": "Suggested material",
+    "tutorialPhoneStretch": "Retail shelf delivery",
+    "phoneBubble": "Courier shipment",
+    "perfumeBubble": "Fragile gift order",
+    "giftPaper": "Birthday present",
+    "foodFoil": "Warm meal takeaway",
+    "foodStretch": "Fresh produce tray"
+  },
+  "priority": {
+    "balanced": "Everything equally",
+    "protection": "Protection",
+    "presentation": "Presentation",
+    "efficiency": "Material efficiency"
+  },
+  "materialSelect": {
+    "title": "Choose Material",
+    "subtitle": "Any material works — your choice affects the score",
+    "notRecommendedNote": "Not the suggested material. Protection may score lower.",
+    "noRecipeNote": "This combination is not available yet.",
+    "lockedNote": "Unlock this material in the shop first."
+  },
+  "products": {
+    "phoneBox": "Phone Box",
+    "perfume": "Perfume Bottle",
+    "giftBox": "Gift Box",
+    "foodTray": "Food Tray"
+  },
+  "materials": {
+    "stretchFilm": "Stretch Film",
+    "bubbleWrap": "Bubble Wrap",
+    "premiumPaper": "Premium Paper",
+    "foil": "Aluminium Foil"
+  },
+  "gameplay": {
+    "title": "Packaging",
+    "noSession": "No active order. Go back and pick one.",
+    "state": {
+      "preparing": "Getting ready",
+      "selectingMaterial": "Grab the film",
+      "grabbingMaterial": "Hold the film",
+      "pulling": "Pull the film",
+      "wrapping": "Wrap the product",
+      "cutting": "Cut the film",
+      "sealing": "Seal the edge",
+      "inspecting": "Inspecting",
+      "repairing": "Fix the flaws",
+      "completed": "Done",
+      "result": "Result"
+    }
   },
   "scoring": {
     "presentation": "Presentation",
@@ -27,14 +88,38 @@
     "overall": "Overall",
     "perfect": "Perfect",
     "good": "Good",
-    "acceptable": "Acceptable"
+    "acceptable": "Acceptable",
+    "defectsRepaired": "Flaws fixed"
+  },
+  "result": {
+    "title": "Result",
+    "noResult": "Nothing to show yet.",
+    "coinsEarned": "Coins earned",
+    "reputationEarned": "Reputation earned",
+    "nextOrder": "Next Order",
+    "backToMenu": "Back to Menu"
   },
   "settings": {
+    "title": "Settings",
     "music": "Music",
     "sound": "Sound",
     "haptics": "Haptics",
     "reduceMotion": "Reduce Motion",
     "restartTutorial": "Restart Tutorial",
-    "language": "Language"
+    "tutorialRestarted": "Tutorial will start on your next order.",
+    "language": "Language",
+    "on": "On",
+    "off": "Off"
+  },
+  "workshop": {
+    "title": "Workshop",
+    "level": "Level"
+  },
+  "zen": {
+    "title": "Zen Mode",
+    "note": "No coins, no reputation — just packing."
+  },
+  "upgrades": {
+    "title": "Upgrades"
   }
 }

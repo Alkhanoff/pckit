@@ -56,7 +56,31 @@ Web preview yalnız vizual və məntiq yoxlaması üçündür — native perform
 
 ### SQLite web qeydi
 
-`expo-sqlite` web-də əlavə konfiqurasiya tələb edir. Bu səbəbdən web-də `WebStorageAdapter` (localStorage) istifadə olunur — `expo-sqlite` web-ə heç vaxt yüklənmir.
+`expo-sqlite` web-də `wa-sqlite.wasm` faylını import edir və Metro bunu resolve edə bilmir:
+
+```
+Unable to resolve module ./wa-sqlite/wa-sqlite.wasm
+```
+
+Bu səbəbdən web-də `WebStorageAdapter` (localStorage) istifadə olunur.
+
+⚠️ **Şərti `require()` bu problemi HƏLL ETMİR.** Metro statik analiz aparır və
+
+```ts
+if (Platform.OS === 'web') { ... } else { require('./sqlite'); }
+```
+
+yazılsa belə `expo-sqlite`-ı web bundle-ına salır. Mərhələ 3-də bu, web preview-i tamamilə sındırdı.
+
+**Düzgün həll — platform fayl uzantıları:**
+
+```
+src/services/storage/adapter.native.ts   → SqliteStorageAdapter
+src/services/storage/adapter.web.ts      → WebStorageAdapter
+src/services/storage/adapter.ts          → fallback (Jest/node)
+```
+
+`index.ts` yalnız `./adapter`-i import edir; platformu Metro seçir. Yeni native-only paket əlavə edilərkən eyni yanaşma tətbiq edilməlidir.
 
 ---
 

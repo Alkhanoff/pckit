@@ -287,7 +287,7 @@ StorageAdapter (interface)
 ```
 
 - UI və gameplay kodu implementasiyanı tanımır, yalnız repository çağırır;
-- adapter seçimi `Platform.OS` əsasında `src/services/storage/index.ts`-də bir dəfə edilir;
+- adapter seçimi **platform fayl uzantıları** ilə edilir (`adapter.native.ts` / `adapter.web.ts`), `Platform.OS` şərti ilə YOX — Metro şərti `require`-i statik olaraq bundle-a salır və `expo-sqlite` web-i sındırır (bax `BUILDING.md §2`);
 - schema versiyası və migration siyahısı hər iki native/web adapterdə eyni məntiqlə işləyir;
 - **pozulmuş save:** backup faylı saxlanılır, default profil yaradılır, tətbiq çökmür, `console.warn` verilir.
 

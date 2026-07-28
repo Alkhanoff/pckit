@@ -60,6 +60,18 @@ describe('sifariş generatoru', () => {
     expect(board.length).toBeLessThanOrEqual(ORDERS.visibleCount);
   });
 
+  it('board-da eyni sifariş TƏKRARLANMIR', () => {
+    const board = generateOrderBoard({ completedCount: 0 }, UNLOCKED, () => 0);
+    const ids = board.map((o) => o.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('tək recipe açıq olduqda board bir sifarişlə qısa qalır', () => {
+    // Süni təkrar əvəzinə dürüst qısa siyahı göstərilir
+    const board = generateOrderBoard({ completedCount: 0 }, UNLOCKED, () => 0);
+    expect(board).toHaveLength(1);
+  });
+
   it('tək recipe olduqda təkrar qadağası kilidlənməyə səbəb olmur', () => {
     const order = nextOrder(
       { completedCount: 10, lastRecipeId: RECIPE_PHONE_BOX_STRETCH_FILM.id },

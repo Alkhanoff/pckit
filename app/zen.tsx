@@ -1,6 +1,13 @@
-import { PlaceholderScreen } from '@/components/PlaceholderScreen';
+import { PlaceholderBody } from '@/components/PlaceholderBody';
+import { Screen } from '@/components/Screen';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { t } from '@/localization/i18n';
 
 export default function ZenScreen() {
-  return <PlaceholderScreen title={t('menu.zen')} stage="Mərhələ 17" />;
+  return (
+    <Screen>
+      <ScreenHeader title={t('zen.title')} subtitle={t('zen.note')} />
+      <PlaceholderBody stage="Mərhələ 17" />
+    </Screen>
+  );
 }
