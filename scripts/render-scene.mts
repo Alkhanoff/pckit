@@ -25,9 +25,11 @@ import {
   applyTransform,
   faceUVToWorld,
   fitToRect,
+  litEdgesPath,
   polygonToSvgPath,
   project,
   projectBox,
+  roundedPolygonPath,
 } from '../src/utils/projection';
 import type { Point, Polygon } from '../src/utils/projection';
 
@@ -37,7 +39,7 @@ const CK = await CanvasKitInit({});
 
 const W = 472;
 const H = 496;
-const PRODUCT_AREA_RATIO = 0.62;
+const PRODUCT_AREA_RATIO = 0.74;
 
 const col = (c: string) => CK.parseColorString(c);
 
@@ -119,9 +121,9 @@ const footprint = {
   height: (Math.max(...by) - Math.min(...by)) * 0.9,
 };
 
-const rollWidth = Math.max(W * 0.115, 30);
-const rollHeight = Math.max(H * 0.36, 96);
-const anchor = { x: rollWidth + 6, y: H * 0.58 };
+const rollWidth = Math.max(W * 0.075, 22);
+const rollHeight = Math.max(H * 0.24, 68);
+const anchor = { x: rollWidth + 4, y: H * 0.8 };
 const anchorHalfWidth = rollHeight * 0.42;
 
 const toScreen = (z: ZoneId, u: number, v: number) =>
@@ -130,13 +132,12 @@ const toScreen = (z: ZoneId, u: number, v: number) =>
     transform,
   )[0];
 
-const quad = (z: ZoneId, [u0, v0, u1, v1]: readonly [number, number, number, number]) =>
-  polygonToSvgPath([
-    toScreen(z, u0, v0),
-    toScreen(z, u1, v0),
-    toScreen(z, u1, v1),
-    toScreen(z, u0, v1),
-  ]);
+const quadPts = (z: ZoneId, [u0, v0, u1, v1]: readonly [number, number, number, number]) => [
+  toScreen(z, u0, v0),
+  toScreen(z, u1, v0),
+  toScreen(z, u1, v1),
+  toScreen(z, u0, v1),
+];
 
 type FilmState = { tip: Point | null; tension: number };
 
@@ -151,18 +152,29 @@ function renderScene(state: FilmState): Uint8Array {
     canvas.drawRect(CK.XYWHRect(0, 0, W, H), p);
     p.delete();
   }
-  for (let i = 1; i < TABLE.grainLines; i += 1) {
-    const y = (H / TABLE.grainLines) * i;
-    strokePath(canvas, `M0,${y} L${W},${y}`, TABLE.grainColor, 1, TABLE.grainOpacity);
-  }
   {
     const p = newPaint();
     p.setAlphaf(TABLE.vignetteOpacity);
     p.setShader(
       CK.Shader.MakeRadialGradient(
         [W / 2, H / 2],
-        Math.max(W, H) * 0.62,
+        Math.max(W, H) * 0.6,
         [col('#00000000'), col(TABLE.vignetteColor)],
+        [0, 1],
+        CK.TileMode.Clamp,
+      ),
+    );
+    canvas.drawRect(CK.XYWHRect(0, 0, W, H), p);
+    p.delete();
+  }
+  {
+    const p = newPaint();
+    p.setAlphaf(TABLE.lightPoolOpacity);
+    p.setShader(
+      CK.Shader.MakeRadialGradient(
+        [W / 2, H * TABLE.lightPoolCenterY],
+        Math.max(W, H) * TABLE.lightPoolRadius,
+        [col(TABLE.lightPoolColor), col('#FFFFFF00')],
         [0, 1],
         CK.TileMode.Clamp,
       ),
@@ -194,30 +206,61 @@ function renderScene(state: FilmState): Uint8Array {
   // Qutu
   for (const zone of projected.visibleFaces) {
     const s = screenFaces[zone];
-    const d = polygonToSvgPath(s);
-    fillPath(canvas, d, { shader: gradient(s[0], s[2], FACE_TINT[zone]) });
+    const d = roundedPolygonPath(s, PRODUCT.cornerRadius);
+    fillPath(canvas, d, { shader: gradient(s[3], s[1], FACE_TINT[zone]) });
+
+    if (zone !== 'top' && zone !== 'bottom') {
+      // Ambient occlusion
+      fillPath(canvas, d, {
+        shader: gradient(s[3], s[0], ['#00000000', PRODUCT.aoColor]),
+        opacity: PRODUCT.aoOpacity,
+      });
+      // Qapaq tikişi
+      const [bl, br, tr, tl] = s;
+      const r = PRODUCT.seamRatio;
+      strokePath(
+        canvas,
+        `M${tl.x + (bl.x - tl.x) * r},${tl.y + (bl.y - tl.y) * r} L${tr.x + (br.x - tr.x) * r},${tr.y + (br.y - tr.y) * r}`,
+        PRODUCT.seamColor,
+        1,
+        PRODUCT.seamOpacity,
+      );
+    }
+
     strokePath(canvas, d, PRODUCT.edgeStroke, PRODUCT.edgeStrokeWidth, PRODUCT.edgeStrokeOpacity);
   }
-  fillPath(canvas, quad('top', PRODUCT.specularUV), {
+  fillPath(canvas, roundedPolygonPath(quadPts('top', PRODUCT.specularUV), 10), {
     color: PRODUCT.specularColor,
     opacity: PRODUCT.specularOpacity,
   });
-  const label = quad('top', PRODUCT.labelUV);
+  const label = roundedPolygonPath(quadPts('top', PRODUCT.labelUV), 4);
   fillPath(canvas, label, { color: PRODUCT.labelFill, opacity: PRODUCT.labelFillOpacity });
   strokePath(canvas, label, PRODUCT.labelStroke, 1, PRODUCT.labelStrokeOpacity);
   {
     const [u0, v0, u1] = PRODUCT.labelUV;
     fillPath(
       canvas,
-      polygonToSvgPath([
-        toScreen('top', u0 + 0.04, v0 + 0.05),
-        toScreen('top', u1 - 0.28, v0 + 0.05),
-        toScreen('top', u1 - 0.28, v0 + 0.08),
-        toScreen('top', u0 + 0.04, v0 + 0.08),
-      ]),
+      roundedPolygonPath(
+        [
+          toScreen('top', u0 + 0.05, v0 + 0.055),
+          toScreen('top', u1 - 0.3, v0 + 0.055),
+          toScreen('top', u1 - 0.3, v0 + 0.085),
+          toScreen('top', u0 + 0.05, v0 + 0.085),
+        ],
+        2,
+      ),
       { color: PRODUCT.labelAccent, opacity: PRODUCT.labelAccentOpacity },
     );
   }
+
+  // Rim light — işığa baxan yuxarı kənarlar
+  strokePath(
+    canvas,
+    litEdgesPath(screenFaces.top),
+    PRODUCT.rimColor,
+    PRODUCT.rimWidth,
+    PRODUCT.rimOpacity,
+  );
 
   // Rulon
   const bodyX = anchor.x - rollWidth;
@@ -233,6 +276,18 @@ function renderScene(state: FilmState): Uint8Array {
     shader: gradient({ x: anchor.x, y: top }, { x: anchor.x, y: bot }, ROLL.cap),
   });
   const coreRy = (rollHeight / 2) * ROLL.coreRatio;
+  for (let i = 1; i <= ROLL.windingCount; i += 1) {
+    const t = i / (ROLL.windingCount + 1);
+    const ry = coreRy + (rollHeight / 2 - coreRy) * t;
+    const rx = capRx * ROLL.coreRatio + (capRx - capRx * ROLL.coreRatio) * t;
+    strokePath(
+      canvas,
+      `M${anchor.x},${anchor.y - ry} A${rx},${ry} 0 1 1 ${anchor.x},${anchor.y + ry} A${rx},${ry} 0 1 1 ${anchor.x},${anchor.y - ry} Z`,
+      ROLL.windingColor,
+      1,
+      ROLL.windingOpacity,
+    );
+  }
   fillPath(
     canvas,
     `M${anchor.x},${anchor.y - coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y + coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y - coreRy} Z`,

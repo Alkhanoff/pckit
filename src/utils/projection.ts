@@ -250,3 +250,74 @@ export function hitTestFace(
 ): ZoneId | undefined {
   return visibleFaces.find((zone) => pointInPolygon(point, faces[zone]));
 }
+
+/**
+ * Çoxbucaqlının künclərini yumşaldır.
+ *
+ * Kəskin künclər 2.5D obyekti kağızdan kəsilmiş kimi göstərir — real qutunun
+ * kənarları həmişə bir qədər yumrudur. Bu, "ucuz görünüş"ün əsas səbəbidir.
+ */
+export function roundedPolygonPath(polygon: Polygon, radius: number): string {
+  'worklet';
+  if (polygon.length < 3) return polygonToSvgPath(polygon);
+
+  const n = polygon.length;
+  const parts: string[] = [];
+
+  for (let i = 0; i < n; i += 1) {
+    const prev = polygon[(i - 1 + n) % n];
+    const cur = polygon[i];
+    const next = polygon[(i + 1) % n];
+
+    const toPrev = { x: prev.x - cur.x, y: prev.y - cur.y };
+    const toNext = { x: next.x - cur.x, y: next.y - cur.y };
+    const lenPrev = Math.sqrt(toPrev.x * toPrev.x + toPrev.y * toPrev.y);
+    const lenNext = Math.sqrt(toNext.x * toNext.x + toNext.y * toNext.y);
+    if (lenPrev < 0.001 || lenNext < 0.001) continue;
+
+    // Radius qonşu kənarların yarısından böyük ola bilməz
+    const r = Math.min(radius, lenPrev / 2, lenNext / 2);
+
+    const start = { x: cur.x + (toPrev.x / lenPrev) * r, y: cur.y + (toPrev.y / lenPrev) * r };
+    const end = { x: cur.x + (toNext.x / lenNext) * r, y: cur.y + (toNext.y / lenNext) * r };
+
+    parts.push(
+      i === 0
+        ? `M${start.x.toFixed(2)},${start.y.toFixed(2)}`
+        : `L${start.x.toFixed(2)},${start.y.toFixed(2)}`,
+    );
+    parts.push(`Q${cur.x.toFixed(2)},${cur.y.toFixed(2)} ${end.x.toFixed(2)},${end.y.toFixed(2)}`);
+  }
+
+  return `${parts.join(' ')} Z`;
+}
+
+/** İki nöqtə arasındakı kənar — rim işığı üçün. */
+export function edgePath(a: Point, b: Point): string {
+  'worklet';
+  return `M${a.x.toFixed(2)},${a.y.toFixed(2)} L${b.x.toFixed(2)},${b.y.toFixed(2)}`;
+}
+
+/**
+ * Üzün işığa baxan yuxarı kənarları.
+ *
+ * İşıq yuxarıdan düşdüyü üçün ən yuxarıdakı küncdən çıxan iki kənar
+ * işıqlanır. Bu iki kənara nazik parlaq xətt çəkmək (rim light) obyektə
+ * həcm və "premium" hiss verir.
+ */
+export function litEdgesPath(polygon: Polygon): string {
+  'worklet';
+  if (polygon.length < 3) return '';
+
+  let topIndex = 0;
+  for (let i = 1; i < polygon.length; i += 1) {
+    if (polygon[i].y < polygon[topIndex].y) topIndex = i;
+  }
+
+  const n = polygon.length;
+  const prev = polygon[(topIndex - 1 + n) % n];
+  const top = polygon[topIndex];
+  const next = polygon[(topIndex + 1) % n];
+
+  return `M${prev.x.toFixed(2)},${prev.y.toFixed(2)} L${top.x.toFixed(2)},${top.y.toFixed(2)} L${next.x.toFixed(2)},${next.y.toFixed(2)}`;
+}

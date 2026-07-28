@@ -15,7 +15,7 @@ import { applyTransform, fitToRect, hitTestFace, projectBox } from '@/utils/proj
  */
 
 /** Məhsulun səhnədə tutduğu sahə — qalanı masa üçün boşluqdur. */
-const PRODUCT_AREA_RATIO = 0.62;
+const PRODUCT_AREA_RATIO = 0.74;
 const PRODUCT_PADDING = 24;
 
 export type SceneShadow = { x: number; y: number; width: number; height: number };
@@ -119,10 +119,10 @@ export function useSceneGeometry(
    * oradan məhsula doğru çəkilir.
    */
   const roll = useMemo<FilmRoll>(() => {
-    const rollWidth = Math.max(width * 0.115, 30);
-    const rollHeight = Math.max(height * 0.36, 96);
+    const rollWidth = Math.max(width * 0.075, 22);
+    const rollHeight = Math.max(height * 0.24, 68);
     return {
-      anchor: { x: rollWidth + 6, y: height * 0.58 },
+      anchor: { x: rollWidth + 4, y: height * 0.8 },
       anchorHalfWidth: rollHeight * 0.42,
       width: rollWidth,
       height: rollHeight,

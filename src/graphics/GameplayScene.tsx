@@ -4,7 +4,6 @@ import {
   Group,
   LinearGradient,
   Oval,
-  Path,
   RadialGradient,
   Rect,
   vec,
@@ -25,12 +24,10 @@ import type { GameplaySceneProps } from '@/graphics/sceneProps';
  *
  * Həndəsəni `useSceneGeometry`, gesture-i isə `useGameplayGestures` verir.
  * Bu komponent heç nə hesablamır, yalnız çəkir (docs/ARCHITECTURE.md §9).
- * Tək `<Canvas>` istifadə edilir.
  *
  * Web-də bu modul YALNIZ CanvasKit yükləndikdən sonra import olunur —
  * bax `SceneHost.web.tsx`.
  */
-
 export function GameplayScene({
   geometry,
   width,
@@ -39,19 +36,6 @@ export function GameplayScene({
   highlightedZone,
   film,
 }: GameplaySceneProps) {
-  /**
-   * Masanın damar xətləri — SVG sətri kimi qurulur: imperativ
-   * `Skia.Path.Make()` web-də CanvasKit yüklənməmiş çökür (docs/BUILDING.md §2).
-   */
-  const grain = useMemo(() => {
-    const step = height / TABLE.grainLines;
-    const lines: string[] = [];
-    for (let y = step; y < height; y += step) {
-      lines.push(`M0,${y.toFixed(2)} L${width.toFixed(2)},${y.toFixed(2)}`);
-    }
-    return lines.join(' ');
-  }, [width, height]);
-
   /** İki qatlı təmas kölgəsi — tək böyük oval "boz ləkə" təsiri yaradır. */
   const shadows = useMemo(() => {
     const b = geometry.shadow;
@@ -83,24 +67,26 @@ export function GameplayScene({
               colors={[TABLE.gradientFrom, TABLE.gradientTo]}
             />
           </Rect>
-          <Path
-            path={grain}
-            style="stroke"
-            strokeWidth={1}
-            color={TABLE.grainColor}
-            opacity={TABLE.grainOpacity}
-          />
 
-          {/* Vinyet — diqqəti mərkəzə yığır */}
+          {/* Kənarlarda tündləşmə — diqqəti mərkəzə yığır */}
           <Rect x={0} y={0} width={width} height={height} opacity={TABLE.vignetteOpacity}>
             <RadialGradient
               c={vec(width / 2, height / 2)}
-              r={Math.max(width, height) * 0.62}
+              r={Math.max(width, height) * 0.6}
               colors={['#00000000', TABLE.vignetteColor]}
             />
           </Rect>
 
-          {/* Təmas kölgəsi — geniş ambient + dar tünd təmas */}
+          {/* Studiya işığı hovuzu — məhsulun ətrafında */}
+          <Rect x={0} y={0} width={width} height={height} opacity={TABLE.lightPoolOpacity}>
+            <RadialGradient
+              c={vec(width / 2, height * TABLE.lightPoolCenterY)}
+              r={Math.max(width, height) * TABLE.lightPoolRadius}
+              colors={[TABLE.lightPoolColor, '#FFFFFF00']}
+            />
+          </Rect>
+
+          {/* Təmas kölgəsi */}
           {shadows.map((s, i) => (
             <Group key={i} opacity={s.opacity}>
               <Oval x={s.x} y={s.y} width={s.width} height={s.height} color={SHADOW.color}>
@@ -138,7 +124,7 @@ export function GameplayScene({
 const styles = StyleSheet.create({
   wrapper: {
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 24,
   },
 });
 

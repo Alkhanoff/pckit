@@ -90,6 +90,14 @@ export function StretchFilmLayer({
   const capPath = `M${anchor.x},${top} A${capRx},${rollHeight / 2} 0 1 1 ${anchor.x},${bot} A${capRx},${rollHeight / 2} 0 1 1 ${anchor.x},${top} Z`;
   const corePath = `M${anchor.x},${anchor.y - coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y + coreRy} A${capRx * ROLL.coreRatio},${coreRy} 0 1 1 ${anchor.x},${anchor.y - coreRy} Z`;
 
+  /** Sarım qatları — rulonun sarılmış material olduğunu göstərir. */
+  const windings = Array.from({ length: ROLL.windingCount }, (_, i) => {
+    const t = (i + 1) / (ROLL.windingCount + 1);
+    const ry = coreRy + (rollHeight / 2 - coreRy) * t;
+    const rx = capRx * ROLL.coreRatio + (capRx - capRx * ROLL.coreRatio) * t;
+    return `M${anchor.x},${anchor.y - ry} A${rx},${ry} 0 1 1 ${anchor.x},${anchor.y + ry} A${rx},${ry} 0 1 1 ${anchor.x},${anchor.y - ry} Z`;
+  });
+
   return (
     <Group>
       {/* Rulon gövdəsi — üfüqi silindr kölgələnməsi */}
@@ -109,6 +117,16 @@ export function StretchFilmLayer({
           colors={[...ROLL.cap]}
         />
       </Path>
+      {windings.map((d, i) => (
+        <Path
+          key={i}
+          path={d}
+          style="stroke"
+          strokeWidth={1}
+          color={ROLL.windingColor}
+          opacity={ROLL.windingOpacity}
+        />
+      ))}
       <Path path={corePath} color={ROLL.coreColor} opacity={ROLL.coreOpacity} />
       <Path
         path={capPath}
