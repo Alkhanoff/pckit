@@ -35,8 +35,14 @@ export const TIMING = {
 } as const;
 
 export const CAMERA = {
-  /** Sabit perspektiv bucağı — oyunçu kameranı idarə etmir */
+  /** Kameranın masaya baxış bucağı (yuxarıdan) — oyunçu kameranı idarə etmir */
   angleDeg: 40,
+  /**
+   * Şaquli ox ətrafında dönüş.
+   * 0 olsaydı yalnız ön və üst səth görünərdi; 25° yan səthi də açır və
+   * qutuya həcm verir (docs/BALANCE.md §12).
+   */
+  azimuthDeg: 25,
   cutScale: 1.25,
   sealScale: 1.2,
   repairScale: 1.3,

@@ -1,27 +1,32 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { MenuButton } from '@/components/MenuButton';
 import { Screen } from '@/components/Screen';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { colors, spacing, typography } from '@/config/theme';
-import { SkiaSmokeTest } from '@/graphics/SkiaSmokeTest';
+import { getProduct } from '@/data/products';
+import { GameplayScene } from '@/graphics/GameplayScene';
+import { useResponsive } from '@/hooks/useResponsive';
 import { t } from '@/localization/i18n';
 import { useGameplayStore } from '@/stores/useGameplayStore';
+import type { ZoneId } from '@/types/game';
 
 /**
  * Qablaşdırma ekranı.
  *
- * Mərhələ 3-də yalnız sessiyanın düzgün ötürüldüyünü göstərir.
- * Əsl gameplay Mərhələ 4–12-də bu ekranda qurulur.
+ * Mərhələ 4: 2.5D məhsul və masa + toxunma zonaları.
+ * Material interaction-ı Mərhələ 5–8-də əlavə olunur.
  */
 export default function GameplayScreen() {
   const { session: sessionParam } = useLocalSearchParams<{ session?: string }>();
   const session = useGameplayStore((s) => s.session);
   const ready = useGameplayStore((s) => s.ready);
+  const { contentWidth, isCompact } = useResponsive();
 
-  // Səhnə hazır olduqda `preparing` → `selectingMaterial`.
+  const [touchedZone, setTouchedZone] = useState<ZoneId>();
+
   useEffect(() => {
     if (session?.state === 'preparing') ready();
   }, [session?.state, ready]);
@@ -34,6 +39,10 @@ export default function GameplayScreen() {
       </Screen>
     );
   }
+
+  const product = getProduct(session.productId);
+  const sceneWidth = contentWidth - spacing.lg * 2;
+  const sceneHeight = Math.round(sceneWidth * (isCompact ? 0.85 : 1.05));
 
   return (
     <Screen
@@ -48,29 +57,20 @@ export default function GameplayScreen() {
       <ScreenHeader title={t('gameplay.title')} />
 
       <View style={styles.body}>
-        <SkiaSmokeTest />
+        <GameplayScene
+          product={product}
+          width={sceneWidth}
+          height={sceneHeight}
+          highlightedZone={touchedZone}
+          onZonePress={setTouchedZone}
+        />
 
         <Text style={styles.state}>{t(`gameplay.state.${session.state}`)}</Text>
-
-        <View style={styles.meta}>
-          <MetaRow label="Recipe" value={session.recipeId} />
-          <MetaRow label="Priority" value={session.customerPriority} />
-          <MetaRow label="Suitability" value={session.suitability} />
-          <MetaRow label="Passes" value={`0 / ${session.totalPasses}`} />
-        </View>
-
-        <Text style={styles.stage}>Mərhələ 4–12</Text>
+        <Text style={styles.hint}>
+          {touchedZone ? `zone: ${touchedZone}` : t('gameplay.tapHint')}
+        </Text>
       </View>
     </Screen>
-  );
-}
-
-function MetaRow({ label, value }: { label: string; value: string }) {
-  return (
-    <View style={styles.metaRow}>
-      <Text style={styles.metaLabel}>{label}</Text>
-      <Text style={styles.metaValue}>{value}</Text>
-    </View>
   );
 }
 
@@ -89,28 +89,11 @@ const styles = StyleSheet.create({
   state: {
     ...typography.heading,
     color: colors.textPrimary,
-    marginTop: spacing.md,
-  },
-  meta: {
-    width: '100%',
     marginTop: spacing.lg,
   },
-  metaRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 3,
-  },
-  metaLabel: {
+  hint: {
     ...typography.caption,
     color: colors.textMuted,
-  },
-  metaValue: {
-    ...typography.caption,
-    color: colors.textPrimary,
-  },
-  stage: {
-    ...typography.caption,
-    color: colors.textMuted,
-    marginTop: spacing.lg,
+    marginTop: spacing.xs,
   },
 });

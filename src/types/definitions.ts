@@ -18,11 +18,17 @@ export type ProductDefinition = {
   localizationKey: string;
   category: 'electronics' | 'fragile' | 'food' | 'gift';
   visualType: 'box' | 'bottle' | 'tray';
+  /**
+   * Masa üzərindəki nisbi ölçülər — render bunları ekrana uyğunlaşdırır.
+   * Ölçülər məhsulun masada DURDUĞU vəziyyətə görə verilir.
+   */
   shape: {
-    /** Nisbi ölçülər — Skia render-i bunları ekran ölçüsünə uyğunlaşdırır */
+    /** sola-sağa */
     width: number;
-    height: number;
+    /** uzağa (ekranın dərinliyi) */
     depth: number;
+    /** masadan yuxarı */
+    height: number;
   };
   idealMaterials: MaterialId[];
   allowedMaterials: MaterialId[];

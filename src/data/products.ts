@@ -15,7 +15,8 @@ export const PRODUCTS: Record<ProductId, ProductDefinition> = {
     localizationKey: 'products.phoneBox',
     category: 'electronics',
     visualType: 'box',
-    shape: { width: 1.0, height: 1.7, depth: 0.35 },
+    // Masada uzanır: uzun oxu uzağa gedir
+    shape: { width: 1.0, depth: 1.7, height: 0.35 },
     idealMaterials: ['bubble-wrap'],
     allowedMaterials: ['stretch-film', 'bubble-wrap', 'premium-paper'],
     sensitiveZones: [],
@@ -31,7 +32,8 @@ export const PRODUCTS: Record<ProductId, ProductDefinition> = {
     localizationKey: 'products.perfume',
     category: 'fragile',
     visualType: 'bottle',
-    shape: { width: 0.8, height: 1.4, depth: 0.5 },
+    // Dik durur
+    shape: { width: 0.8, depth: 0.5, height: 1.4 },
     idealMaterials: ['bubble-wrap'],
     allowedMaterials: ['bubble-wrap', 'premium-paper', 'stretch-film'],
     // Şüşə qapaq və oturacaq — qorunmazsa protection ciddi düşür
@@ -48,7 +50,7 @@ export const PRODUCTS: Record<ProductId, ProductDefinition> = {
     localizationKey: 'products.giftBox',
     category: 'gift',
     visualType: 'box',
-    shape: { width: 1.2, height: 1.2, depth: 0.8 },
+    shape: { width: 1.2, depth: 1.2, height: 0.8 },
     idealMaterials: ['premium-paper'],
     allowedMaterials: ['premium-paper', 'stretch-film'],
     sensitiveZones: [],
@@ -64,7 +66,8 @@ export const PRODUCTS: Record<ProductId, ProductDefinition> = {
     localizationKey: 'products.foodTray',
     category: 'food',
     visualType: 'tray',
-    shape: { width: 1.4, height: 1.0, depth: 0.3 },
+    // Alçaq tray
+    shape: { width: 1.4, depth: 1.0, height: 0.3 },
     idealMaterials: ['stretch-film', 'foil'],
     allowedMaterials: ['stretch-film', 'foil'],
     // Açıq üst səth — yeməyin qorunması buradan asılıdır

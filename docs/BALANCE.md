@@ -360,8 +360,11 @@ Sifariş kartında göstərilir: məhsul · tövsiyə olunan material · müşt�
 | Kəsim zoom-in                 |          350 ms, scale 1.25 |
 | Seal zoom-in                  |          350 ms, scale 1.20 |
 | Repair zoom-in                |          300 ms, scale 1.30 |
-| Kamera bucağı                 |                   sabit 40° |
+| Kamera bucağı (elevation)     |                   sabit 40° |
+| Kamera azimutu                |                   sabit 25° |
 | Result ekranı bal animasiyası |        800 ms, ardıcıl 3 ox |
+
+**Azimut nə üçün 0 deyil:** 0° olsaydı yalnız ön və üst səth görünərdi və qutu yastı görünərdi. 25° yan səthi də açır — üç səth eyni anda görünür və həcm illüziyası yaranır. Görünürlük backface culling ilə hesablanır, ona görə inspection dönüşü (Mərhələ 9) istənilən bucaqda düzgün işləyir.
 
 ---
 

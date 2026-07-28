@@ -79,7 +79,8 @@
       "repairing": "Fix the flaws",
       "completed": "Done",
       "result": "Result"
-    }
+    },
+    "tapHint": "Tap a surface of the box"
   },
   "scoring": {
     "presentation": "Presentation",

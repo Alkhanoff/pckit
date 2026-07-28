@@ -258,7 +258,9 @@ HapticsService.trigger('light' | 'medium' | 'heavy' | 'selection' | 'success' | 
 
 - Bir `<Canvas>` per gameplay ekranı. Çoxsaylı canvas yaradılmır.
 - Layer sırası: masa → kölgə → məhsul səthləri → material layer → effektlər (qırış, qabarcıq, parıltı) → qüsur highlight-ları.
-- Ağır `Path` obyektləri `useMemo` ilə cache edilir; hər frame yenidən yaradılmır.
+- **`Skia.Path.Make()` və digər imperativ `Skia.*` API-ləri render zamanı çağırılmır.** Web-də CanvasKit WASM yüklənməmiş bu çağırışlar komponenti çökdürür. Bütün path-lər SVG sətri kimi qurulur (`polygonToSvgPath`) və deklarativ `<Path path="..." />` ilə verilir.
+- Həndəsə hesablamaları `src/utils/projection.ts`-də aparılır — təmiz TypeScript, test edilir. `src/graphics/**` yalnız hazır nöqtələri çəkir.
+- Path sətirləri `useMemo` ilə cache edilir; hər frame yenidən qurulmur.
 - Blur və shader effektləri minimum; `BackdropFilter` istifadə edilmir.
 - Coverage mask: `Group` + `clip` ilə, per-zona `RoundedRect` maskaları.
 - Animasiya dəyərləri Reanimated shared value-lardan `useDerivedValue` vasitəsilə gəlir.
