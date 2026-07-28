@@ -20,6 +20,15 @@ const PRODUCT_PADDING = 24;
 
 export type SceneShadow = { x: number; y: number; width: number; height: number };
 
+/** Streç film rulonunun səhnədəki yeri. */
+export type FilmRoll = {
+  /** Filmin rulondan çıxdığı nöqtə */
+  anchor: Point;
+  anchorHalfWidth: number;
+  width: number;
+  height: number;
+};
+
 export type SceneGeometry = {
   size: BoxSize;
   projected: ProjectedBox;
@@ -28,6 +37,7 @@ export type SceneGeometry = {
   screenFaces: Record<ZoneId, Polygon>;
   shadow: SceneShadow;
   hitTest: (point: Point) => ZoneId | undefined;
+  roll: FilmRoll;
   /** Dartılma üçün istinad məsafəsi — səhnə ölçüsünə uyğunlaşır */
   referenceDragDistance: number;
 };
@@ -104,5 +114,29 @@ export function useSceneGeometry(
     return Math.max(span, 80);
   }, [projected.visibleFaces, screenFaces]);
 
-  return { size, projected, transform, screenFaces, shadow, hitTest, referenceDragDistance };
+  /**
+   * Rulon səhnənin sol kənarında, məhsulun hündürlüyündə dayanır — film
+   * oradan məhsula doğru çəkilir.
+   */
+  const roll = useMemo<FilmRoll>(() => {
+    const rollWidth = Math.max(width * 0.07, 18);
+    const rollHeight = Math.max(height * 0.3, 70);
+    return {
+      anchor: { x: rollWidth + 6, y: height * 0.58 },
+      anchorHalfWidth: rollHeight * 0.42,
+      width: rollWidth,
+      height: rollHeight,
+    };
+  }, [width, height]);
+
+  return {
+    size,
+    projected,
+    transform,
+    screenFaces,
+    shadow,
+    hitTest,
+    referenceDragDistance,
+    roll,
+  };
 }

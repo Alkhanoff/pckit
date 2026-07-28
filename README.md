@@ -4,7 +4,7 @@
 
 Oyunçu məhsulları toxunma hərəkətləri ilə qablaşdırır: materialı tutur, dartır, məhsulun ətrafına sarıyır, kəsir, yapışdırır və yaranan qüsurları düzəldir. Vaxt limiti yoxdur; əsas diqqət ASMR hissi, vizual təmizlik və toxunuşa dərhal reaksiyadır.
 
-> **Status:** Mərhələ 5 tamamlanıb — vahid gesture sistemi (tap · drag · swipe · hold) və intent körpüsü hazırdır. Streç film Mərhələ 6-dan başlayır.
+> **Status:** Mərhələ 6 tamamlanıb — streç film rulondan çəkilir, üç dartılma vəziyyəti vizual olaraq fərqlənir. Sarım və coverage Mərhələ 7-dədir.
 
 ---
 

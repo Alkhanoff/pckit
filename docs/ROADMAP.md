@@ -118,13 +118,18 @@ Tap · Drag/Pan · Swipe · Hold · Release + `intentBridge` + mouse fallback.
 - [x] 335 test keçir · brauzerdə console error = 0
 - [ ] **Drag/swipe fiziki cihazda yoxlanılmalıdır** — brauzerdə sintetik pointer event-ləri Gesture Handler-ə çatmır
 
-### Mərhələ 6 — Streç filmi tutmaq və dartmaq
+### ✅ Mərhələ 6 — Streç filmi tutmaq və dartmaq _(tamamlandı 2026-07-28)_
 
 Film ucu, rulondan açılma, stretch transform, üç tension bandı (`BALANCE.md §2`), audio + haptic.
 
-- [ ] Üç tension bandı aydın fərqlənir (rəng **və** forma)
-- [ ] Drag məsafəsi film uzunluğuna təsir edir
-- [ ] Overstretch xəbərdarlığı spam etmir (max 1/2s)
+- [x] Film rulondan vizual olaraq çıxır (rulon + vərəq + kənar xətti)
+- [x] Drag məsafəsi film uzunluğuna təsir edir (testlə yoxlanılır)
+- [x] Üç tension bandı aydın fərqlənir: qırış sayı, nazilmə, şəffaflıq, qırmızı halo — və indikatorda **rəng + forma**
+- [x] Overstretch xəbərdarlığı spam etmir (cooldown testlə yoxlanılır)
+- [x] Haptic event-ləri mövcuddur və intent-ə bağlıdır (debounce miras alınır)
+- [x] 368 test keçir · brauzerdə console error = 0
+- [ ] **Dartma hissi fiziki cihazda yoxlanılmalıdır** — brauzerdə drag simulyasiya edilə bilmir
+- [ ] Audio event-ləri Mərhələ 10-da bağlanacaq
 
 ### Mərhələ 7 — Sarımaq və coverage
 

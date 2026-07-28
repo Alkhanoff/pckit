@@ -13,7 +13,10 @@ import { GameplayScene } from '@/graphics/GameplayScene';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useSceneGeometry } from '@/hooks/useSceneGeometry';
 import { t } from '@/localization/i18n';
+import { setHapticsEnabled, trigger } from '@/services/haptics/HapticsService';
+import { hapticForIntent } from '@/services/haptics/intentHaptics';
 import { useGameplayStore } from '@/stores/useGameplayStore';
+import { useSettingsStore } from '@/stores/useSettingsStore';
 import type { ZoneId } from '@/types/game';
 import type { Point } from '@/utils/projection';
 
@@ -29,12 +32,28 @@ export default function GameplayScreen() {
   const session = useGameplayStore((s) => s.session);
   const ready = useGameplayStore((s) => s.ready);
   const dispatch = useGameplayStore((s) => s.dispatch);
+  const hapticsOn = useSettingsStore((s) => s.haptics);
 
   const { contentWidth, isCompact } = useResponsive();
   const [touchedZone, setTouchedZone] = useState<ZoneId>();
 
-  // Gesture qatı intent-ləri bu sessiyaya göndərsin.
-  useRegisterIntentDispatcher(dispatch);
+  useEffect(() => setHapticsEnabled(hapticsOn), [hapticsOn]);
+
+  /**
+   * Gesture qatı intent-ləri bu sessiyaya göndərsin.
+   * Haptic də burada işə düşür — intent-ə bağlı olduğu üçün band debounce-unu
+   * avtomatik miras alır və vibrasiya spam etmir.
+   */
+  const dispatchWithFeedback = useCallback(
+    (intent: Parameters<typeof dispatch>[0]) => {
+      const haptic = hapticForIntent(intent);
+      if (haptic) trigger(haptic);
+      dispatch(intent);
+    },
+    [dispatch],
+  );
+
+  useRegisterIntentDispatcher(dispatchWithFeedback);
 
   useEffect(() => {
     if (session?.state === 'preparing') ready();
@@ -87,6 +106,12 @@ export default function GameplayScreen() {
           height={sceneHeight}
           gesture={gestures.gesture}
           highlightedZone={touchedZone}
+          film={{
+            dragX: gestures.dragX,
+            dragY: gestures.dragY,
+            tension: gestures.tension,
+            active: gestures.active,
+          }}
         />
 
         <TensionIndicator

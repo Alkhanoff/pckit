@@ -2,10 +2,12 @@ import { Canvas, Group, LinearGradient, Oval, Path, Rect, vec } from '@shopify/r
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
+import type { SharedValue } from 'react-native-reanimated';
 
 import { CAMERA } from '@/config/gameplay';
 import { colors } from '@/config/theme';
 import type { AnyGesture } from '@/gestures/types';
+import { StretchFilmLayer } from '@/graphics/materials/StretchFilmLayer';
 import { PhoneBox } from '@/graphics/products/PhoneBox';
 import type { SceneGeometry } from '@/hooks/useSceneGeometry';
 import type { ZoneId } from '@/types/game';
@@ -24,6 +26,13 @@ type GameplaySceneProps = {
   height: number;
   gesture: AnyGesture;
   highlightedZone?: ZoneId;
+  /** Gesture qatından gələn real-time dəyərlər */
+  film: {
+    dragX: SharedValue<number>;
+    dragY: SharedValue<number>;
+    tension: SharedValue<number>;
+    active: SharedValue<boolean>;
+  };
 };
 
 export function GameplayScene({
@@ -32,6 +41,7 @@ export function GameplayScene({
   height,
   gesture,
   highlightedZone,
+  film,
 }: GameplaySceneProps) {
   /**
    * Masanın damar xətləri — SVG sətri kimi qurulur: imperativ
@@ -83,6 +93,18 @@ export function GameplayScene({
             elevationDeg={CAMERA.angleDeg}
             azimuthDeg={CAMERA.azimuthDeg}
             highlightedZone={highlightedZone}
+          />
+
+          {/* Film məhsulun ÜZƏRİNDƏ çəkilir — sarım illüziyası üçün */}
+          <StretchFilmLayer
+            anchor={geometry.roll.anchor}
+            anchorHalfWidth={geometry.roll.anchorHalfWidth}
+            rollWidth={geometry.roll.width}
+            rollHeight={geometry.roll.height}
+            dragX={film.dragX}
+            dragY={film.dragY}
+            tension={film.tension}
+            active={film.active}
           />
         </Canvas>
       </View>

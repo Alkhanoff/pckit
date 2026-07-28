@@ -209,6 +209,9 @@ export function faceUVToWorld(zone: ZoneId, size: BoxSize, u: number, v: number)
  * sətir kimi qurulur (docs/ARCHITECTURE.md §9).
  */
 export function polygonToSvgPath(polygon: Polygon): string {
+  // `'worklet'`: film hər frame UI thread-də yenidən qurulur.
+  // İşarə funksiyanın JS thread-dən çağırılmasına mane olmur.
+  'worklet';
   if (polygon.length === 0) return '';
 
   const commands = polygon.map(
