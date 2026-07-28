@@ -1,35 +1,63 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { MenuButton } from '@/components/MenuButton';
 import { Screen } from '@/components/Screen';
 import { ScreenHeader } from '@/components/ScreenHeader';
+import { TensionIndicator } from '@/components/TensionIndicator';
 import { colors, spacing, typography } from '@/config/theme';
 import { getProduct } from '@/data/products';
+import { useGameplayGestures, useRegisterIntentDispatcher } from '@/gestures/useGameplayGestures';
 import { GameplayScene } from '@/graphics/GameplayScene';
 import { useResponsive } from '@/hooks/useResponsive';
+import { useSceneGeometry } from '@/hooks/useSceneGeometry';
 import { t } from '@/localization/i18n';
 import { useGameplayStore } from '@/stores/useGameplayStore';
 import type { ZoneId } from '@/types/game';
+import type { Point } from '@/utils/projection';
 
 /**
  * Qablaşdırma ekranı.
  *
- * Mərhələ 4: 2.5D məhsul və masa + toxunma zonaları.
- * Material interaction-ı Mərhələ 5–8-də əlavə olunur.
+ * Mərhələ 5: vahid gesture sistemi bağlanıb — dartma zamanı yalnız shared
+ * value-lar dəyişir, React state toxunulmur.
+ * Film vizualı və coverage Mərhələ 6–7-dədir.
  */
 export default function GameplayScreen() {
   const { session: sessionParam } = useLocalSearchParams<{ session?: string }>();
   const session = useGameplayStore((s) => s.session);
   const ready = useGameplayStore((s) => s.ready);
-  const { contentWidth, isCompact } = useResponsive();
+  const dispatch = useGameplayStore((s) => s.dispatch);
 
+  const { contentWidth, isCompact } = useResponsive();
   const [touchedZone, setTouchedZone] = useState<ZoneId>();
+
+  // Gesture qatı intent-ləri bu sessiyaya göndərsin.
+  useRegisterIntentDispatcher(dispatch);
 
   useEffect(() => {
     if (session?.state === 'preparing') ready();
   }, [session?.state, ready]);
+
+  const sceneWidth = contentWidth - spacing.lg * 2;
+  const sceneHeight = Math.round(sceneWidth * (isCompact ? 0.85 : 1.05));
+
+  // Sessiya olmasa belə hook sırası dəyişməməlidir — buna görə həndəsə
+  // həmişə hesablanır və məhsul tapılmayanda default istifadə olunur.
+  const product = getProduct(session?.productId ?? 'phone-box');
+  const geometry = useSceneGeometry(product, sceneWidth, sceneHeight);
+
+  const handleScenePress = useCallback(
+    (point: Point) => setTouchedZone(geometry.hitTest(point)),
+    [geometry],
+  );
+
+  const gestures = useGameplayGestures({
+    state: session?.state ?? 'preparing',
+    referenceDistance: geometry.referenceDragDistance,
+    onScenePress: handleScenePress,
+  });
 
   if (!session || session.sessionId !== sessionParam) {
     return (
@@ -39,10 +67,6 @@ export default function GameplayScreen() {
       </Screen>
     );
   }
-
-  const product = getProduct(session.productId);
-  const sceneWidth = contentWidth - spacing.lg * 2;
-  const sceneHeight = Math.round(sceneWidth * (isCompact ? 0.85 : 1.05));
 
   return (
     <Screen
@@ -58,11 +82,17 @@ export default function GameplayScreen() {
 
       <View style={styles.body}>
         <GameplayScene
-          product={product}
+          geometry={geometry}
           width={sceneWidth}
           height={sceneHeight}
+          gesture={gestures.gesture}
           highlightedZone={touchedZone}
-          onZonePress={setTouchedZone}
+        />
+
+        <TensionIndicator
+          tension={gestures.tension}
+          band={gestures.band}
+          active={gestures.active}
         />
 
         <Text style={styles.state}>{t(`gameplay.state.${session.state}`)}</Text>
@@ -89,7 +119,7 @@ const styles = StyleSheet.create({
   state: {
     ...typography.heading,
     color: colors.textPrimary,
-    marginTop: spacing.lg,
+    marginTop: spacing.md,
   },
   hint: {
     ...typography.caption,

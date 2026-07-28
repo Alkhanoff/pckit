@@ -6,8 +6,54 @@
 // RNTL 14-də jest matcher-ləri (toBeOnTheScreen və s.) default aktivdir —
 // ayrıca extend-expect importu tələb olunmur.
 
-// --- Reanimated + Worklets ---
-jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+// --- Worklets ---
+// `react-native-worklets` Jest-də native modulu yükləməyə çalışır və
+// `loadUnpackers` xətası verir. Yalnız lazım olan funksiyalar mock edilir.
+jest.mock('react-native-worklets', () => ({
+  runOnJS: (fn: unknown) => fn,
+  runOnUI: (fn: unknown) => fn,
+  scheduleOnRN: (fn: (...args: unknown[]) => unknown, ...args: unknown[]) => fn(...args),
+  createWorkletRuntime: () => ({}),
+}));
+
+// --- Reanimated ---
+// Paketin öz `react-native-reanimated/mock` faylı Reanimated 4 ilə işləmir
+// (o da worklets native modulunu çəkir). Buna görə minimal öz mock-umuz.
+jest.mock('react-native-reanimated', () => {
+  const { View, Text, ScrollView } = require('react-native');
+
+  const shared = <T>(initial: T) => ({ value: initial });
+
+  return {
+    __esModule: true,
+    default: { View, Text, ScrollView, createAnimatedComponent: (c: unknown) => c },
+    View,
+    Text,
+    ScrollView,
+    createAnimatedComponent: (c: unknown) => c,
+
+    useSharedValue: shared,
+    useDerivedValue: (fn: () => unknown) => shared(fn()),
+    useAnimatedStyle: (fn: () => unknown) => fn(),
+    useAnimatedProps: (fn: () => unknown) => fn(),
+
+    withTiming: (value: unknown) => value,
+    withSpring: (value: unknown) => value,
+    withDelay: (_delay: number, value: unknown) => value,
+    interpolate: (value: number) => value,
+
+    runOnJS: (fn: unknown) => fn,
+    runOnUI: (fn: unknown) => fn,
+
+    Easing: {
+      linear: (t: number) => t,
+      cubic: (t: number) => t,
+      out: (fn: unknown) => fn,
+      inOut: (fn: unknown) => fn,
+    },
+    Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
+  };
+});
 
 // --- Gesture Handler ---
 require('react-native-gesture-handler/jestSetup');

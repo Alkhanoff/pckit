@@ -106,14 +106,17 @@ Skia: masa, ön/üst/yan səthlər, kölgə, highlight, etiket, touch zonaları.
 - [ ] Fərqli ekran ölçülərində pozulmur
 - [ ] Görünən frame drop yoxdur
 
-### Mərhələ 5 — Gesture sistemi
+### ✅ Mərhələ 5 — Gesture sistemi _(tamamlandı 2026-07-28)_
 
 Tap · Drag/Pan · Swipe · Hold · Release + `intentBridge` + mouse fallback.
 
-- [ ] Gesture-lər conflict yaratmır
-- [ ] `runOnJS` yalnız `intentBridge.ts`-dədir
-- [ ] Gesture zamanı React re-render = 0
-- [ ] UI toxunuşu gameplay gesture-i yaratmır
+- [x] Gesture-lər conflict yaratmır (`Gesture.Exclusive`, state ilə qapılır — testlə yoxlanılır)
+- [x] `runOnJS` yalnız `intentBridge.ts`-dədir (ESLint qaydası ilə məcburi)
+- [x] Gesture zamanı React re-render = 0 (bütün real-time dəyərlər shared value-dadır)
+- [x] UI toxunuşu gameplay gesture-i yaratmır (`GestureDetector` yalnız səhnəni əhatə edir)
+- [x] Band dəyişikliyi debounce ilə körpünü keçir — hər frame `runOnJS` yoxdur
+- [x] 335 test keçir · brauzerdə console error = 0
+- [ ] **Drag/swipe fiziki cihazda yoxlanılmalıdır** — brauzerdə sintetik pointer event-ləri Gesture Handler-ə çatmır
 
 ### Mərhələ 6 — Streç filmi tutmaq və dartmaq
 

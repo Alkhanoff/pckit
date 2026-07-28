@@ -27,7 +27,8 @@ Mərhələ 1-də qurulur — sonraya saxlanılmır.
 ```
 jest.setup.ts
 ├── @shopify/react-native-skia          → paket daxilindəki jest mock
-├── react-native-reanimated             → paket mock + worklets setup
+├── react-native-reanimated             → LOKAL minimal mock (aşağıya bax)
+├── react-native-worklets               → LOKAL mock (native modul yüklənməsin)
 ├── react-native-gesture-handler        → jestSetup
 ├── expo-haptics                        → manual mock (bütün funksiyalar no-op jest.fn)
 ├── expo-audio                          → manual mock
@@ -53,6 +54,18 @@ expect(screen.getByText('Pack & Relax')).toBeTruthy();
 `toBeOnTheScreen` kimi matcher-lər default aktivdir — `@testing-library/react-native/extend-expect` importu tələb olunmur (və RNTL 14-də mövcud deyil).
 
 RNTL 14 `test-renderer@^1` peer paketini tələb edir — React 19-da `react-test-renderer`-in əvəzidir və ayrıca quraşdırılmalıdır.
+
+### ⚠️ Reanimated 4 — paketin öz mock-u işləmir
+
+`jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))` Reanimated 4-də **sınır**:
+
+```
+TypeError: Cannot read properties of undefined (reading 'loadUnpackers')
+```
+
+Səbəb: mock `react-native-worklets` paketini çəkir, o da Jest mühitində native modulu yükləməyə çalışır. Bu, yalnız Reanimated import edən ilk fayl yarandıqda üzə çıxır — ona qədər mock heç vaxt icra olunmur.
+
+Həll: `jest.setup.ts`-də həm `react-native-worklets`, həm də `react-native-reanimated` üçün **lokal minimal mock**. Yeni Reanimated API-si istifadə edildikdə mock-a əlavə edilməlidir.
 
 ---
 

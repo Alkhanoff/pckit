@@ -70,4 +70,20 @@ module.exports = defineConfig([
       ],
     },
   },
+  {
+    /**
+     * Reanimated shared value-ları dizayn etibarilə mutasiya edilir
+     * (`value.value = x`) — bu, UI thread-də state saxlamağın yeganə yoludur.
+     * React Compiler-in immutability qaydası bunu React state mutasiyası kimi
+     * görür və səhvən qadağan edir.
+     *
+     * İstisna YALNIZ gesture və animasiya qatına verilir; komponentlərdə və
+     * domain qatında qayda qüvvədə qalır.
+     */
+    files: ['src/gestures/**/*.ts', 'src/gestures/**/*.tsx'],
+    rules: {
+      'react-hooks/immutability': 'off',
+      'react-hooks/purity': 'off',
+    },
+  },
 ]);
